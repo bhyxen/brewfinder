@@ -5,7 +5,7 @@ import { ModeToggle } from "@/components/ModeToggle";
 
 export default function Header() {
 	return (
-		<header className="border-b">
+		<header className="border-b bg-accent">
 			<div className="container mx-auto px-4 py-4 flex items-center justify-between">
 				<Link href="/" className="flex items-center space-x-2">
 					<Beer className="h-6 w-6" />
@@ -23,8 +23,12 @@ export default function Header() {
 					</Link>
 				</nav>
 				<div className="flex items-center space-x-2">
-					<Button variant="default">Sign In</Button>
-					<Button variant="secondary">Register</Button>
+					<Button variant="outline" asChild>
+						<Link href="/sign-in">Sign In</Link>
+					</Button>
+					<Button asChild>
+						<Link href="/register">Register</Link>
+					</Button>
 					<ModeToggle />
 				</div>
 			</div>

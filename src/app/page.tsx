@@ -27,9 +27,9 @@ export default function Home() {
 	];
 
 	return (
-		<div className="space-y-12">
+		<div className="space-y-12 grow flex flex-col justify-center">
 			<section className="text-center space-y-6">
-				<h1 className="text-4xl font-bold mb-4">Welcome to Brewfinder</h1>
+				<h1 className="text-4xl font-bold mb-4 ">Welcome to Brewfinder</h1>
 				<p className="text-xl text-muted-foreground">
 					Discover, save, and install Homebrew packages with ease
 				</p>
@@ -40,19 +40,11 @@ export default function Home() {
 							placeholder="Search for Homebrew packages..."
 							className="text-lg py-6 bg-card"
 						/>
-						<Button type="submit" size="lg">
+						<Button type="submit" size="lg" className="cursor-pointer">
 							<Search className="mr-2 h-5 w-5" />
 							Search
 						</Button>
 					</form>
-				</div>
-				<div className="flex justify-center space-x-4">
-					<Button asChild variant="outline">
-						<Link href="/my-lists">My Lists</Link>
-					</Button>
-					<Button asChild variant="outline">
-						<Link href="/public-lists">Public Lists</Link>
-					</Button>
 				</div>
 			</section>
 

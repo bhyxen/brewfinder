@@ -27,7 +27,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+				className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-[url(/wavey-fingerprint.svg)] not-dark:bg-[url(/wavey-fingerprint-light.svg)]`}
 			>
 				<ThemeProvider
 					attribute="class"
@@ -36,7 +36,9 @@ export default function RootLayout({
 					disableTransitionOnChange
 				>
 					<Header />
-					<main className="container mx-auto px-4 py-8">{children}</main>
+					<main className="container mx-auto px-4 py-8 grow flex flex-col">
+						{children}
+					</main>
 				</ThemeProvider>
 			</body>
 		</html>

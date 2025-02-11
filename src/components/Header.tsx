@@ -15,6 +15,9 @@ export default function Header() {
 					<Link href="/" className="font-medium">
 						Home
 					</Link>
+					<Link href="/packages" className="font-medium">
+						All Packages
+					</Link>
 					<Link href="/my-lists" className="font-medium">
 						My Lists
 					</Link>

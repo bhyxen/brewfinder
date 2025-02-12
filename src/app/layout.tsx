@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
 import { Geist, Geist_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import "./globals.css";
@@ -36,11 +38,15 @@ export default function RootLayout({
 					enableSystem
 					disableTransitionOnChange
 				>
-					<Header />
-					<main className="container mx-auto px-4 py-8 grow flex flex-col">
-						{children}
-					</main>
-					<Footer />
+					<SidebarProvider className="flex flex-col">
+						<Header />
+						<AppSidebar className="md:hidden" />
+						<main className="container mx-auto px-4 py-8 grow flex flex-col">
+							{/* <SidebarTrigger /> */}
+							{children}
+						</main>
+						<Footer />
+					</SidebarProvider>
 				</ThemeProvider>
 			</body>
 		</html>

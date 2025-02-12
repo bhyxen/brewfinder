@@ -2,6 +2,8 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Beer } from "lucide-react";
 import { ModeToggle } from "@/components/ModeToggle";
+import { navItems } from "@/lib/shared";
+import { Separator } from "./ui/separator";
 
 export default function Header() {
 	return (
@@ -11,21 +13,16 @@ export default function Header() {
 					<Beer className="h-6 w-6" />
 					<span className="text-xl font-bold">Brewfinder</span>
 				</Link>
-				<nav className="flex space-x-4">
-					<Link href="/" className="font-medium">
-						Home
-					</Link>
-					<Link href="/packages" className="font-medium">
-						All Packages
-					</Link>
-					<Link href="/my-lists" className="font-medium">
-						My Lists
-					</Link>
-					<Link href="/public-lists" className="font-medium">
-						Public Lists
-					</Link>
+				<nav className="space-x-4 hidden md:flex">
+					{navItems.map((item) => {
+						return (
+							<Link href={item.url} className="font-medium" key={item.title}>
+								{item.title}
+							</Link>
+						);
+					})}
 				</nav>
-				<div className="flex items-center space-x-2">
+				<div className="items-center space-x-2 hidden md:flex">
 					<Button variant="outline" asChild>
 						<Link href="/sign-in">Sign In</Link>
 					</Button>

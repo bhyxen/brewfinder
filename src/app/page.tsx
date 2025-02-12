@@ -18,7 +18,6 @@ import {
 	ChartTooltipContent,
 } from "@/components/ui/chart";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
-import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
 	// This would typically come from an API call

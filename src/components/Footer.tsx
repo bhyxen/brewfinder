@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Beer, HeartHandshake } from "lucide-react";
 import { SiGithub, SiX } from "@icons-pack/react-simple-icons";
 import { Separator } from "./ui/separator";
+import { GITHUB_URL, PAYPAL_URL, X_URL } from "@/lib/constants";
 
 export default function Footer() {
 	return (
@@ -17,13 +18,13 @@ export default function Footer() {
 							Discover, save, and install Homebrew packages with ease.
 						</p>
 						<div className="flex space-x-4">
-							<Link href="https://github.com/bhyxen/brewfinder" target="_blank">
+							<Link href={GITHUB_URL} target="_blank">
 								<SiGithub />
 							</Link>
-							<Link href="https://paypal.me/bhyxen" target="_blank">
+							<Link href={PAYPAL_URL} target="_blank">
 								<HeartHandshake />
 							</Link>
-							<Link href="https://twitter.com/brewfinder" target="_blank">
+							<Link href={X_URL} target="_blank">
 								<SiX />
 							</Link>
 						</div>
@@ -52,26 +53,17 @@ export default function Footer() {
 						<h3 className="font-semibold mb-4">Resources</h3>
 						<ul className="space-y-2">
 							<li>
-								<Link
-									href="https://paypal.me/bhxyen"
-									className="text-sm hover:underline"
-								>
+								<Link href={PAYPAL_URL} className="text-sm hover:underline">
 									Support Brewfinder
 								</Link>
 							</li>
 							<li>
-								<Link
-									href="https://paypal.me/bhxyen"
-									className="text-sm hover:underline"
-								>
+								<Link href={GITHUB_URL} className="text-sm hover:underline">
 									GitHub
 								</Link>
 							</li>
 							<li>
-								<Link
-									href="https://x.com/brewfinder"
-									className="text-sm hover:underline"
-								>
+								<Link href={X_URL} className="text-sm hover:underline">
 									X
 								</Link>
 							</li>

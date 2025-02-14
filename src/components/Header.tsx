@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Beer } from "lucide-react";
 import { ModeToggle } from "@/components/ModeToggle";
 import { navItems } from "@/lib/shared";
-import { Separator } from "./ui/separator";
 
 export default function Header() {
 	return (

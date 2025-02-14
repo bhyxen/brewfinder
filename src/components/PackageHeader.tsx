@@ -1,5 +1,6 @@
 import { Beer, Package, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 interface PackageHeaderProps {
 	name: string;
@@ -31,10 +32,10 @@ export function PackageHeader({
 				</div>
 				<div>
 					<Button asChild variant={"outline"}>
-						<a href={homepage} target="_blank" rel="noopener noreferrer">
+						<Link href={homepage} target="_blank" rel="noopener noreferrer">
 							<ExternalLink />
 							Visit Homepage
-						</a>
+						</Link>
 					</Button>
 				</div>
 			</div>

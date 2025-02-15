@@ -2,63 +2,36 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import useSWR from "swr";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Search, Package, Download, Star } from "lucide-react";
-import {
-	ChartConfig,
-	ChartContainer,
-	ChartTooltip,
-	ChartTooltipContent,
-} from "@/components/ui/chart";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
+import { PopularPackagesChart } from "@/components/PopularPackagesChart";
+import { PackageAnalytics } from "@/types/homebrew";
 
 export default function Home() {
-	// This would typically come from an API call
-	const popularPackages = [
-		{ name: "wget", description: "Internet file retriever" },
-		{ name: "git", description: "Distributed revision control system" },
-		{
-			name: "node",
-			description: "Platform built on V8 to build network applications",
-		},
-		{
-			name: "python",
-			description:
-				"Interpreted, interactive, object-oriented programming language",
-		},
-	];
+	const fetcher = (...args: [RequestInfo, RequestInit?]) =>
+		fetch(...args).then((res) => res.json());
+
+	const { data: formulaData, error: formulaError } = useSWR<
+		PackageAnalytics,
+		Error
+	>(
+		"https://formulae.brew.sh/api/analytics/install-on-request/30d.json",
+		fetcher
+	);
+
+	const { data: caskData, error: caskError } = useSWR<PackageAnalytics, Error>(
+		"https://formulae.brew.sh/api/analytics/cask-install/30d.json",
+		fetcher
+	);
 
 	// Mock data for statistics
-	const totalPackages = 12500;
-	const totalDownloads = 1000000;
+	const totalPackages =
+		(caskData?.total_items || 0) + (formulaData?.total_items || 0);
+	const totalDownloads =
+		(caskData?.total_count || 0) + (formulaData?.total_count || 0);
 	const averageStars = 45;
-
-	// Mock data for popular categories
-	const popularCategories = [
-		{ name: "Development", count: 3000 },
-		{ name: "Utilities", count: 2500 },
-		{ name: "Networking", count: 2000 },
-		{ name: "Multimedia", count: 1500 },
-		{ name: "System", count: 1000 },
-	];
-
-	const chartConfig = {
-		popularity: {
-			label: "Popularity",
-			icon: Star,
-			theme: {
-				light: "hsl(var(--chart-1))",
-				dark: "hsl(var(--chart-1))",
-			},
-		},
-	} satisfies ChartConfig;
 
 	return (
 		<div className="space-y-12 grow flex flex-col justify-center">
@@ -82,29 +55,13 @@ export default function Home() {
 				</div>
 			</section>
 
-			<section>
-				<h2 className="text-2xl font-semibold mb-4">Popular Packages</h2>
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-					{popularPackages.map((pkg) => (
-						<Card key={pkg.name}>
-							<CardHeader>
-								<CardTitle>{pkg.name}</CardTitle>
-							</CardHeader>
-							<CardContent>
-								<CardDescription>{pkg.description}</CardDescription>
-							</CardContent>
-						</Card>
-					))}
-				</div>
-			</section>
-
 			<section className="mb-12">
 				<h2 className="text-2xl font-semibold mb-4">Homebrew Statistics</h2>
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 					<Card>
 						<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 							<CardTitle className="text-sm font-medium">
-								Total Packages
+								Unique Package Installations (30 days)
 							</CardTitle>
 							<Package className="h-4 w-4 text-muted-foreground" />
 						</CardHeader>
@@ -117,7 +74,7 @@ export default function Home() {
 					<Card>
 						<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 							<CardTitle className="text-sm font-medium">
-								Total Downloads
+								Total Package Installations (30 days)
 							</CardTitle>
 							<Download className="h-4 w-4 text-muted-foreground" />
 						</CardHeader>
@@ -141,32 +98,32 @@ export default function Home() {
 				</div>
 			</section>
 
-			<section className="mb-12">
-				<h2 className="text-2xl font-semibold mb-4">Popular Categories</h2>
-				<Card>
-					<CardContent className="pt-6">
-						<ChartContainer config={chartConfig}>
-							<BarChart accessibilityLayer data={popularCategories}>
-								<CartesianGrid vertical={false} />
-								<XAxis
-									dataKey="name"
-									tickLine={false}
-									tickMargin={10}
-									axisLine={false}
-								/>
-								<YAxis />
-								<ChartTooltip content={<ChartTooltipContent />} />
-								<Bar
-									dataKey="count"
-									fill="var(--color-popularity)"
-									radius={4}
-								/>
-							</BarChart>
-						</ChartContainer>
-					</CardContent>
-				</Card>
-			</section>
+			{caskData && formulaData && (
+				<section className="mb-12">
+					<h2 className="text-2xl font-semibold mb-4">
+						Popular Packages (Last 30 Days)
+					</h2>
 
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+						<Card>
+							<CardHeader>
+								<CardTitle>Casks</CardTitle>
+							</CardHeader>
+							<CardContent>
+								<PopularPackagesChart data={caskData.items.slice(0, 5)} />
+							</CardContent>
+						</Card>
+						<Card>
+							<CardHeader>
+								<CardTitle>Formulas</CardTitle>
+							</CardHeader>
+							<CardContent>
+								<PopularPackagesChart data={formulaData.items.slice(0, 5)} />
+							</CardContent>
+						</Card>
+					</div>
+				</section>
+			)}
 			<section className="text-center">
 				<div className="flex justify-center space-x-4">
 					<Button asChild>

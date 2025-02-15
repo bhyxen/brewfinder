@@ -92,6 +92,28 @@ export interface Cask {
 	generated_date?: Date;
 }
 
+export interface PackageAnalytics {
+	category: string;
+	total_items: number;
+	start_date: Date;
+	end_date: Date;
+	total_count: number;
+	items: ItemCask[] | ItemForumla[];
+}
+
+export interface ItemCask {
+	number: number;
+	cask: string;
+	count: string;
+	percent: string;
+}
+export interface ItemForumla {
+	number: number;
+	formula: string;
+	count: string;
+	percent: string;
+}
+
 export interface Bottle {
 	stable: BottleStable;
 }

@@ -26,6 +26,10 @@ export default function Home() {
 		fetcher
 	);
 
+	if (formulaError || caskError) {
+		console.log("There has been an error loading analytics");
+	}
+
 	// Mock data for statistics
 	const totalPackages =
 		(caskData?.total_items || 0) + (formulaData?.total_items || 0);

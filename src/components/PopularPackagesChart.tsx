@@ -10,15 +10,24 @@ import {
 	ChartLegend,
 	ChartLegendContent,
 } from "./ui/chart";
-import { Star } from "lucide-react";
+import { DownloadCloud } from "lucide-react";
+import { Card, CardContent } from "./ui/card";
 
 interface PopularPackagesChartProps {
 	data: PackageAnalytics["items"];
 }
 const chartConfig = {
-	popularity: {
-		label: "Total Installations",
-		icon: Star,
+	cask: {
+		label: "Cask Installations",
+		icon: DownloadCloud,
+		theme: {
+			light: "hsl(var(--chart-1))",
+			dark: "hsl(var(--chart-1))",
+		},
+	},
+	formula: {
+		label: "Formula Installations",
+		icon: DownloadCloud,
 		theme: {
 			light: "hsl(var(--chart-1))",
 			dark: "hsl(var(--chart-1))",
@@ -27,37 +36,52 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function PopularPackagesChart({ data }: PopularPackagesChartProps) {
-	return (
-		<ChartContainer config={chartConfig}>
-			<BarChart data={data}>
-				<CartesianGrid vertical={false} />
-				<XAxis
-					dataKey={(value) => {
-						return "cask" in value ? value.cask : value.formula;
-					}}
-					stroke="#888888"
-					fontSize={12}
-					tickLine={false}
-					axisLine={false}
-				/>
-				<YAxis
-					stroke="#888888"
-					fontSize={12}
-					tickLine={false}
-					axisLine={false}
-					tickFormatter={(value) => `${value.toLocaleString()}`}
-				/>
-				<Bar
-					dataKey={(value) => parseInt(value.count)}
-					fill="var(--primary)"
-					radius={[4, 4, 0, 0]}
-				/>
-				<ChartTooltip content={<ChartTooltipContent />} />
+	const packageType = "cask" in data[0] ? "cask" : "formula";
 
-				<ChartLegend
-					content={<ChartLegendContent content="dasda" nameKey="perecent" />}
-				/>
-			</BarChart>
-		</ChartContainer>
+	const formattedData = data.map((item) => ({
+		name: "cask" in item ? item.cask : item.formula,
+		cask: "cask" in item ? parseFloat(item.count.replace(/,/g, "")) : 0,
+		formula: "formula" in item ? parseFloat(item.count.replace(/,/g, "")) : 0,
+	}));
+
+	return (
+		<Card>
+			<CardContent className="pt-6">
+				<ChartContainer config={chartConfig}>
+					<BarChart accessibilityLayer data={formattedData}>
+						<CartesianGrid vertical={false} strokeDasharray="3 3" />
+						<XAxis
+							dataKey="name"
+							tickLine={false}
+							tickMargin={10}
+							axisLine={false}
+						/>
+						<YAxis
+							tickFormatter={(value) =>
+								value % 1 === 0 ? value.toLocaleString() : value.toFixed(2)
+							}
+						/>
+
+						<ChartTooltip
+							content={<ChartTooltipContent />}
+							formatter={(value) =>
+								value.toLocaleString(undefined, {
+									minimumFractionDigits: 0,
+									maximumFractionDigits: 2,
+								})
+							}
+						/>
+						<ChartLegend
+							content={<ChartLegendContent accessKey={packageType} />}
+						/>
+						<Bar
+							dataKey={packageType}
+							fill={`var(--color-${packageType})`}
+							radius={4}
+						/>
+					</BarChart>
+				</ChartContainer>
+			</CardContent>
+		</Card>
 	);
 }

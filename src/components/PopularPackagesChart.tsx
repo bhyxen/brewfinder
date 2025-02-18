@@ -2,6 +2,7 @@
 
 import { PackageAnalytics } from "@/types/homebrew";
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
+import { useRouter } from "next/navigation";
 import {
 	ChartConfig,
 	ChartContainer,
@@ -38,11 +39,18 @@ const chartConfig = {
 export function PopularPackagesChart({ data }: PopularPackagesChartProps) {
 	const packageType = "cask" in data[0] ? "cask" : "formula";
 
+	const router = useRouter();
+
 	const formattedData = data.map((item) => ({
 		name: "cask" in item ? item.cask : item.formula,
 		cask: "cask" in item ? parseFloat(item.count.replace(/,/g, "")) : 0,
 		formula: "formula" in item ? parseFloat(item.count.replace(/,/g, "")) : 0,
+		percentage: item.percent,
 	}));
+
+	const handleClick = (data: (typeof formattedData)[0]) => {
+		router.push(`/packages/${data.name}?type=${packageType}`);
+	};
 
 	return (
 		<Card>
@@ -64,12 +72,17 @@ export function PopularPackagesChart({ data }: PopularPackagesChartProps) {
 
 						<ChartTooltip
 							content={<ChartTooltipContent />}
-							formatter={(value) =>
-								value.toLocaleString(undefined, {
-									minimumFractionDigits: 0,
-									maximumFractionDigits: 2,
-								})
-							}
+							formatter={(value, _, item) => {
+								return (
+									value.toLocaleString(undefined, {
+										minimumFractionDigits: 0,
+										maximumFractionDigits: 2,
+									}) +
+									" (" +
+									item.payload.percentage +
+									"%)"
+								);
+							}}
 						/>
 						<ChartLegend
 							content={<ChartLegendContent accessKey={packageType} />}
@@ -78,6 +91,8 @@ export function PopularPackagesChart({ data }: PopularPackagesChartProps) {
 							dataKey={packageType}
 							fill={`var(--color-${packageType})`}
 							radius={4}
+							onClick={handleClick}
+							className="cursor-pointer"
 						/>
 					</BarChart>
 				</ChartContainer>

@@ -12,6 +12,10 @@ import {
 	getFilteredRowModel,
 } from "@tanstack/react-table";
 
+import { XCircleIcon } from "lucide-react";
+
+import { useSearchParams } from "next/navigation";
+
 import {
 	Table,
 	TableBody,
@@ -69,17 +73,45 @@ export function DataTable<TData, TValue>({
 		}
 	}, [typeFilter, table]);
 
+	const searchParams = useSearchParams();
+
+	const search = searchParams.get("search");
+
+	useEffect(() => {
+		table.getColumn("name")?.setFilterValue(search);
+	}, [search, table]);
+
 	return (
 		<div>
 			<div className="flex items-center py-4 justify-between">
-				<Input
-					placeholder="Filter packages..."
-					value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-					onChange={(event) =>
-						table.getColumn("name")?.setFilterValue(event.target.value)
-					}
-					className="max-w-sm bg-muted"
-				/>
+				<div className="flex max-w-md bg-muted grow rounded-md">
+					<Input
+						placeholder="Filter packages..."
+						value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+						onChange={(event) => {
+							window.history.replaceState(
+								null,
+								"",
+								`?search=${event.target.value}`
+							);
+							table.getColumn("name")?.setFilterValue(event.target.value);
+						}}
+					/>
+					<Button
+						asChild
+						variant="ghost"
+						onClick={() => {
+							window.history.replaceState(null, "", `?search=`);
+							table.getColumn("name")?.setFilterValue("");
+						}}
+						className="cursor-pointer"
+					>
+						<div>
+							<XCircleIcon className="h-4 w-4" />
+						</div>
+					</Button>
+				</div>
+
 				<Select value={typeFilter} onValueChange={setTypeFilter}>
 					<SelectTrigger className="w-[180px] bg-muted">
 						<SelectValue placeholder="Select type" />

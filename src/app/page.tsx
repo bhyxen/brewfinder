@@ -8,6 +8,8 @@ import { Input } from "@/components/ui/input";
 import { Search, Package, Download, Star } from "lucide-react";
 import { PopularPackagesChart } from "@/components/PopularPackagesChart";
 import { PackageAnalytics } from "@/types/homebrew";
+import { useRouter } from "next/navigation";
+import { FormEvent } from "react";
 
 export default function Home() {
 	const fetcher = (...args: [RequestInfo, RequestInit?]) =>
@@ -37,6 +39,19 @@ export default function Home() {
 		(caskData?.total_count || 0) + (formulaData?.total_count || 0);
 	const averageStars = 45;
 
+	const router = useRouter();
+
+	const handleOnSubmit = (event: FormEvent<HTMLFormElement>): void => {
+		event.preventDefault();
+		console.log({ event });
+		const form = event.target as HTMLFormElement;
+		const input = form.querySelector(
+			'input[type="search"]'
+		) as HTMLInputElement;
+		console.log(input.value);
+		router.push(`/packages/?search=${input.value}`);
+	};
+
 	return (
 		<div className="space-y-12 grow flex flex-col justify-center">
 			<section className="text-center space-y-6 min-h-96 flex flex-col justify-center items-center">
@@ -45,7 +60,10 @@ export default function Home() {
 					Discover, save, and install Homebrew packages with ease
 				</p>
 				<div className="w-full max-w-2xl">
-					<form className="flex items-center space-x-2">
+					<form
+						className="flex items-center space-x-2"
+						onSubmit={handleOnSubmit}
+					>
 						<Input
 							type="search"
 							placeholder="Search for Homebrew packages..."

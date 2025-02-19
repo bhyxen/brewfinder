@@ -224,10 +224,20 @@ export interface Artifact {
 	dictionary?: string[];
 	installer?: Installer[];
 	postflight?: string | null;
-	pkg?: string[];
+	pkg?: string[] | Choices[];
 	zap?: Zap[];
 	suite?: string[];
 	font?: string[];
+}
+
+export interface Choices {
+	choices: ChoicesObject[];
+}
+
+export interface ChoicesObject {
+	attributeSetting: number;
+	choiceAttribute: string;
+	choiceIdentifier: string;
 }
 
 export interface Installer {

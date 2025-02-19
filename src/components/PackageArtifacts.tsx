@@ -27,9 +27,22 @@ export function PackageArtifacts({ artifacts }: PackageArtifactsProps) {
 								<div>
 									<h3 className="font-medium mb-2">Packages</h3>
 									<ul className="list-disc pl-5">
-										{artifact.pkg.map((pkg) => (
-											<li key={pkg}>{pkg}</li>
-										))}
+										{artifact.pkg.map((pkg) => {
+											if (
+												typeof pkg === "object" &&
+												pkg !== null &&
+												!Array.isArray(pkg) &&
+												"choices" in pkg
+											) {
+												return (
+													<li key={pkg.choices[0].choiceIdentifier}>
+														{pkg.choices[0].choiceIdentifier}
+													</li>
+												);
+											} else {
+												return <li key={pkg as string}>{pkg}</li>;
+											}
+										})}
 									</ul>
 								</div>
 							)}

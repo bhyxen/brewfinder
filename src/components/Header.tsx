@@ -3,8 +3,17 @@ import { Button } from "@/components/ui/button";
 import { Beer } from "lucide-react";
 import { ModeToggle } from "@/components/ModeToggle";
 import { navItems } from "@/lib/shared";
+import { auth, signIn, signOut } from "@/lib/auth";
+import { UserMenu } from "./UserMenu";
+import { Separator } from "./ui/separator";
 
-export default function Header() {
+export default async function Header() {
+	const logoutAction = async () => {
+		"use server";
+		await signOut();
+	};
+	const session = await auth();
+	console.log({ session });
 	return (
 		<header className="border-b bg-accent">
 			<div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -22,12 +31,25 @@ export default function Header() {
 					})}
 				</nav>
 				<div className="items-center space-x-2 hidden md:flex">
-					<Button variant="outline" asChild>
-						<Link href="/sign-in">Sign In</Link>
-					</Button>
-					<Button asChild>
-						<Link href="/register">Register</Link>
-					</Button>
+					{!session ? (
+						<form
+							action={async () => {
+								"use server";
+								await signIn();
+							}}
+						>
+							<Button type="submit">Sign In</Button>
+						</form>
+					) : (
+						<>
+							<search></search>
+							<UserMenu session={session} logoutAction={logoutAction} />
+							<Separator
+								orientation="vertical"
+								className="bg-muted-foreground h-5! mx-4"
+							></Separator>
+						</>
+					)}
 					<ModeToggle />
 				</div>
 			</div>

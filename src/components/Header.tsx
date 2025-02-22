@@ -37,19 +37,21 @@ export default async function Header() {
 								"use server";
 								await signIn();
 							}}
+							className="m-0"
 						>
-							<Button type="submit">Sign In</Button>
+							<Button className="w-full cursor-pointer" type="submit">
+								Sign In
+							</Button>
 						</form>
 					) : (
 						<>
-							<search></search>
 							<UserMenu session={session} logoutAction={logoutAction} />
-							<Separator
-								orientation="vertical"
-								className="bg-muted-foreground h-5! mx-4"
-							></Separator>
 						</>
 					)}
+					<Separator
+						orientation="vertical"
+						className="bg-muted-foreground h-5! mx-4"
+					></Separator>
 					<ModeToggle />
 				</div>
 			</div>

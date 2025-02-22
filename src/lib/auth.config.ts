@@ -1,6 +1,15 @@
 import GitHub, { GitHubProfile } from "next-auth/providers/github";
 import { NextAuthConfig } from "next-auth";
 
+export const openRoutes = [
+	"/",
+	"/sign-in",
+	"/packages",
+	"/privacy",
+	"/public-lists",
+	"/terms",
+];
+
 // Notice this is only an object, not a full Auth.js instance
 // Fixed edge runtime error by following the guide here:
 // https://authjs.dev/guides/edge-compatibility

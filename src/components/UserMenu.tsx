@@ -30,10 +30,13 @@ export function UserMenu({ session, logoutAction }: Props) {
 					className="h-8 w-8 rounded-full cursor-pointer m-0"
 				>
 					<Avatar className="h-8 w-8">
-						<AvatarImage
-							src="/avatars/01.png"
-							alt={session.user?.email as string}
-						/>
+						{session.user?.image && (
+							<AvatarImage
+								src={session.user?.image}
+								alt={session.user?.email as string}
+							/>
+						)}
+
 						<AvatarFallback className="">
 							{session.user?.email?.substring(0, 2).toUpperCase()}
 						</AvatarFallback>

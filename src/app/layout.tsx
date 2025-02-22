@@ -31,7 +31,7 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col bg-[url(/wavey-fingerprint.svg)] not-dark:bg-[url(/wavey-fingerprint-light.svg)]`}
+				className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen flex flex-col`}
 			>
 				<ThemeProvider
 					attribute="class"

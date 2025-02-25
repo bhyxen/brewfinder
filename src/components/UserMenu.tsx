@@ -2,7 +2,6 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { signOut } from "@/lib/auth";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -13,15 +12,15 @@ import {
 	DropdownMenuShortcut,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User, LogOut, Settings } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { Session } from "next-auth";
+import { logout } from "@/actions/login";
 
 type Props = {
 	session: Session;
-	logoutAction: () => Promise<void>;
 };
 
-export function UserMenu({ session, logoutAction }: Props) {
+export function UserMenu({ session }: Props) {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -71,7 +70,7 @@ export function UserMenu({ session, logoutAction }: Props) {
 				</DropdownMenuGroup> */}
 				<DropdownMenuSeparator />
 				<DropdownMenuItem>
-					<form action={logoutAction} className="w-full">
+					<form action={logout} className="w-full">
 						<Button
 							variant="outline"
 							type="submit"

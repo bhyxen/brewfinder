@@ -8,12 +8,8 @@ import { UserMenu } from "./UserMenu";
 import { Separator } from "./ui/separator";
 
 export default async function Header() {
-	const logoutAction = async () => {
-		"use server";
-		await signOut();
-	};
 	const session = await auth();
-	console.log({ session });
+
 	return (
 		<header className="border-b bg-accent">
 			<div className="container mx-auto px-4 py-4 flex items-center justify-between">
@@ -32,21 +28,11 @@ export default async function Header() {
 				</nav>
 				<div className="items-center space-x-2 hidden md:flex">
 					{!session ? (
-						<form
-							action={async () => {
-								"use server";
-								await signIn();
-							}}
-							className="m-0"
-						>
-							<Button className="w-full cursor-pointer" type="submit">
-								Sign In
-							</Button>
-						</form>
+						<Button className="w-full cursor-pointer" type="submit">
+							<Link href={`/sign-in`}>Sign In</Link>
+						</Button>
 					) : (
-						<>
-							<UserMenu session={session} logoutAction={logoutAction} />
-						</>
+						<UserMenu session={session} />
 					)}
 					<Separator
 						orientation="vertical"

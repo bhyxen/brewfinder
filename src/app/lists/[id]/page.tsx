@@ -141,10 +141,15 @@ export default function ListDetailsPage() {
 					</p>
 					<p className="text-sm text-muted-foreground mt-2">
 						Created by {listDetails.owner.name ?? listDetails.owner.email} on{" "}
-						{format(new Date(listDetails.createdAt), "PPP")}
+						{listDetails.createdAt
+							? format(new Date(listDetails.createdAt), "PPP")
+							: "N/A"}
 					</p>
 					<p className="text-sm text-muted-foreground">
-						Last updated: {format(new Date(listDetails.updatedAt), "PPP")}
+						Last updated:{" "}
+						{listDetails.updatedAt
+							? format(new Date(listDetails.updatedAt), "PPP")
+							: "N/A"}
 					</p>
 					<div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2 mt-4">
 						<Button
@@ -370,11 +375,15 @@ export default function ListDetailsPage() {
 						<CardContent className="space-y-2">
 							<p>
 								<strong>Created:</strong>{" "}
-								{format(new Date(listDetails.createdAt), "PPP")}
+								{listDetails.createdAt
+									? format(new Date(listDetails.createdAt), "PPP")
+									: "N/A"}
 							</p>
 							<p>
 								<strong>Last Updated:</strong>{" "}
-								{format(new Date(listDetails.updatedAt), "PPP")}
+								{listDetails.updatedAt
+									? format(new Date(listDetails.updatedAt), "PPP")
+									: "N/A"}
 							</p>
 							<p>
 								<strong>Owner:</strong>{" "}

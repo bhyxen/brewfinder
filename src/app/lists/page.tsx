@@ -7,24 +7,41 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import useSWR from "swr";
 import Link from "next/link";
+import { PackageList } from "@/models/packageLists";
+import PackageListCard from "@/components/PackageListCard";
 
 export default function PublicLists() {
 	// This would typically come from an API call or database
 	const publicLists = [
 		{
-			id: 1,
+			_id: 1,
 			name: "Web Development Essentials",
-			author: "johndoe",
+			owner: { name: "johndoe", email: "" },
 			packageCount: 10,
+			packages: [1, 2, 3],
+			installationCommand: "npm install package-name",
+			description: "A collection of tools for web developers",
 		},
 		{
-			id: 2,
+			_id: 2,
 			name: "Data Science Toolkit",
-			author: "janedoe",
+			owner: { name: "janedoe", email: "" },
 			packageCount: 15,
+			packages: [1, 2, 3],
+			installationCommand: "pip install package-name",
+			description: "A collection of tools for data scientists",
 		},
-		{ id: 3, name: "DevOps Tools", author: "bobsmith", packageCount: 8 },
+		{
+			_id: 3,
+			name: "DevOps Tools",
+			owner: { name: "bobsmith", email: "" },
+			packageCount: 8,
+			packages: [1, 2, 3],
+			installationCommand: "brew install package-name",
+			description: "A collection of tools for DevOps engineers",
+		},
 	];
 
 	return (
@@ -32,20 +49,15 @@ export default function PublicLists() {
 			<h1 className="text-3xl font-bold">Public Lists</h1>
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 				{publicLists.map((list) => (
-					<Card key={list.id}>
-						<CardHeader>
-							<CardTitle>{list.name}</CardTitle>
-							<CardDescription>By {list.author}</CardDescription>
-						</CardHeader>
-						<CardContent>
-							<p>{list.packageCount} packages</p>
-						</CardContent>
-						<CardFooter>
-							<Button variant="outline" asChild>
-								<Link href={`/public-lists/${list.id}`}>View</Link>
-							</Button>
-						</CardFooter>
-					</Card>
+					<PackageListCard
+						key={list._id?.toString() as string}
+						listId={list._id?.toString() as string}
+						listName={list.name}
+						packageCount={list.packages.length}
+						installationCommand={list.installationCommand}
+						listDescription={list.description}
+						owner={(list.owner?.name ?? list.owner.email) as string}
+					/>
 				))}
 			</div>
 		</div>

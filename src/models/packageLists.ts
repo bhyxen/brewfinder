@@ -19,6 +19,7 @@ const UserSchema = new mongoose.Schema<User>({
 });
 
 export type PackageList = {
+	_id?: ObjectId;
 	name: string;
 	description: string;
 	packages: [PackageDetails];
@@ -27,8 +28,8 @@ export type PackageList = {
 	isPublic: boolean;
 	likes: [mongoose.Schema.Types.ObjectId];
 	icon: string;
-	createdAt: Date; // required to be used in another files
-	updatedAt: Date; // required to be used in another files
+	createdAt?: Date; // required to be used in another files
+	updatedAt?: Date; // required to be used in another files
 };
 
 const schema = new mongoose.Schema<PackageList>(

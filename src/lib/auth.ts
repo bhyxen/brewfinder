@@ -1,37 +1,10 @@
-import NextAuth, { DefaultSession } from "next-auth";
+import NextAuth from "next-auth";
 import authConfig from "./auth.config";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import { getConnectionDBClient } from "@/lib/db";
 import Resend from "next-auth/providers/resend";
 import type { Provider } from "next-auth/providers";
 import { EMAIL_PROVIDER_ID } from "./constants";
-import { JWT } from "next-auth/jwt";
-
-declare module "next-auth" {
-	/**
-	 * Returned by `auth`, `useSession`, `getSession` and received as a prop on the `SessionProvider` React Context
-	 */
-	interface Session {
-		user: {
-			/** The user's token ID. */
-			id: string;
-			/**
-			 * By default, TypeScript merges new interface properties and overwrites existing ones.
-			 * In this case, the default session user properties will be overwritten,
-			 * with the new ones defined above. To keep the default session user properties,
-			 * you need to add them back into the newly declared interface.
-			 */
-		} & DefaultSession["user"];
-	}
-}
-
-declare module "next-auth/jwt" {
-	/** Returned by the `jwt` callback and `auth`, when using JWT sessions */
-	interface JWT {
-		/** OpenID ID Token */
-		id?: string;
-	}
-}
 
 // Fix database adapter error by following the guide here:
 // https://github.com/nextauthjs/next-auth/issues/10632#issuecomment-2254570131
@@ -43,6 +16,8 @@ const combinedProviders: Provider[] = [
 		id: EMAIL_PROVIDER_ID,
 	}),
 ];
+
+export const adapter = MongoDBAdapter(getConnectionDBClient());
 
 export const providerMap = combinedProviders
 	.map((provider) => {
@@ -59,7 +34,7 @@ export const providerMap = combinedProviders
 	);
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
-	adapter: MongoDBAdapter(getConnectionDBClient()),
+	adapter,
 	providers: combinedProviders,
 	session: { strategy: "jwt" },
 	pages: {
@@ -68,7 +43,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 	debug: process.env.NODE_ENV === "development",
 	callbacks: {
 		jwt(data) {
-			console.log({ dataJWT: data });
 			if (data.user) {
 				// User is available during sign-in
 				data.token.id = data.user.id;
@@ -76,7 +50,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 			return data.token;
 		},
 		session(data) {
-			console.log({ dataSession: data });
 			data.session.user.id = data.token.id as string;
 			return data.session;
 		},

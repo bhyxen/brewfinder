@@ -36,13 +36,9 @@ export default {
 					// Ensure the 'id' (sub) is returned to fix OAuthAccountNotLinked error
 					// https://github.com/nextauthjs/next-auth/issues/9992#issuecomment-2585799270
 					id: profile.sub,
-					firstName: profile.given_name,
-					lastName: profile.family_name,
+					name: profile.name,
 					email: profile.email,
 					image: profile.picture,
-					username:
-						`${profile.given_name}${profile.family_name}`.toLowerCase() ??
-						"unknown",
 				};
 			},
 		}),

@@ -7,9 +7,12 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { auth } from "@/lib/auth";
 import Link from "next/link";
 
-export default function MyLists() {
+export default async function MyLists() {
+	const session = await auth();
+
 	// This would typically come from an API call or database
 	const myLists = [
 		{ id: 1, name: "Development Tools", packageCount: 5 },

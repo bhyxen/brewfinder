@@ -13,12 +13,12 @@ export const navItems = [
 	},
 	{
 		title: "My Lists",
-		url: "/my-lists",
+		url: "/lists/user",
 		icon: List,
 	},
 	{
 		title: "Public Lists",
-		url: "/public-lists",
+		url: "/lists",
 		icon: Globe,
 	},
 ];

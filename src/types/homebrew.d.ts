@@ -92,6 +92,16 @@ export interface Cask {
 	generated_date?: Date;
 }
 
+export type Package = Formula & Cask;
+
+export type PackageFilteredData = {
+	name: string;
+	token: string;
+	type: string;
+	version: string;
+	desc: string;
+};
+
 export interface PackageAnalytics {
 	category: string;
 	total_items: number;

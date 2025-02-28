@@ -2,34 +2,25 @@
 
 import useSWR from "swr";
 import { Button } from "@/components/ui/button";
-import { Cask, Formula } from "@/types/homebrew";
+import { PackageFilteredData } from "@/types/homebrew";
 
 import { SortAsc, SortDesc } from "lucide-react";
 import Link from "next/link";
 import { DataTable } from "@/components/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
 
-const fetcher = (...args: [RequestInfo, RequestInit?]) =>
-	fetch(...args).then((res) => res.json());
-
-type Package = Formula | Cask;
-
 export default function Packages() {
-	const { data: formulaData, error: formulaError } = useSWR<Formula[], Error>(
-		"https://formulae.brew.sh/api/formula.json",
-		fetcher
-	);
-	const { data: caskData, error: caskError } = useSWR<Cask[], Error>(
-		"https://formulae.brew.sh/api/cask.json",
-		fetcher
-	);
+	const fetcher = (...args: [RequestInfo, RequestInit?]) =>
+		fetch(...args).then((res) => res.json());
+	const {
+		data: packagesData,
+		error: packagesError,
+		isLoading,
+	} = useSWR<PackageFilteredData[], Error>("/api/packages/getAll", fetcher);
+	if (packagesError) return <div>Failed to load</div>;
+	if (!packagesData || isLoading) return <div>Loading...</div>;
 
-	if (formulaError || caskError) return <div>Failed to load</div>;
-	if (!formulaData || !caskData) return <div>Loading...</div>;
-
-	const packagesData: Package[] = [...formulaData, ...caskData];
-
-	const columns: ColumnDef<Package>[] = [
+	const columns: ColumnDef<PackageFilteredData>[] = [
 		{
 			accessorKey: "name",
 			header: ({ column }) => {
@@ -52,17 +43,7 @@ export default function Packages() {
 				const pkg = row.original;
 				return (
 					<Link
-						href={`/packages/${
-							"token" in pkg
-								? pkg.token
-								: Array.isArray(pkg.name)
-								? pkg.name[0]
-								: pkg.name
-						}?type=${
-							(row.getValue("tap") as string).includes("cask")
-								? "cask"
-								: "formula"
-						}`}
+						href={`/packages/${pkg.token ?? pkg.name}?type=${pkg.type}`}
 						className="font-medium"
 					>
 						{row.getValue("name")}
@@ -80,14 +61,11 @@ export default function Packages() {
 			cell: ({ row }) => {
 				const pkg = row.original;
 
-				return ("versions" in pkg ? pkg.versions?.stable : pkg.version).slice(
-					0,
-					9
-				);
+				return pkg.version.slice(0, 9);
 			},
 		},
 		{
-			accessorKey: "tap",
+			accessorKey: "type",
 			header: ({ column }) => {
 				return (
 					<Button
@@ -104,11 +82,6 @@ export default function Packages() {
 					</Button>
 				);
 			},
-			cell: ({ row }) => {
-				return (row.getValue("tap") as string).includes("cask")
-					? "cask"
-					: "formula";
-			},
 		},
 		{
 			id: "actions",
@@ -118,17 +91,7 @@ export default function Packages() {
 				return (
 					<Button asChild>
 						<Link
-							href={`/packages/${
-								"token" in pkg
-									? pkg.token
-									: Array.isArray(pkg.name)
-									? pkg.name[0]
-									: pkg.name
-							}?type=${
-								(row.getValue("tap") as string).includes("cask")
-									? "cask"
-									: "formula"
-							}`}
+							href={`/packages/${pkg.token ?? pkg.name}?type=${pkg.type}`}
 							className="font-medium"
 						>
 							Details

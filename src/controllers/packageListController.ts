@@ -37,7 +37,7 @@ export const getByUserId = async (userID: string) => {
 
 		return NextResponse.json(PackageListResult);
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		return new NextResponse(
 			(error as Error)?.message || "Internal server error",
 			{

@@ -3,7 +3,7 @@ import { PackageInfo } from "@/components/PackageInfo";
 import { PackageDependencies } from "@/components/PackageDependencies";
 import { PackageVersions } from "@/components/PackageVersion";
 import { PackageAnalytics } from "@/components/PackageAnalytics";
-import { Formula, Cask } from "@/types/homebrew";
+import { Formula, Cask, Package } from "@/types/homebrew";
 import { PackageCaveats } from "@/components/PackageCaveats";
 import { PackageArtifacts } from "@/components/PackageArtifacts";
 import { PackageInstallation } from "@/components/PackageInstallation";
@@ -31,7 +31,7 @@ export default async function Page({
 		res = await fetch(`https://formulae.brew.sh/api/formula/${slug}.json`);
 	}
 
-	const pkg: Formula | Cask = await res.json();
+	const pkg: Package = await res.json();
 
 	return (
 		<div className="container mx-auto px-4 py-8">
@@ -57,10 +57,10 @@ export default async function Page({
 					/>
 					<PackageInfo
 						license={"license" in pkg ? pkg.license : ""}
-						version={"versions" in pkg ? pkg.versions?.stable : pkg.version}
+						version={pkg.versions?.stable ?? pkg.version}
 						tap={pkg.tap}
 						packageType={searchParamsResult.type}
-						url={"url" in pkg ? pkg.url : pkg.urls?.stable?.url}
+						url={pkg.url ?? pkg.urls?.stable?.url}
 						sha256={
 							"sha256" in pkg && pkg.sha256 !== "no_check" ? pkg.sha256 : ""
 						}
@@ -75,16 +75,17 @@ export default async function Page({
 							buildDependencies={
 								"build_dependencies" in pkg ? pkg.build_dependencies : []
 							}
-							dependencies={
-								"dependencies" in pkg ? pkg.dependencies : pkg.depends_on
-							}
+							dependencies={pkg.dependencies ?? pkg.depends_on}
 							usesMacos={"uses_from_macos" in pkg ? pkg.uses_from_macos : []}
 							packageType={searchParamsResult.type}
 						/>
 					)}
 
 					{"versions" in pkg && (
-						<PackageVersions versions={pkg.versions} bottle={pkg.bottle} />
+						<PackageVersions
+							versions={pkg.versions ?? pkg.version}
+							bottle={pkg.bottle}
+						/>
 					)}
 
 					{"artifacts" in pkg && pkg.artifacts.length > 0 && (

@@ -4,10 +4,12 @@ import { Check } from "lucide-react";
 import { Fragment } from "react";
 
 interface PackageVersionsProps {
-	versions: {
-		stable: string;
-		head: string;
-	};
+	versions:
+		| {
+				stable: string;
+				head: string;
+		  }
+		| string;
 	bottle: Pick<Formula, "bottle">["bottle"];
 }
 
@@ -23,13 +25,17 @@ export function PackageVersions({ versions, bottle }: PackageVersionsProps) {
 						<h3 className="font-medium mb-2">Versions</h3>
 						<dl className="grid grid-cols-2 gap-2">
 							<dt className="text-muted-foreground">Stable</dt>
-							<dd>{versions.stable}</dd>
-							{versions.head && (
-								<>
-									<dt className="text-muted-foreground">Head</dt>
-									<dd>{versions.head}</dd>
-								</>
-							)}
+							<dd>
+								{typeof versions === "string" ? versions : versions.stable}
+							</dd>
+							{typeof versions === "string"
+								? versions
+								: versions.head && (
+										<>
+											<dt className="text-muted-foreground">Head</dt>
+											<dd>{versions.head}</dd>
+										</>
+								  )}
 						</dl>
 					</div>
 				</div>

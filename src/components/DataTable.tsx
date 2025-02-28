@@ -67,9 +67,9 @@ export function DataTable<TData, TValue>({
 
 	useEffect(() => {
 		if (typeFilter !== "all") {
-			table.getColumn("tap")?.setFilterValue(typeFilter);
+			table.getColumn("type")?.setFilterValue(typeFilter);
 		} else {
-			table.getColumn("tap")?.setFilterValue(undefined);
+			table.getColumn("type")?.setFilterValue(undefined);
 		}
 	}, [typeFilter, table]);
 

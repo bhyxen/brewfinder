@@ -1,19 +1,10 @@
-import { Button } from "@/components/ui/button";
-import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
 import { auth } from "@/lib/auth";
-import Link from "next/link";
-import { Edit } from "lucide-react";
 import { PackageList } from "@/models/packageLists";
-import useSWR from "swr";
 import { getByUserId } from "@/controllers/packageListController";
 import PackageListCard from "@/components/PackageListCard";
+import CreatePackageListForm from "@/components/createPackageListForm";
+import { PackageFilteredData } from "@/types/homebrew";
+import { getAll as getAllPackages } from "@/controllers/packageController";
 
 export default async function MyLists() {
 	const session = await auth();
@@ -23,26 +14,20 @@ export default async function MyLists() {
 	const res = await getByUserId(userId as string);
 	const lists: PackageList[] = await res.json();
 
-	const handleCopyCommandClick = () => {
-		// Copy the installation command to the clipboard
-		navigator.clipboard.writeText("brew install package-name");
-	};
+	const packagesData: PackageFilteredData[] = await (
+		await getAllPackages()
+	).json();
 
-	// This would typically come from an API call or database
-	const myLists = [
-		{ id: 1, name: "Development Tools", packageCount: 5 },
-		{ id: 2, name: "Data Science Essentials", packageCount: 8 },
-		{ id: 3, name: "System Utilities", packageCount: 3 },
-	];
+	// const iconsData = await (await fetch("https://api.iconify.design/search?query=home")).json();
+
+	// console.log({ iconsData });
 
 	return (
 		<div className="space-y-8">
 			<div className="flex justify-between items-center">
 				<h1 className="text-3xl font-bold">My Lists</h1>
-				<Button className="cursor-pointer">
-					<Edit className="w-6 h-6"></Edit>
-					Create New List
-				</Button>
+
+				<CreatePackageListForm packages={packagesData} />
 			</div>
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 				{lists.map((list) => (

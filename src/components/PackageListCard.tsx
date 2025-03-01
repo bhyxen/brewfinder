@@ -11,9 +11,10 @@ import {
 	CardTitle,
 } from "./ui/card";
 import { useState } from "react";
-import { Check, Copy } from "lucide-react";
-import { Separator } from "./ui/separator";
+import { Check, Copy, NotebookText } from "lucide-react";
 import { Badge } from "./ui/badge";
+import { DynamicIcon, IconName } from "lucide-react/dynamic";
+import LucideDynamicIcon from "./LucideDynamicIcon";
 
 interface PackageListCardProps {
 	listName: string;
@@ -22,6 +23,7 @@ interface PackageListCardProps {
 	installationCommand: string;
 	listDescription: string;
 	owner: string;
+	icon: string;
 }
 
 function PackageListCard({
@@ -31,6 +33,7 @@ function PackageListCard({
 	installationCommand,
 	listDescription,
 	owner,
+	icon,
 }: PackageListCardProps) {
 	const [copied, setCopied] = useState(false);
 
@@ -43,7 +46,10 @@ function PackageListCard({
 	return (
 		<Card>
 			<CardHeader>
-				<CardTitle>{listName}</CardTitle>
+				<div className="flex items-center space-x-2">
+					<LucideDynamicIcon icon={icon} />
+					<CardTitle>{listName}</CardTitle>
+				</div>
 				<CardDescription>By {owner}</CardDescription>
 				<Badge variant="secondary">{packageCount} Packages</Badge>
 			</CardHeader>

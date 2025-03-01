@@ -18,10 +18,6 @@ export default async function MyLists() {
 		await getAllPackages()
 	).json();
 
-	// const iconsData = await (await fetch("https://api.iconify.design/search?query=home")).json();
-
-	// console.log({ iconsData });
-
 	return (
 		<div className="space-y-8">
 			<div className="flex justify-between items-center">
@@ -39,6 +35,7 @@ export default async function MyLists() {
 						installationCommand={list.installationCommand}
 						listDescription={list.description}
 						owner={(list.owner?.name ?? list.owner.email) as string}
+						icon={list.icon}
 					/>
 				))}
 			</div>

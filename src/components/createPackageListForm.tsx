@@ -8,14 +8,6 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { CheckIcon, Edit } from "lucide-react/icons";
 import {
-	Card,
-	CardContent,
-	CardDescription,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
-import {
 	Dialog,
 	DialogContent,
 	DialogDescription,
@@ -65,13 +57,17 @@ import {
 	IconRendererLucide,
 	useIconPickerLucide,
 } from "@/components/IconPicker";
+import { useSession } from "next-auth/react";
+import { PackageDetails, PackageList } from "@/models/packageLists";
 
 type Props = {
 	packages: PackageFilteredData[];
 };
 
 export default function CreatePackageListForm({ packages }: Props) {
-	const { search, setSearch, icons } = useIconPickerLucide();
+	const { icons } = useIconPickerLucide();
+
+	const { data: session } = useSession();
 
 	// console.log({ packages });
 
@@ -86,21 +82,69 @@ export default function CreatePackageListForm({ packages }: Props) {
 			name: "",
 			description: "",
 			packages: [],
-			public: false,
+			isPublic: false,
 			icon: "",
 		},
 	});
 
-	function onSubmit(values: z.infer<typeof formSchema>) {
+	const getOnlyPackageNamesByType = (
+		packages: PackageDetails[],
+		type: string
+	) => {
+		return packages
+			.filter((pkg) => pkg.type === type)
+			.map((pkg) => pkg.id)
+			.join(" ");
+	};
+
+	const getInstallationCommand = (packages: PackageDetails[]): string => {
+		const formulas = getOnlyPackageNamesByType(packages, "formula");
+		const casks = getOnlyPackageNamesByType(packages, "cask");
+
+		return `brew install ${formulas} && brew install --cask ${casks}`;
+	};
+
+	async function onSubmit(values: z.infer<typeof formSchema>) {
 		console.log({ values });
 		try {
-			toast(
-				<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-					<code className="text-white">{JSON.stringify(values, null, 2)}</code>
-				</pre>
-			);
+			// toast(
+			// 	<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+			// 		<code className="text-white">{JSON.stringify(values, null, 2)}</code>
+			// 	</pre>
+			// );
+
+			var newListBody = {
+				...values,
+				owner: {
+					id: session?.user?.id,
+					name: session?.user?.name,
+					email: session?.user?.email,
+					image: session?.user?.image,
+				},
+				likes: [],
+				get packages(): PackageDetails[] {
+					return values.packages.map((pkg) => JSON.parse(pkg));
+				},
+				get installationCommand(): string {
+					return getInstallationCommand(this.packages);
+				},
+			};
+
+			const listCreated = await fetch("/api/packageLists/create", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(newListBody),
+			});
+
+			if (listCreated.ok) {
+				toast.success("List created successfully");
+			} else {
+				toast.error("Failed to create list. Please try again.");
+			}
 		} catch (error) {
-			console.error("Form submission error", error);
+			console.error("Form submission error: ", error);
 			toast.error("Failed to submit the form. Please try again.");
 		}
 	}
@@ -211,7 +255,7 @@ export default function CreatePackageListForm({ packages }: Props) {
 												}}
 												loop
 											>
-												<MultiSelectorTrigger>
+												<MultiSelectorTrigger accessorJSONValue="id">
 													<MultiSelectorInput
 														onKeyUp={handleMultiSelectorKeyup}
 														placeholder="Search packages"
@@ -226,7 +270,10 @@ export default function CreatePackageListForm({ packages }: Props) {
 															return (
 																<MultiSelectorItem
 																	key={(pkg.token ?? pkg.name) + pkg.type}
-																	value={pkg.token ?? pkg.name}
+																	value={JSON.stringify({
+																		id: pkg.token ?? pkg.name,
+																		type: pkg.type,
+																	})}
 																>
 																	<div className="flex items-center justify-between space-x-2 grow">
 																		{pkg.name}
@@ -249,7 +296,7 @@ export default function CreatePackageListForm({ packages }: Props) {
 						/>
 						<FormField
 							control={form.control}
-							name="public"
+							name="isPublic"
 							render={({ field }) => (
 								<FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
 									<FormControl>

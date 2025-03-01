@@ -60,7 +60,7 @@ export const create = async ({
 	try {
 		await connectDB();
 
-		const newPackageList = PackageListModel.create({
+		const newPackageList = await PackageListModel.create({
 			name,
 			description,
 			packages,

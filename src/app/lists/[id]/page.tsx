@@ -35,6 +35,7 @@ import { PackageDetails, PackageList } from "@/models/packageLists";
 import { ObjectId } from "mongoose";
 import { Cask, Formula } from "@/types/homebrew";
 import { useSession } from "next-auth/react";
+import LucideDynamicIcon from "@/components/LucideDynamicIcon";
 
 const MAX_VISIBLE_PACKAGES = 6;
 
@@ -121,16 +122,10 @@ export default function ListDetailsPage() {
 	return (
 		<div className="container mx-auto px-4 py-8">
 			<div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
-				<Avatar className="h-24 w-24 sm:h-32 sm:w-32">
-					<AvatarImage
-						className=""
-						src={listDetails.icon}
-						alt={listDetails.name}
-					/>
-					<AvatarFallback>
-						{listDetails.name.slice(0, 2).toUpperCase()}
-					</AvatarFallback>
-				</Avatar>
+				<LucideDynamicIcon
+					icon={listDetails.icon}
+					className="h-24 w-24 sm:h-32 sm:w-32"
+				/>
 				<div className="flex-1 text-center sm:text-left">
 					<div className="flex items-center justify-center sm:justify-start space-x-2 mb-2">
 						<h1 className="text-3xl font-bold">{listDetails.name}</h1>

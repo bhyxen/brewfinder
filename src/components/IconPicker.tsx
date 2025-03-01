@@ -22,6 +22,7 @@ export const useIconPickerLucide = (): {
 				name: iconName,
 				// split the icon name at capital letters and join them with a space
 				friendly_name: iconName.match(/[A-Z][a-z]+/g)?.join(" ") ?? iconName,
+
 				Component: IconComponent as React.FC<
 					React.ComponentPropsWithoutRef<"svg">
 				>,

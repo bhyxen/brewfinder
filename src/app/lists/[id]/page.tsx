@@ -18,7 +18,7 @@ import {
 	Heart,
 	Share2,
 	Edit,
-	Package,
+	Package as PackageIcon,
 	Calendar,
 	ChevronDown,
 	ChevronUp,
@@ -33,7 +33,7 @@ import {
 import { toast } from "sonner";
 import { PackageDetails, PackageList } from "@/models/packageLists";
 import { ObjectId } from "mongoose";
-import { Cask, Formula } from "@/types/homebrew";
+import { Cask, Formula, Package } from "@/types/homebrew";
 import { useSession } from "next-auth/react";
 import LucideDynamicIcon from "@/components/LucideDynamicIcon";
 
@@ -115,7 +115,7 @@ export default function ListDetailsPage() {
 		toast.success("Sharing link copied to clipboard");
 	};
 
-	const visiblePackages: Cask[] | Formula[] = (
+	const visiblePackages: Package[] = (
 		packagesDetails ? packagesDetails : []
 	).slice(0, MAX_VISIBLE_PACKAGES);
 
@@ -189,7 +189,7 @@ export default function ListDetailsPage() {
 					<Card>
 						<CardHeader>
 							<CardTitle className="text-xl font-semibold flex items-center">
-								<Package className="mr-2 h-5 w-5" />
+								<PackageIcon className="mr-2 h-5 w-5" />
 								Packages in this list ({listDetails.packages.length})
 							</CardTitle>
 						</CardHeader>
@@ -203,9 +203,7 @@ export default function ListDetailsPage() {
 									{visiblePackages.map((pkg, index) => (
 										<li
 											key={`${
-												"token" in pkg
-													? pkg.token
-													: Array.isArray(pkg.name)
+												pkg.token ?? Array.isArray(pkg.name)
 													? pkg.name[0]
 													: pkg.name
 											}-${index}`}
@@ -213,11 +211,9 @@ export default function ListDetailsPage() {
 											<Card>
 												<CardContent className="flex items-center justify-between p-4">
 													<div className="flex items-center">
-														<Package className="h-5 w-5 mr-2" />
+														<PackageIcon className="h-5 w-5 mr-2" />
 														<span>
-															{"token" in pkg
-																? pkg.token
-																: Array.isArray(pkg.name)
+															{pkg.token ?? Array.isArray(pkg.name)
 																? pkg.name[0]
 																: pkg.name}
 														</span>
@@ -228,9 +224,7 @@ export default function ListDetailsPage() {
 																<Button asChild size="icon">
 																	<Link
 																		href={`/packages/${
-																			"token" in pkg
-																				? pkg.token
-																				: Array.isArray(pkg.name)
+																			pkg.token ?? Array.isArray(pkg.name)
 																				? pkg.name[0]
 																				: pkg.name
 																		}?type=${
@@ -251,6 +245,18 @@ export default function ListDetailsPage() {
 																		: pkg.name}
 																</p>
 																<p>{pkg.desc}</p>
+																<Badge variant="secondary" className="my-2">
+																	{
+																		listDetails?.packages?.find(
+																			(pkgList) =>
+																				pkgList.id ===
+																				(pkg.token ??
+																					(Array.isArray(pkg.name)
+																						? pkg.name[0]
+																						: pkg.name))
+																		)?.type
+																	}
+																</Badge>
 															</TooltipContent>
 														</Tooltip>
 													</TooltipProvider>
@@ -281,7 +287,7 @@ export default function ListDetailsPage() {
 															<Card>
 																<CardContent className="flex items-center justify-between p-4">
 																	<div className="flex items-center">
-																		<Package className="h-5 w-5 mr-2" />
+																		<PackageIcon className="h-5 w-5 mr-2" />
 																		<span>
 																			{"token" in pkg
 																				? pkg.token

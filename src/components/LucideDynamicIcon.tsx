@@ -2,7 +2,7 @@ import { NotebookText } from "lucide-react";
 import { DynamicIcon, IconName } from "lucide-react/dynamic";
 import React from "react";
 
-type Props = { icon: string; className: string };
+type Props = { icon: string; className?: string };
 
 export default function LucideDynamicIcon({ icon, className }: Props) {
 	// Convert PascalCase to lower kebab case for Lucide icon access

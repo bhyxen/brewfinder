@@ -1,6 +1,5 @@
 "use client";
 import React, { useMemo, useState } from "react";
-import * as HeroIcons from "@heroicons/react/20/solid";
 import { icons as LucideIcons } from "lucide-react";
 
 type Icons = {

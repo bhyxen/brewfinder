@@ -57,6 +57,7 @@ export default function PublicLists() {
 						installationCommand={list.installationCommand}
 						listDescription={list.description}
 						owner={(list.owner?.name ?? list.owner.email) as string}
+						icon="package"
 					/>
 				))}
 			</div>

@@ -11,38 +11,11 @@ import useSWR from "swr";
 import Link from "next/link";
 import { PackageList } from "@/models/packageLists";
 import PackageListCard from "@/components/PackageListCard";
+import { getAllPublic } from "@/controllers/packageListController";
 
-export default function PublicLists() {
-	// This would typically come from an API call or database
-	const publicLists = [
-		{
-			_id: 1,
-			name: "Web Development Essentials",
-			owner: { name: "johndoe", email: "" },
-			packageCount: 10,
-			packages: [1, 2, 3],
-			installationCommand: "npm install package-name",
-			description: "A collection of tools for web developers",
-		},
-		{
-			_id: 2,
-			name: "Data Science Toolkit",
-			owner: { name: "janedoe", email: "" },
-			packageCount: 15,
-			packages: [1, 2, 3],
-			installationCommand: "pip install package-name",
-			description: "A collection of tools for data scientists",
-		},
-		{
-			_id: 3,
-			name: "DevOps Tools",
-			owner: { name: "bobsmith", email: "" },
-			packageCount: 8,
-			packages: [1, 2, 3],
-			installationCommand: "brew install package-name",
-			description: "A collection of tools for DevOps engineers",
-		},
-	];
+export default async function PublicLists() {
+	const res = await getAllPublic();
+	const publicLists: PackageList[] = (await res?.json()) || [];
 
 	return (
 		<div className="space-y-8">
@@ -57,7 +30,7 @@ export default function PublicLists() {
 						installationCommand={list.installationCommand}
 						listDescription={list.description}
 						owner={(list.owner?.name ?? list.owner.email) as string}
-						icon="package"
+						icon={list.icon}
 					/>
 				))}
 			</div>

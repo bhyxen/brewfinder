@@ -12,6 +12,16 @@ export const getAll = async () => {
 	}
 };
 
+export const getAllPublic = async () => {
+	try {
+		await connectDB();
+		const PackageListResult = await PackageListModel.find({ isPublic: true });
+		return NextResponse.json(PackageListResult);
+	} catch (error) {
+		NextResponse.error();
+	}
+};
+
 export const getById = async (listID: string) => {
 	try {
 		await connectDB();

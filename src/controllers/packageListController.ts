@@ -77,3 +77,35 @@ export const create = async ({
 		NextResponse.error();
 	}
 };
+
+export const update = async ({
+	_id,
+	name,
+	description,
+	packages,
+	installationCommand,
+	owner,
+	isPublic,
+	likes,
+	icon,
+}: PackageList) => {
+	try {
+		await connectDB();
+
+		const newPackageList = await PackageListModel.findByIdAndUpdate(_id, {
+			name,
+			description,
+			packages,
+			installationCommand,
+			owner,
+			isPublic,
+			likes,
+			icon,
+		});
+
+		return NextResponse.json(newPackageList);
+	} catch (error) {
+		console.error({ error });
+		NextResponse.error();
+	}
+};

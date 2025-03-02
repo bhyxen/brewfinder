@@ -1,11 +1,23 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { format } from "date-fns";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+
 import useSWR from "swr";
 import {
 	Tooltip,
@@ -42,11 +54,20 @@ const MAX_VISIBLE_PACKAGES = 6;
 export default function ListDetailsPage() {
 	const params = useParams();
 	const [isLiked, setIsLiked] = useState(false);
+	const [likesUsers, setLikesUsers] = useState<any[]>([]);
 	const [isPackagesExpanded, setIsPackagesExpanded] = useState(false);
+	const [likesCount, setLikesCount] = useState<number>(0);
+	const [open, setOpen] = useState(false);
 
 	const listId = params.id;
 
 	const { data: session } = useSession();
+
+	type MultiFetcherParams = {
+		likesUsersIds: ObjectId[] | undefined;
+		url: string;
+		packageIds: PackageDetails[] | undefined;
+	};
 
 	const fetcher = ([url, id, type, extension]: [
 		string,
@@ -59,12 +80,6 @@ export default function ListDetailsPage() {
 				extension ? "." + extension : ""
 			}`
 		).then((res) => res.json());
-
-	type MultiFetcherParams = {
-		likesUsersIds: ObjectId[] | undefined;
-		url: string;
-		packageIds: PackageDetails[] | undefined;
-	};
 
 	function multiFetcher(params: MultiFetcherParams) {
 		if (params.likesUsersIds) {
@@ -92,6 +107,16 @@ export default function ListDetailsPage() {
 		multiFetcher
 	);
 
+	useEffect(() => {
+		if (
+			listDetails?.likes?.includes(session?.user?.id as unknown as ObjectId)
+		) {
+			setIsLiked(true);
+		}
+		setLikesUsers(likesUsersDetails ?? []);
+		setLikesCount(listDetails?.likes?.length || 0);
+	}, [listDetails, likesUsersDetails, session]);
+
 	const { data: packagesDetails, error: _packagesDetailsError } = useSWR(
 		{
 			packageIds: listDetails?.packages,
@@ -104,10 +129,39 @@ export default function ListDetailsPage() {
 		return <div>Loading...</div>;
 	}
 
-	const handleLike = () => {
+	const handleLike = async () => {
 		setIsLiked(!isLiked);
-		// In a real application, you would update the likes on the server here
-		toast.success(isLiked ? "Removed from likes" : "Added to likes");
+
+		const newLikesArray = !isLiked
+			? [...listDetails.likes, session?.user?.id]
+			: listDetails.likes.filter(
+					(like) => like.toString() !== session?.user?.id
+			  );
+
+		const requestBody = {
+			...listDetails,
+			likes: newLikesArray,
+		};
+
+		const result = await fetch(`/api/packageLists/update/${listId}`, {
+			method: "POST",
+			body: JSON.stringify(requestBody),
+		});
+
+		if (result.ok) {
+			toast.success(isLiked ? "Removed from likes" : "Added to likes");
+			setLikesCount(likesCount + (isLiked ? -1 : 1));
+
+			const newLikesUsers = !isLiked
+				? [...(likesUsersDetails ?? []), session?.user]
+				: (likesUsersDetails ?? []).filter(
+						(user) => user.id.toString() !== session?.user?.id
+				  );
+
+			setLikesUsers(newLikesUsers);
+		} else {
+			toast.error("Failed to update likes");
+		}
 	};
 
 	const handleShare = () => {
@@ -147,22 +201,61 @@ export default function ListDetailsPage() {
 							: "N/A"}
 					</p>
 					<div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2 mt-4">
-						<Button
-							variant={isLiked ? "default" : "outline"}
-							size="sm"
-							onClick={handleLike}
-							className="w-full sm:w-auto"
-						>
-							<Heart
-								className={`h-4 w-4 mr-2 ${isLiked ? "fill-current" : ""}`}
-							/>
-							{isLiked ? "Liked" : "Like"} ({listDetails.likes.length})
-						</Button>
+						{isLiked ? (
+							<AlertDialog open={open} onOpenChange={setOpen}>
+								<AlertDialogTrigger asChild>
+									<Button
+										variant={isLiked ? "default" : "outline"}
+										size="sm"
+										className="w-full sm:w-auto cursor-pointer"
+									>
+										<Heart
+											className={`h-4 w-4 mr-2 ${
+												isLiked ? "fill-current" : ""
+											}`}
+										/>
+										{isLiked ? "Liked" : "Like"} ({likesCount})
+									</Button>
+								</AlertDialogTrigger>
+								<AlertDialogContent>
+									<AlertDialogHeader>
+										<AlertDialogTitle>
+											Are you absolutely sure?
+										</AlertDialogTitle>
+										<AlertDialogDescription>
+											Do you really want to remove this list from your likes?
+										</AlertDialogDescription>
+									</AlertDialogHeader>
+									<AlertDialogFooter>
+										<AlertDialogCancel>Cancel</AlertDialogCancel>
+										<AlertDialogAction
+											className="cursor-pointer"
+											onClick={handleLike}
+										>
+											Continue
+										</AlertDialogAction>
+									</AlertDialogFooter>
+								</AlertDialogContent>
+							</AlertDialog>
+						) : (
+							<Button
+								variant={isLiked ? "default" : "outline"}
+								size="sm"
+								onClick={handleLike}
+								className="w-full sm:w-auto cursor-pointer"
+							>
+								<Heart
+									className={`h-4 w-4 mr-2 ${isLiked ? "fill-current" : ""}`}
+								/>
+								{isLiked ? "Liked" : "Like"} ({likesCount})
+							</Button>
+						)}
+
 						<Button
 							variant="outline"
 							size="sm"
 							onClick={handleShare}
-							className="w-full sm:w-auto"
+							className="w-full sm:w-auto cursor-pointer"
 						>
 							<Share2 className="h-4 w-4 mr-2" />
 							Share
@@ -172,7 +265,7 @@ export default function ListDetailsPage() {
 								variant="outline"
 								size="sm"
 								asChild
-								className="w-full sm:w-auto"
+								className="w-full sm:w-auto cursor-pointer"
 							>
 								<Link href={`/lists/${params.id}/edit`}>
 									<Edit className="h-4 w-4 mr-2" />
@@ -397,13 +490,13 @@ export default function ListDetailsPage() {
 						<CardHeader>
 							<CardTitle className="text-xl font-semibold flex items-center">
 								<Heart className="mr-2 h-5 w-5" />
-								Likes ({listDetails.likes.length})
+								Likes ({likesCount})
 							</CardTitle>
 						</CardHeader>
 						<CardContent>
 							<div className="flex flex-wrap gap-2">
-								{!!likesUsersDetails &&
-									likesUsersDetails.map((likeUser) => {
+								{!!likesUsers &&
+									likesUsers.map((likeUser) => {
 										return (
 											<TooltipProvider key={likeUser.id}>
 												<Tooltip>

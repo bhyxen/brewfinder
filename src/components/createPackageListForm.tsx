@@ -1,5 +1,5 @@
 "use client";
-import { KeyboardEvent, useState } from "react";
+import { Fragment, KeyboardEvent, useState } from "react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -59,6 +59,7 @@ import {
 } from "@/components/IconPicker";
 import { useSession } from "next-auth/react";
 import { PackageDetails, PackageList } from "@/models/packageLists";
+import { Separator } from "./ui/separator";
 
 type Props = {
 	packages: PackageFilteredData[];
@@ -268,18 +269,26 @@ export default function CreatePackageListForm({ packages }: Props) {
 													>
 														{filteredPackages.map((pkg) => {
 															return (
-																<MultiSelectorItem
+																<Fragment
 																	key={(pkg.token ?? pkg.name) + pkg.type}
-																	value={JSON.stringify({
-																		id: pkg.token ?? pkg.name,
-																		type: pkg.type,
-																	})}
 																>
-																	<div className="flex items-center justify-between space-x-2 grow">
-																		{pkg.name}
-																		<Badge>{pkg.type}</Badge>
-																	</div>
-																</MultiSelectorItem>
+																	<MultiSelectorItem
+																		value={JSON.stringify({
+																			id: pkg.token ?? pkg.name,
+																			type: pkg.type,
+																		})}
+																	>
+																		<div className="flex items-center justify-between space-x-2 grow">
+																			<div className="flex flex-wrap">
+																				<p className="">{pkg.name} </p>
+																				<span className="mx-1">@</span>
+																				<p className="text-sm">{pkg.version}</p>
+																			</div>
+																			<Badge>{pkg.type}</Badge>
+																		</div>
+																	</MultiSelectorItem>
+																	<Separator />
+																</Fragment>
 															);
 														})}
 													</MultiSelectorList>

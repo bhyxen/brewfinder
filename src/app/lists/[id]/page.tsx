@@ -48,6 +48,7 @@ import { ObjectId } from "mongoose";
 import { Cask, Formula, Package } from "@/types/homebrew";
 import { useSession } from "next-auth/react";
 import LucideDynamicIcon from "@/components/LucideDynamicIcon";
+import CreatePackageListForm from "@/components/createPackageListForm";
 
 const MAX_VISIBLE_PACKAGES = 6;
 
@@ -261,17 +262,7 @@ export default function ListDetailsPage() {
 							Share
 						</Button>
 						{session?.user?.id === listDetails.owner.id && (
-							<Button
-								variant="outline"
-								size="sm"
-								asChild
-								className="w-full sm:w-auto cursor-pointer"
-							>
-								<Link href={`/lists/${params.id}/edit`}>
-									<Edit className="h-4 w-4 mr-2" />
-									Edit
-								</Link>
-							</Button>
+							<CreatePackageListForm packages={[]} currentData={listDetails} />
 						)}
 					</div>
 				</div>

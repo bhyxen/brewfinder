@@ -63,9 +63,13 @@ import { Separator } from "./ui/separator";
 
 type Props = {
 	packages: PackageFilteredData[];
+	currentData: PackageList;
 };
 
-export default function CreatePackageListForm({ packages }: Props) {
+export default function CreatePackageListForm({
+	packages,
+	currentData,
+}: Props) {
 	const { icons } = useIconPickerLucide();
 
 	const { data: session } = useSession();
@@ -87,6 +91,19 @@ export default function CreatePackageListForm({ packages }: Props) {
 			icon: "",
 		},
 	});
+
+	if (currentData) {
+		form.setValue("name", currentData.name);
+		form.setValue("description", currentData.description);
+		form.setValue(
+			"packages",
+			currentData.packages.map((pkg) =>
+				JSON.stringify(pkg)
+			) as unknown as string[]
+		);
+		form.setValue("isPublic", currentData.isPublic);
+		form.setValue("icon", currentData.icon);
+	}
 
 	const getOnlyPackageNamesByType = (
 		packages: PackageDetails[],
@@ -122,7 +139,7 @@ export default function CreatePackageListForm({ packages }: Props) {
 					email: session?.user?.email,
 					image: session?.user?.image,
 				},
-				likes: [],
+				likes: currentData ? currentData.likes : [],
 				get packages(): PackageDetails[] {
 					return values.packages.map((pkg) => JSON.parse(pkg));
 				},
@@ -131,16 +148,36 @@ export default function CreatePackageListForm({ packages }: Props) {
 				},
 			};
 
-			const listCreated = await fetch("/api/packageLists/create", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(newListBody),
-			});
+			let newList;
 
-			if (listCreated.ok) {
-				toast.success("List created successfully");
+			// if there is already data, then we are updating the list
+			if (currentData) {
+				console.log({ currentData: currentData });
+				console.log({ updatedList: newListBody });
+				newList = await fetch(`/api/packageLists/update/${currentData._id}`, {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(newListBody),
+				});
+			} else {
+				// create a new list
+				newList = await fetch("/api/packageLists/create", {
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(newListBody),
+				});
+			}
+
+			if (newList.ok) {
+				if (currentData) {
+					toast.success("List updated successfully");
+				} else {
+					toast.success("List created successfully");
+				}
 			} else {
 				toast.error("Failed to create list. Please try again.");
 			}
@@ -189,9 +226,12 @@ export default function CreatePackageListForm({ packages }: Props) {
 	return (
 		<Dialog>
 			<DialogTrigger asChild>
-				<Button className="cursor-pointer">
+				<Button
+					className="cursor-pointer"
+					variant={currentData ? "outline" : "default"}
+				>
 					<Edit className="w-6 h-6"></Edit>
-					Create New List
+					{currentData ? "Edit List" : "Create New List"}
 				</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-3xl">

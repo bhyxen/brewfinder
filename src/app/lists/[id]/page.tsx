@@ -48,7 +48,7 @@ import { ObjectId } from "mongoose";
 import { Cask, Formula, Package } from "@/types/homebrew";
 import { useSession } from "next-auth/react";
 import LucideDynamicIcon from "@/components/LucideDynamicIcon";
-import CreatePackageListForm from "@/components/createPackageListForm";
+import CreatePackageListForm from "@/components/CreatePackageListForm";
 
 const MAX_VISIBLE_PACKAGES = 6;
 
@@ -74,12 +74,12 @@ export default function ListDetailsPage() {
 		string,
 		string,
 		string?,
-		string?
+		string?,
 	]) =>
 		fetch(
 			`${url}${type ? "/" + type : ""}${id ? "/" + id : ""}${
 				extension ? "." + extension : ""
-			}`
+			}`,
 		).then((res) => res.json());
 
 	function multiFetcher(params: MultiFetcherParams) {
@@ -87,13 +87,18 @@ export default function ListDetailsPage() {
 			return Promise.all(
 				(params.likesUsersIds ?? []).map((likeUserId) => {
 					return fetcher([params.url, likeUserId.toString()]);
-				})
+				}),
 			);
 		} else if (params.packageIds) {
 			return Promise.all(
 				(params.packageIds ?? []).map((packageId) => {
-					return fetcher([params.url, packageId.id, packageId.type, "json"]);
-				})
+					return fetcher([
+						params.url,
+						packageId.id,
+						packageId.type,
+						"json",
+					]);
+				}),
 			);
 		}
 	}
@@ -105,12 +110,14 @@ export default function ListDetailsPage() {
 
 	const { data: likesUsersDetails, error: _likesUsersDetailsError } = useSWR(
 		{ likesUsersIds: listDetails?.likes, url: "/api/users/getById" },
-		multiFetcher
+		multiFetcher,
 	);
 
 	useEffect(() => {
 		if (
-			listDetails?.likes?.includes(session?.user?.id as unknown as ObjectId)
+			listDetails?.likes?.includes(
+				session?.user?.id as unknown as ObjectId,
+			)
 		) {
 			setIsLiked(true);
 		}
@@ -123,7 +130,7 @@ export default function ListDetailsPage() {
 			packageIds: listDetails?.packages,
 			url: "https://formulae.brew.sh/api/",
 		},
-		multiFetcher
+		multiFetcher,
 	);
 
 	if (!listDetails) {
@@ -136,8 +143,8 @@ export default function ListDetailsPage() {
 		const newLikesArray = !isLiked
 			? [...listDetails.likes, session?.user?.id]
 			: listDetails.likes.filter(
-					(like) => like.toString() !== session?.user?.id
-			  );
+					(like) => like.toString() !== session?.user?.id,
+				);
 
 		const requestBody = {
 			...listDetails,
@@ -156,8 +163,8 @@ export default function ListDetailsPage() {
 			const newLikesUsers = !isLiked
 				? [...(likesUsersDetails ?? []), session?.user]
 				: (likesUsersDetails ?? []).filter(
-						(user) => user.id.toString() !== session?.user?.id
-				  );
+						(user) => user.id.toString() !== session?.user?.id,
+					);
 
 			setLikesUsers(newLikesUsers);
 		} else {
@@ -183,14 +190,19 @@ export default function ListDetailsPage() {
 				/>
 				<div className="flex-1 text-center sm:text-left">
 					<div className="flex items-center justify-center sm:justify-start space-x-2 mb-2">
-						<h1 className="text-3xl font-bold">{listDetails.name}</h1>
-						<Badge>{listDetails.isPublic ? "Public" : "Private"}</Badge>
+						<h1 className="text-3xl font-bold">
+							{listDetails.name}
+						</h1>
+						<Badge>
+							{listDetails.isPublic ? "Public" : "Private"}
+						</Badge>
 					</div>
 					<p className="text-lg text-muted-foreground">
 						{listDetails.description}
 					</p>
 					<p className="text-sm text-muted-foreground mt-2">
-						Created by {listDetails.owner.name ?? listDetails.owner.email} on{" "}
+						Created by{" "}
+						{listDetails.owner.name ?? listDetails.owner.email} on{" "}
 						{listDetails.createdAt
 							? format(new Date(listDetails.createdAt), "PPP")
 							: "N/A"}
@@ -206,7 +218,9 @@ export default function ListDetailsPage() {
 							<AlertDialog open={open} onOpenChange={setOpen}>
 								<AlertDialogTrigger asChild>
 									<Button
-										variant={isLiked ? "default" : "outline"}
+										variant={
+											isLiked ? "default" : "outline"
+										}
 										size="sm"
 										className="w-full sm:w-auto cursor-pointer"
 									>
@@ -215,7 +229,8 @@ export default function ListDetailsPage() {
 												isLiked ? "fill-current" : ""
 											}`}
 										/>
-										{isLiked ? "Liked" : "Like"} ({likesCount})
+										{isLiked ? "Liked" : "Like"} (
+										{likesCount})
 									</Button>
 								</AlertDialogTrigger>
 								<AlertDialogContent>
@@ -224,11 +239,14 @@ export default function ListDetailsPage() {
 											Are you absolutely sure?
 										</AlertDialogTitle>
 										<AlertDialogDescription>
-											Do you really want to remove this list from your likes?
+											Do you really want to remove this
+											list from your likes?
 										</AlertDialogDescription>
 									</AlertDialogHeader>
 									<AlertDialogFooter>
-										<AlertDialogCancel>Cancel</AlertDialogCancel>
+										<AlertDialogCancel>
+											Cancel
+										</AlertDialogCancel>
 										<AlertDialogAction
 											className="cursor-pointer"
 											onClick={handleLike}
@@ -262,7 +280,10 @@ export default function ListDetailsPage() {
 							Share
 						</Button>
 						{session?.user?.id === listDetails.owner.id && (
-							<CreatePackageListForm packages={[]} currentData={listDetails} />
+							<CreatePackageListForm
+								packages={[]}
+								currentData={listDetails}
+							/>
 						)}
 					</div>
 				</div>
@@ -274,7 +295,8 @@ export default function ListDetailsPage() {
 						<CardHeader>
 							<CardTitle className="text-xl font-semibold flex items-center">
 								<PackageIcon className="mr-2 h-5 w-5" />
-								Packages in this list ({listDetails.packages.length})
+								Packages in this list (
+								{listDetails.packages.length})
 							</CardTitle>
 						</CardHeader>
 						<CardContent>
@@ -287,7 +309,8 @@ export default function ListDetailsPage() {
 									{visiblePackages.map((pkg, index) => (
 										<li
 											key={`${
-												pkg.token ?? Array.isArray(pkg.name)
+												(pkg.token ??
+												Array.isArray(pkg.name))
 													? pkg.name[0]
 													: pkg.name
 											}-${index}`}
@@ -297,22 +320,36 @@ export default function ListDetailsPage() {
 													<div className="flex items-center">
 														<PackageIcon className="h-5 w-5 mr-2" />
 														<span>
-															{pkg.token ?? Array.isArray(pkg.name)
+															{(pkg.token ??
+															Array.isArray(
+																pkg.name,
+															))
 																? pkg.name[0]
 																: pkg.name}
 														</span>
 													</div>
 													<TooltipProvider>
 														<Tooltip>
-															<TooltipTrigger asChild>
-																<Button asChild size="icon">
+															<TooltipTrigger
+																asChild
+															>
+																<Button
+																	asChild
+																	size="icon"
+																>
 																	<Link
 																		href={`/packages/${
-																			pkg.token ?? Array.isArray(pkg.name)
-																				? pkg.name[0]
+																			(pkg.token ??
+																			Array.isArray(
+																				pkg.name,
+																			))
+																				? pkg
+																						.name[0]
 																				: pkg.name
 																		}?type=${
-																			pkg.tap.includes("cask")
+																			pkg.tap.includes(
+																				"cask",
+																			)
 																				? "cask"
 																				: "formula"
 																		}`}
@@ -324,20 +361,33 @@ export default function ListDetailsPage() {
 															</TooltipTrigger>
 															<TooltipContent>
 																<p>
-																	{Array.isArray(pkg.name)
-																		? pkg.name[0]
+																	{Array.isArray(
+																		pkg.name,
+																	)
+																		? pkg
+																				.name[0]
 																		: pkg.name}
 																</p>
-																<p>{pkg.desc}</p>
-																<Badge variant="secondary" className="my-2">
+																<p>
+																	{pkg.desc}
+																</p>
+																<Badge
+																	variant="secondary"
+																	className="my-2"
+																>
 																	{
 																		listDetails?.packages?.find(
-																			(pkgList) =>
+																			(
+																				pkgList,
+																			) =>
 																				pkgList.id ===
 																				(pkg.token ??
-																					(Array.isArray(pkg.name)
-																						? pkg.name[0]
-																						: pkg.name))
+																					(Array.isArray(
+																						pkg.name,
+																					)
+																						? pkg
+																								.name[0]
+																						: pkg.name)),
 																		)?.type
 																	}
 																</Badge>
@@ -349,12 +399,15 @@ export default function ListDetailsPage() {
 										</li>
 									))}
 								</ul>
-								{listDetails.packages.length > MAX_VISIBLE_PACKAGES && (
+								{listDetails.packages.length >
+									MAX_VISIBLE_PACKAGES && (
 									<>
 										<CollapsibleContent className="space-y-2">
 											<ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 												{(packagesDetails
-													? (packagesDetails as Cask[] | Formula[])
+													? (packagesDetails as
+															| Cask[]
+															| Formula[])
 													: []
 												)
 													.slice(MAX_VISIBLE_PACKAGES)
@@ -363,9 +416,12 @@ export default function ListDetailsPage() {
 															key={`${
 																"token" in pkg
 																	? pkg.token
-																	: Array.isArray(pkg.name)
-																	? pkg.name[0]
-																	: pkg.name
+																	: Array.isArray(
+																				pkg.name,
+																		  )
+																		? pkg
+																				.name[0]
+																		: pkg.name
 															}-${index + MAX_VISIBLE_PACKAGES}`}
 														>
 															<Card>
@@ -373,26 +429,41 @@ export default function ListDetailsPage() {
 																	<div className="flex items-center">
 																		<PackageIcon className="h-5 w-5 mr-2" />
 																		<span>
-																			{"token" in pkg
+																			{"token" in
+																			pkg
 																				? pkg.token
-																				: Array.isArray(pkg.name)
-																				? pkg.name[0]
-																				: pkg.name}
+																				: Array.isArray(
+																							pkg.name,
+																					  )
+																					? pkg
+																							.name[0]
+																					: pkg.name}
 																		</span>
 																	</div>
 																	<TooltipProvider>
 																		<Tooltip>
-																			<TooltipTrigger asChild>
-																				<Button asChild size="icon">
+																			<TooltipTrigger
+																				asChild
+																			>
+																				<Button
+																					asChild
+																					size="icon"
+																				>
 																					<Link
 																						href={`/packages/${
-																							"token" in pkg
+																							"token" in
+																							pkg
 																								? pkg.token
-																								: Array.isArray(pkg.name)
-																								? pkg.name[0]
-																								: pkg.name
+																								: Array.isArray(
+																											pkg.name,
+																									  )
+																									? pkg
+																											.name[0]
+																									: pkg.name
 																						}?type=${
-																							pkg.tap.includes("cask")
+																							pkg.tap.includes(
+																								"cask",
+																							)
 																								? "cask"
 																								: "formula"
 																						}`}
@@ -404,11 +475,18 @@ export default function ListDetailsPage() {
 																			</TooltipTrigger>
 																			<TooltipContent>
 																				<p>
-																					{Array.isArray(pkg.name)
-																						? pkg.name[0]
+																					{Array.isArray(
+																						pkg.name,
+																					)
+																						? pkg
+																								.name[0]
 																						: pkg.name}
 																				</p>
-																				<p>{pkg.desc}</p>
+																				<p>
+																					{
+																						pkg.desc
+																					}
+																				</p>
 																			</TooltipContent>
 																		</Tooltip>
 																	</TooltipProvider>
@@ -432,7 +510,12 @@ export default function ListDetailsPage() {
 												) : (
 													<>
 														<ChevronDown className="h-4 w-4 mr-2" />
-														Show All ({listDetails.packages.length})
+														Show All (
+														{
+															listDetails.packages
+																.length
+														}
+														)
 													</>
 												)}
 											</Button>
@@ -461,18 +544,25 @@ export default function ListDetailsPage() {
 							<p>
 								<strong>Created:</strong>{" "}
 								{listDetails.createdAt
-									? format(new Date(listDetails.createdAt), "PPP")
+									? format(
+											new Date(listDetails.createdAt),
+											"PPP",
+										)
 									: "N/A"}
 							</p>
 							<p>
 								<strong>Last Updated:</strong>{" "}
 								{listDetails.updatedAt
-									? format(new Date(listDetails.updatedAt), "PPP")
+									? format(
+											new Date(listDetails.updatedAt),
+											"PPP",
+										)
 									: "N/A"}
 							</p>
 							<p>
 								<strong>Owner:</strong>{" "}
-								{listDetails.owner.name ?? listDetails.owner.email}
+								{listDetails.owner.name ??
+									listDetails.owner.email}
 							</p>
 						</CardContent>
 					</Card>
@@ -494,20 +584,32 @@ export default function ListDetailsPage() {
 													<TooltipTrigger asChild>
 														<Avatar className="h-8 w-8">
 															<AvatarFallback>
-																{(likeUser?.name ?? likeUser?.email ?? "")
+																{(
+																	likeUser?.name ??
+																	likeUser?.email ??
+																	""
+																)
 																	.slice(0, 2)
 																	.toUpperCase()}
 															</AvatarFallback>
 															<AvatarImage
-																src={likeUser?.image ?? undefined}
+																src={
+																	likeUser?.image ??
+																	undefined
+																}
 																alt={
-																	likeUser?.name ?? likeUser?.email ?? undefined
+																	likeUser?.name ??
+																	likeUser?.email ??
+																	undefined
 																}
 															/>
 														</Avatar>
 													</TooltipTrigger>
 													<TooltipContent>
-														<p>{likeUser.name ?? likeUser.email}</p>
+														<p>
+															{likeUser.name ??
+																likeUser.email}
+														</p>
 													</TooltipContent>
 												</Tooltip>
 											</TooltipProvider>

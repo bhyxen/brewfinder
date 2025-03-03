@@ -15,7 +15,9 @@ export const getAll = async () => {
 export const getAllPublic = async () => {
 	try {
 		await connectDB();
-		const PackageListResult = await PackageListModel.find({ isPublic: true });
+		const PackageListResult = await PackageListModel.find({
+			isPublic: true,
+		});
 		return NextResponse.json(PackageListResult);
 	} catch (error) {
 		return NextResponse.error();
@@ -52,7 +54,7 @@ export const getByUserId = async (userID: string) => {
 			(error as Error)?.message || "Internal server error",
 			{
 				status: 500,
-			}
+			},
 		);
 	}
 };

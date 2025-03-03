@@ -44,7 +44,9 @@ const MultiSelectContext = createContext<MultiSelectContextProps | null>(null);
 const useMultiSelect = () => {
 	const context = useContext(MultiSelectContext);
 	if (!context) {
-		throw new Error("useMultiSelect must be used within MultiSelectProvider");
+		throw new Error(
+			"useMultiSelect must be used within MultiSelectProvider",
+		);
 	}
 	return context;
 };
@@ -80,7 +82,7 @@ const MultiSelector = ({
 			}
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[value]
+		[value],
 	);
 
 	const handleSelect = React.useCallback(
@@ -89,13 +91,13 @@ const MultiSelector = ({
 			const target = e.currentTarget;
 			const selection = target.value.substring(
 				target.selectionStart ?? 0,
-				target.selectionEnd ?? 0
+				target.selectionEnd ?? 0,
 			);
 
 			setSelectedValue(selection);
 			setIsValueSelected(selection === inputValue);
 		},
-		[inputValue]
+		[inputValue],
 	);
 
 	const handleKeyDown = useCallback(
@@ -108,7 +110,7 @@ const MultiSelector = ({
 			const moveNext = () => {
 				const nextIndex = activeIndex + 1;
 				setActiveIndex(
-					nextIndex > value.length - 1 ? (loop ? 0 : -1) : nextIndex
+					nextIndex > value.length - 1 ? (loop ? 0 : -1) : nextIndex,
 				);
 			};
 
@@ -160,8 +162,13 @@ const MultiSelector = ({
 							moveCurrent();
 						} else {
 							if (target.selectionStart === 0) {
-								if (selectedValue === inputValue || isValueSelected) {
-									onValueChangeHandler(value[value.length - 1]);
+								if (
+									selectedValue === inputValue ||
+									isValueSelected
+								) {
+									onValueChangeHandler(
+										value[value.length - 1],
+									);
 								}
 							}
 						}
@@ -182,7 +189,7 @@ const MultiSelector = ({
 			}
 		},
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-		[value, inputValue, activeIndex, loop]
+		[value, inputValue, activeIndex, loop],
 	);
 
 	return (
@@ -204,7 +211,7 @@ const MultiSelector = ({
 				onKeyDown={handleKeyDown}
 				className={cn(
 					"overflow-visible bg-transparent flex flex-col space-y-2",
-					className
+					className,
 				)}
 				dir={dir}
 				{...props}
@@ -217,55 +224,74 @@ const MultiSelector = ({
 
 const MultiSelectorTrigger = forwardRef<
 	HTMLDivElement,
-	React.HTMLAttributes<HTMLDivElement> & { accessorJSONValue?: string }
->(({ className, children, accessorJSONValue, ...props }, ref) => {
-	const { value, onValueChange, activeIndex } = useMultiSelect();
+	React.HTMLAttributes<HTMLDivElement> & {
+		accessorJSONValue?: string;
+		isJSONValue?: boolean;
+	}
+>(
+	(
+		{
+			className,
+			children,
+			accessorJSONValue,
+			isJSONValue = false,
+			...props
+		},
+		ref,
+	) => {
+		const { value, onValueChange, activeIndex } = useMultiSelect();
 
-	const mousePreventDefault = useCallback((e: React.MouseEvent) => {
-		e.preventDefault();
-		e.stopPropagation();
-	}, []);
+		const mousePreventDefault = useCallback((e: React.MouseEvent) => {
+			e.preventDefault();
+			e.stopPropagation();
+		}, []);
 
-	return (
-		<div
-			ref={ref}
-			className={cn(
-				"flex flex-wrap gap-1 p-1 py-2 ring-1 ring-muted rounded-lg bg-background",
-				{
-					"ring-1 focus-within:ring-ring": activeIndex === -1,
-				},
-				className
-			)}
-			{...props}
-		>
-			{value.map((item, index) => (
-				<Badge
-					key={item}
-					className={cn(
-						"px-1 rounded-xl flex items-center gap-1",
-						activeIndex === index && "ring-2 ring-muted-foreground "
-					)}
-					variant={"secondary"}
-				>
-					<span className="text-xs">
-						{JSON.parse(item)[accessorJSONValue as string] ?? item}
-					</span>
-					<button
-						aria-label={`Remove ${item} option`}
-						aria-roledescription="button to remove option"
-						type="button"
-						onMouseDown={mousePreventDefault}
-						onClick={() => onValueChange(item)}
+		return (
+			<div
+				ref={ref}
+				className={cn(
+					"flex flex-wrap gap-1 p-1 py-2 ring-1 ring-muted rounded-lg bg-background",
+					{
+						"ring-1 focus-within:ring-ring": activeIndex === -1,
+					},
+					className,
+				)}
+				{...props}
+			>
+				{value.map((item, index) => (
+					<Badge
+						key={item}
+						className={cn(
+							"px-1 rounded-xl flex items-center gap-1",
+							activeIndex === index &&
+								"ring-2 ring-muted-foreground ",
+						)}
+						variant={"secondary"}
 					>
-						<span className="sr-only">Remove {item} option</span>
-						<RemoveIcon className="h-4 w-4 hover:stroke-destructive" />
-					</button>
-				</Badge>
-			))}
-			{children}
-		</div>
-	);
-});
+						<span className="text-xs">
+							{isJSONValue
+								? JSON.parse(item)[accessorJSONValue as string]
+								: item}
+						</span>
+						<button
+							aria-label={`Remove ${item} option`}
+							aria-roledescription="button to remove option"
+							type="button"
+							onMouseDown={mousePreventDefault}
+							onClick={() => onValueChange(item)}
+						>
+							<span className="sr-only">
+								Remove {item} option
+							</span>
+							<RemoveIcon className="h-4 w-4 hover:stroke-destructive" />
+						</button>
+					</Badge>
+				))}
+				{children}
+			</div>
+		);
+	},
+);
 
 MultiSelectorTrigger.displayName = "MultiSelectorTrigger";
 
@@ -297,7 +323,7 @@ const MultiSelectorInput = forwardRef<
 			className={cn(
 				"ml-2 bg-transparent outline-none placeholder:text-muted-foreground flex-1",
 				className,
-				activeIndex !== -1 && "caret-transparent"
+				activeIndex !== -1 && "caret-transparent",
 			)}
 		/>
 	);
@@ -323,7 +349,7 @@ const MultiSelectorList = forwardRef<
 	React.ElementRef<typeof CommandPrimitive.List>,
 	React.ComponentPropsWithoutRef<typeof CommandPrimitive.List> & {
 		noResultsText?: string;
-		showNoResults: boolean;
+		showNoResults?: boolean;
 	}
 >(
 	(
@@ -333,25 +359,27 @@ const MultiSelectorList = forwardRef<
 			noResultsText = "No results found",
 			children,
 		},
-		ref
+		ref,
 	) => {
 		return (
 			<CommandList
 				ref={ref}
 				className={cn(
 					"p-2 flex flex-col gap-2 rounded-md scrollbar-thin scrollbar-track-transparent transition-colors scrollbar-thumb-muted-foreground dark:scrollbar-thumb-muted scrollbar-thumb-rounded-lg w-full absolute bg-background shadow-md z-10 border border-muted top-0",
-					className
+					className,
 				)}
 			>
 				{children}
 				{!!showNoResults && (
 					<CommandEmpty>
-						<span className="text-muted-foreground">{noResultsText}</span>
+						<span className="text-muted-foreground">
+							{noResultsText}
+						</span>
 					</CommandEmpty>
 				)}
 			</CommandList>
 		);
-	}
+	},
 );
 
 MultiSelectorList.displayName = "MultiSelectorList";
@@ -382,7 +410,7 @@ const MultiSelectorItem = forwardRef<
 				"rounded-md cursor-pointer px-2 py-1 transition-colors flex justify-between ",
 				className,
 				isIncluded && "opacity-50 cursor-default",
-				props.disabled && "opacity-50 cursor-not-allowed"
+				props.disabled && "opacity-50 cursor-not-allowed",
 			)}
 			onMouseDown={mousePreventDefault}
 		>

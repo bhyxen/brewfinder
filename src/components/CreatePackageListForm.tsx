@@ -1,5 +1,5 @@
 "use client";
-import { Fragment, KeyboardEvent, useState } from "react";
+import { Fragment, KeyboardEvent, useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -49,7 +49,7 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { ChevronsUpDown } from "lucide-react";
 import { PackageFilteredData } from "@/types/homebrew";
 import { formSchema } from "@/schemas/zod";
 import { Badge } from "./ui/badge";
@@ -63,16 +63,22 @@ import { Separator } from "./ui/separator";
 
 type Props = {
 	packages: PackageFilteredData[];
-	currentData: PackageList;
+	currentData?: PackageList;
+	isOpen?: boolean;
+	defaultPackage?: string;
 };
 
 export default function CreatePackageListForm({
 	packages,
 	currentData,
+	isOpen = false,
+	defaultPackage = "",
 }: Props) {
 	const { icons } = useIconPickerLucide();
 
 	const { data: session } = useSession();
+
+	const [isformOpen, setIsformOpen] = useState(isOpen);
 
 	// console.log({ packages });
 
@@ -92,22 +98,28 @@ export default function CreatePackageListForm({
 		},
 	});
 
-	if (currentData) {
-		form.setValue("name", currentData.name);
-		form.setValue("description", currentData.description);
-		form.setValue(
-			"packages",
-			currentData.packages.map((pkg) =>
-				JSON.stringify(pkg)
-			) as unknown as string[]
-		);
-		form.setValue("isPublic", currentData.isPublic);
-		form.setValue("icon", currentData.icon);
-	}
+	useEffect(() => {
+		if (currentData) {
+			form.setValue("name", currentData.name);
+			form.setValue("description", currentData.description);
+			form.setValue(
+				"packages",
+				currentData.packages.map((pkg) =>
+					JSON.stringify(pkg),
+				) as unknown as string[],
+			);
+			form.setValue("isPublic", currentData.isPublic);
+			form.setValue("icon", currentData.icon);
+		} else if (defaultPackage) {
+			const defaultPkg = decodeURI(defaultPackage);
+			console.log({ defaultPkg });
+			form.setValue("packages", [defaultPkg]);
+		}
+	}, [form, currentData, defaultPackage]);
 
 	const getOnlyPackageNamesByType = (
 		packages: PackageDetails[],
-		type: string
+		type: string,
 	) => {
 		return packages
 			.filter((pkg) => pkg.type === type)
@@ -131,7 +143,7 @@ export default function CreatePackageListForm({
 			// 	</pre>
 			// );
 
-			var newListBody = {
+			const newListBody = {
 				...values,
 				owner: {
 					id: session?.user?.id,
@@ -154,13 +166,16 @@ export default function CreatePackageListForm({
 			if (currentData) {
 				console.log({ currentData: currentData });
 				console.log({ updatedList: newListBody });
-				newList = await fetch(`/api/packageLists/update/${currentData._id}`, {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
+				newList = await fetch(
+					`/api/packageLists/update/${currentData._id}`,
+					{
+						method: "POST",
+						headers: {
+							"Content-Type": "application/json",
+						},
+						body: JSON.stringify(newListBody),
 					},
-					body: JSON.stringify(newListBody),
-				});
+				);
 			} else {
 				// create a new list
 				newList = await fetch("/api/packageLists/create", {
@@ -199,7 +214,7 @@ export default function CreatePackageListForm({
 	}
 
 	function handleMultiSelectorKeyup(
-		event: KeyboardEvent<HTMLInputElement>
+		event: KeyboardEvent<HTMLInputElement>,
 	): void {
 		const inputValue = (event.target as HTMLInputElement).value;
 
@@ -212,7 +227,9 @@ export default function CreatePackageListForm({
 			setFilteredPackages(() => {
 				return packages
 					.filter((pkg) => {
-						return (Array.isArray(pkg.name) ? pkg.name[0] : pkg.name)
+						return (
+							Array.isArray(pkg.name) ? pkg.name[0] : pkg.name
+						)
 							.toLowerCase()
 							.includes(inputValue);
 					})
@@ -224,7 +241,7 @@ export default function CreatePackageListForm({
 	// console.log({ filteredPackages });
 
 	return (
-		<Dialog>
+		<Dialog open={isformOpen} onOpenChange={setIsformOpen}>
 			<DialogTrigger asChild>
 				<Button
 					className="cursor-pointer"
@@ -237,7 +254,9 @@ export default function CreatePackageListForm({
 			<DialogContent className="sm:max-w-3xl">
 				<DialogHeader>
 					<DialogTitle>Create new package list</DialogTitle>
-					<DialogDescription>Enter the details of the list</DialogDescription>
+					<DialogDescription>
+						Enter the details of the list
+					</DialogDescription>
 				</DialogHeader>
 				<Form {...form}>
 					<form
@@ -252,7 +271,11 @@ export default function CreatePackageListForm({
 								<FormItem>
 									<FormLabel>Name</FormLabel>
 									<FormControl>
-										<Input placeholder="" type="text" {...field} />
+										<Input
+											placeholder=""
+											type="text"
+											{...field}
+										/>
 									</FormControl>
 
 									<FormMessage />
@@ -289,16 +312,25 @@ export default function CreatePackageListForm({
 										<FormControl>
 											<MultiSelector
 												shouldFilter={false} // fix issue mentioned in https://github.com/shadcn-ui/ui/discussions/3862
-												values={field.value ? field.value : []}
+												values={
+													field.value
+														? field.value
+														: []
+												}
 												onValuesChange={(value) => {
 													setFilteredPackages([]);
 													field.onChange(value);
 												}}
 												loop
 											>
-												<MultiSelectorTrigger accessorJSONValue="id">
+												<MultiSelectorTrigger
+													accessorJSONValue="id"
+													isJSONValue={true}
+												>
 													<MultiSelectorInput
-														onKeyUp={handleMultiSelectorKeyup}
+														onKeyUp={
+															handleMultiSelectorKeyup
+														}
 														placeholder="Search packages"
 													/>
 												</MultiSelectorTrigger>
@@ -307,36 +339,61 @@ export default function CreatePackageListForm({
 														showNoResults={true}
 														noResultsText="Start searching for a package..."
 													>
-														{filteredPackages.map((pkg) => {
-															return (
-																<Fragment
-																	key={(pkg.token ?? pkg.name) + pkg.type}
-																>
-																	<MultiSelectorItem
-																		value={JSON.stringify({
-																			id: pkg.token ?? pkg.name,
-																			type: pkg.type,
-																		})}
+														{filteredPackages.map(
+															(pkg) => {
+																return (
+																	<Fragment
+																		key={
+																			(pkg.token ??
+																				pkg.name) +
+																			pkg.type
+																		}
 																	>
-																		<div className="flex items-center justify-between space-x-2 grow">
-																			<div className="flex flex-wrap">
-																				<p className="">{pkg.name} </p>
-																				<span className="mx-1">@</span>
-																				<p className="text-sm">{pkg.version}</p>
+																		<MultiSelectorItem
+																			value={JSON.stringify(
+																				{
+																					id:
+																						pkg.token ??
+																						pkg.name,
+																					type: pkg.type,
+																				},
+																			)}
+																		>
+																			<div className="flex items-center justify-between space-x-2 grow">
+																				<div className="flex flex-wrap">
+																					<p className="">
+																						{
+																							pkg.name
+																						}{" "}
+																					</p>
+																					<span className="mx-1">
+																						@
+																					</span>
+																					<p className="text-sm">
+																						{
+																							pkg.version
+																						}
+																					</p>
+																				</div>
+																				<Badge>
+																					{
+																						pkg.type
+																					}
+																				</Badge>
 																			</div>
-																			<Badge>{pkg.type}</Badge>
-																		</div>
-																	</MultiSelectorItem>
-																	<Separator />
-																</Fragment>
-															);
-														})}
+																		</MultiSelectorItem>
+																		<Separator />
+																	</Fragment>
+																);
+															},
+														)}
 													</MultiSelectorList>
 												</MultiSelectorContent>
 											</MultiSelector>
 										</FormControl>
 										<FormDescription>
-											Select multiple packages to be included.
+											Select multiple packages to be
+											included.
 										</FormDescription>
 										<FormMessage />
 									</FormItem>
@@ -357,7 +414,8 @@ export default function CreatePackageListForm({
 									<div className="space-y-1 leading-none">
 										<FormLabel>Make Public</FormLabel>
 										<FormDescription>
-											Other users will be able to see and like your list
+											Other users will be able to see and
+											like your list
 										</FormDescription>
 										<FormMessage />
 									</div>
@@ -378,7 +436,8 @@ export default function CreatePackageListForm({
 													role="combobox"
 													className={cn(
 														"w-[300px] justify-between cursor-pointer",
-														!field.value && "text-muted-foreground"
+														!field.value &&
+															"text-muted-foreground",
 													)}
 												>
 													{!!field.value && (
@@ -394,31 +453,53 @@ export default function CreatePackageListForm({
 										</PopoverTrigger>
 										<PopoverContent
 											onWheel={(e) => e.stopPropagation()} // Fix issue mentioned in https://github.com/radix-ui/primitives/issues/1159#issuecomment-2403909634
-											onTouchMove={(e) => e.stopPropagation()} // Fix issue mentioned in https://github.com/radix-ui/primitives/issues/1159#issuecomment-2403909634
+											onTouchMove={(e) =>
+												e.stopPropagation()
+											} // Fix issue mentioned in https://github.com/radix-ui/primitives/issues/1159#issuecomment-2403909634
 											className="w-[300px] p-0"
 										>
 											<Command>
 												<CommandInput placeholder="Search icon..." />
 												<CommandList>
-													<CommandEmpty>No icon found</CommandEmpty>
+													<CommandEmpty>
+														No icon found
+													</CommandEmpty>
 													<CommandGroup>
-														{icons.map(({ name, Component, friendly_name }) => (
-															<CommandItem
-																key={name}
-																value={friendly_name}
-																onSelect={() => {
-																	form.setValue("icon", name);
-																}}
-																className="flex items-center gap-x-2 truncate capitalize"
-															>
-																<Component />
-																{friendly_name}
-																<CheckIcon
-																	data-selected={form.getValues("icon") == name}
-																	className="ml-auto opacity-0 data-[selected=true]:opacity-100"
-																/>
-															</CommandItem>
-														))}
+														{icons.map(
+															({
+																name,
+																Component,
+																friendly_name,
+															}) => (
+																<CommandItem
+																	key={name}
+																	value={
+																		friendly_name
+																	}
+																	onSelect={() => {
+																		form.setValue(
+																			"icon",
+																			name,
+																		);
+																	}}
+																	className="flex items-center gap-x-2 truncate capitalize"
+																>
+																	<Component />
+																	{
+																		friendly_name
+																	}
+																	<CheckIcon
+																		data-selected={
+																			form.getValues(
+																				"icon",
+																			) ==
+																			name
+																		}
+																		className="ml-auto opacity-0 data-[selected=true]:opacity-100"
+																	/>
+																</CommandItem>
+															),
+														)}
 													</CommandGroup>
 												</CommandList>
 											</Command>

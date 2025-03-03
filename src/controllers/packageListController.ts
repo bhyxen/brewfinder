@@ -8,7 +8,7 @@ export const getAll = async () => {
 		const PackageListResult = await PackageListModel.find();
 		return NextResponse.json(PackageListResult);
 	} catch (error) {
-		NextResponse.error();
+		return NextResponse.error();
 	}
 };
 
@@ -18,7 +18,7 @@ export const getAllPublic = async () => {
 		const PackageListResult = await PackageListModel.find({ isPublic: true });
 		return NextResponse.json(PackageListResult);
 	} catch (error) {
-		NextResponse.error();
+		return NextResponse.error();
 	}
 };
 
@@ -28,7 +28,7 @@ export const getById = async (listID: string) => {
 		const PackageListResult = await PackageListModel.findById(listID);
 		return NextResponse.json(PackageListResult);
 	} catch (error) {
-		NextResponse.error();
+		return NextResponse.error();
 	}
 };
 
@@ -84,7 +84,7 @@ export const create = async ({
 		return NextResponse.json(newPackageList);
 	} catch (error) {
 		console.error({ error });
-		NextResponse.error();
+		return NextResponse.error();
 	}
 };
 
@@ -116,6 +116,6 @@ export const update = async ({
 		return NextResponse.json(newPackageList);
 	} catch (error) {
 		console.error({ error });
-		NextResponse.error();
+		return NextResponse.error();
 	}
 };

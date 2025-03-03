@@ -131,7 +131,16 @@ export default function CreatePackageListForm({
 		const formulas = getOnlyPackageNamesByType(packages, "formula");
 		const casks = getOnlyPackageNamesByType(packages, "cask");
 
-		return `brew install ${formulas} && brew install --cask ${casks}`;
+		const formulasInstallationCommand = formulas
+			? `brew install ${formulas}`
+			: "";
+		const casksInstallationCommand = casks
+			? `brew install --cask ${casks}`
+			: "";
+		if (formulas && casks) {
+			return `${formulasInstallationCommand} && ${casksInstallationCommand}`;
+		}
+		return formulasInstallationCommand || casksInstallationCommand;
 	};
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {

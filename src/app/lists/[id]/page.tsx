@@ -29,7 +29,6 @@ import { PackageInstallation } from "@/components/PackageInstallation";
 import {
 	Heart,
 	Share2,
-	Edit,
 	Package as PackageIcon,
 	Calendar,
 	ChevronDown,

@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Beer } from "lucide-react";
 import { ModeToggle } from "@/components/ModeToggle";
 import { navItems } from "@/lib/shared";
-import { auth, signIn, signOut } from "@/lib/auth";
+import { auth } from "@/lib/auth";
 import { UserMenu } from "./UserMenu";
 import { Separator } from "./ui/separator";
 

@@ -51,5 +51,5 @@ export const loginWithEmail = async (formData: FormData) => {
 
 export const logout = async () => {
 	"use server";
-	await signOut();
+	await signOut({ redirectTo: "/" });
 };

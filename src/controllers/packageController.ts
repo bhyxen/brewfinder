@@ -6,10 +6,10 @@ export const getAll = async () => {
 	const cachedData = await redis.get("packages");
 
 	if (cachedData) {
-		console.log("Returing packages from cached data");
+		console.log("Returning packages from cached data");
 		return NextResponse.json(JSON.parse(cachedData));
 	} else {
-		console.log("Returing packages from fresh data");
+		console.log("Returning packages from fresh data");
 
 		const promises = Promise.all([
 			fetch("https://formulae.brew.sh/api/formula.json").then((res) =>

@@ -11,7 +11,7 @@ export default async function Header() {
 	const session = await auth();
 
 	return (
-		<header className="border-b bg-accent">
+		<header className="border-b bg-accent text-secondary-foreground">
 			<div className="container mx-auto px-4 py-4 flex items-center justify-between">
 				<Link href="/" className="flex items-center space-x-2">
 					<Beer className="h-6 w-6" />
@@ -20,7 +20,11 @@ export default async function Header() {
 				<nav className="space-x-4 hidden md:flex">
 					{navItems.map((item) => {
 						return (
-							<Link href={item.url} className="font-medium" key={item.title}>
+							<Link
+								href={item.url}
+								className="font-medium"
+								key={item.title}
+							>
 								{item.title}
 							</Link>
 						);

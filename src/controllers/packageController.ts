@@ -13,16 +13,18 @@ export const getAll = async () => {
 
 		const promises = Promise.all([
 			fetch("https://formulae.brew.sh/api/formula.json").then((res) =>
-				res.json()
+				res.json(),
 			),
-			fetch("https://formulae.brew.sh/api/cask.json").then((res) => res.json()),
+			fetch("https://formulae.brew.sh/api/cask.json").then((res) =>
+				res.json(),
+			),
 		]);
 
 		const freshData: Package[] = (await promises).flat();
 
 		const packagesFiltered: PackageFilteredData[] = [];
 
-		freshData.forEach(async (pkg: Package) => {
+		freshData.forEach((pkg: Package) => {
 			const { name, token, tap, versions, version, desc } = pkg;
 
 			packagesFiltered.push({
@@ -38,7 +40,7 @@ export const getAll = async () => {
 			"packages",
 			JSON.stringify(packagesFiltered),
 			"EX",
-			60 * 60 * 24
+			60 * 60 * 24,
 		);
 
 		return NextResponse.json(packagesFiltered);

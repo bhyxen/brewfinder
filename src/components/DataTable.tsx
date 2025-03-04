@@ -84,17 +84,23 @@ export function DataTable<TData, TValue>({
 	return (
 		<div>
 			<div className="flex items-center py-4 justify-between">
-				<div className="flex max-w-md bg-muted grow rounded-md">
+				<div className="flex max-w-md bg-secondary grow rounded-md">
 					<Input
 						placeholder="Filter packages..."
-						value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+						value={
+							(table
+								.getColumn("name")
+								?.getFilterValue() as string) ?? ""
+						}
 						onChange={(event) => {
 							window.history.replaceState(
 								null,
 								"",
-								`?search=${event.target.value}`
+								`?search=${event.target.value}`,
 							);
-							table.getColumn("name")?.setFilterValue(event.target.value);
+							table
+								.getColumn("name")
+								?.setFilterValue(event.target.value);
 						}}
 					/>
 					<Button
@@ -113,7 +119,7 @@ export function DataTable<TData, TValue>({
 				</div>
 
 				<Select value={typeFilter} onValueChange={setTypeFilter}>
-					<SelectTrigger className="w-[180px] bg-muted">
+					<SelectTrigger className="w-[180px] bg-secondary">
 						<SelectValue placeholder="Select type" />
 					</SelectTrigger>
 					<SelectContent>
@@ -125,7 +131,7 @@ export function DataTable<TData, TValue>({
 			</div>
 			<div className="rounded-md border">
 				<Table>
-					<TableHeader>
+					<TableHeader className="bg-secondary">
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow key={headerGroup.id}>
 								{headerGroup.headers.map((header) => {
@@ -134,9 +140,10 @@ export function DataTable<TData, TValue>({
 											{header.isPlaceholder
 												? null
 												: flexRender(
-														header.column.columnDef.header,
-														header.getContext()
-												  )}
+														header.column.columnDef
+															.header,
+														header.getContext(),
+													)}
 										</TableHead>
 									);
 								})}
@@ -147,21 +154,24 @@ export function DataTable<TData, TValue>({
 						{table.getRowModel().rows?.length ? (
 							table.getRowModel().rows.map((row) => (
 								<TableRow
+									className="bg-primary-foreground hover:bg-accent"
 									key={row.id}
-									data-state={row.getIsSelected() && "selected"}
+									data-state={
+										row.getIsSelected() && "selected"
+									}
 								>
 									{row.getVisibleCells().map((cell) => (
 										<TableCell key={cell.id}>
 											{flexRender(
 												cell.column.columnDef.cell,
-												cell.getContext()
+												cell.getContext(),
 											)}
 										</TableCell>
 									))}
 								</TableRow>
 							))
 						) : (
-							<TableRow>
+							<TableRow className="bg-primary-foreground">
 								<TableCell
 									colSpan={columns.length}
 									className="h-24 text-center"
@@ -173,8 +183,8 @@ export function DataTable<TData, TValue>({
 					</TableBody>
 				</Table>
 			</div>
-			<div className="flex items-center justify-between space-x-2 py-4">
-				<div className="text-sm text-muted-foreground">
+			<div className="flex items-center justify-between space-x-2 py-4 bg-primary-foreground px-2">
+				<div className="text-sm text-muted-foreground ">
 					Showing{" "}
 					{table.getState().pagination.pageIndex *
 						table.getState().pagination.pageSize +
@@ -183,7 +193,7 @@ export function DataTable<TData, TValue>({
 					{Math.min(
 						(table.getState().pagination.pageIndex + 1) *
 							table.getState().pagination.pageSize,
-						table.getFilteredRowModel().rows.length
+						table.getFilteredRowModel().rows.length,
 					)}{" "}
 					of {table.getFilteredRowModel().rows.length} results
 				</div>
@@ -193,6 +203,7 @@ export function DataTable<TData, TValue>({
 						size="sm"
 						onClick={() => table.previousPage()}
 						disabled={!table.getCanPreviousPage()}
+						className="cursor-pointer"
 					>
 						Previous
 					</Button>
@@ -201,6 +212,7 @@ export function DataTable<TData, TValue>({
 						size="sm"
 						onClick={() => table.nextPage()}
 						disabled={!table.getCanNextPage()}
+						className="cursor-pointer"
 					>
 						Next
 					</Button>

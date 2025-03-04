@@ -26,7 +26,7 @@ export function PackageInstallation({
 		? name
 		: `brew ${
 				packageType === "formula" ? "install" : "install --cask"
-		  } ${name}`;
+			} ${name}`;
 
 	const handleCopy = () => {
 		navigator.clipboard.writeText(installCommand);
@@ -43,7 +43,7 @@ export function PackageInstallation({
 				</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<div className="bg-muted p-4 rounded-md font-mono text-sm mb-4 relative">
+				<div className="bg-secondary p-4 rounded-md font-mono text-sm mb-4 relative">
 					{installCommand}
 					<Button
 						onClick={handleCopy}
@@ -59,8 +59,8 @@ export function PackageInstallation({
 					</Button>
 				</div>
 				<p className="text-sm text-muted-foreground">
-					This command will install all the packages in this list using
-					Homebrew.
+					This command will install all the packages in this list
+					using Homebrew.
 				</p>
 			</CardContent>
 		</Card>

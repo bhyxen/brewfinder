@@ -18,7 +18,10 @@ const providerIcons = {
 };
 
 export default async function LoginPage(props: {
-	searchParams: { callbackUrl: string | undefined; error: string | undefined };
+	searchParams: {
+		callbackUrl: string | undefined;
+		error: string | undefined;
+	};
 }) {
 	const { callbackUrl, error } = await props.searchParams;
 	const session = await auth();
@@ -40,9 +43,16 @@ export default async function LoginPage(props: {
 
 						<div>
 							{Object.values(providerMap).map((provider) => {
-								const loginAction = login.bind(null, provider, callbackUrl);
+								const loginAction = login.bind(
+									null,
+									provider,
+									callbackUrl,
+								);
 								return (
-									<form key={provider.id} action={loginAction}>
+									<form
+										key={provider.id}
+										action={loginAction}
+									>
 										<div className="mt-6">
 											<Button
 												variant="secondary"
@@ -72,7 +82,10 @@ export default async function LoginPage(props: {
 							</div>
 						</div>
 
-						<form action={loginWithEmail} className="mt-8 space-y-6">
+						<form
+							action={loginWithEmail}
+							className="mt-8 space-y-6"
+						>
 							<div className="space-y-4 rounded-md shadow-sm">
 								<div>
 									<Label htmlFor="email" className="text-md">
@@ -84,7 +97,7 @@ export default async function LoginPage(props: {
 										type="email"
 										autoComplete="email"
 										required
-										className="mt-1 bg-muted"
+										className="mt-1 bg-secondary"
 									/>
 								</div>
 							</div>
@@ -92,20 +105,24 @@ export default async function LoginPage(props: {
 							{error && (
 								<Alert variant="destructive">
 									<AlertDescription>
-										{AuthErrors[error as keyof typeof AuthErrors] ??
-											AuthErrors["Default"]}
+										{AuthErrors[
+											error as keyof typeof AuthErrors
+										] ?? AuthErrors["Default"]}
 									</AlertDescription>
 								</Alert>
 							)}
 
-							<Button type="submit" className="w-full text-md cursor-pointer">
+							<Button
+								type="submit"
+								className="w-full text-md cursor-pointer"
+							>
 								Sign in
 							</Button>
 						</form>
 
 						<p className="mt-10 text-center text-sm text-muted-foreground">
-							There's no need to register, just use your preferred method to
-							sign in
+							There&#39;s no need to register, just use your
+							preferred method to sign in
 						</p>
 					</>
 				) : (
@@ -116,7 +133,8 @@ export default async function LoginPage(props: {
 							{session.user.name ?? session.user.email}
 						</h2>
 						<p className="mt-2 text-sm text-muted-foreground">
-							You are already logged in, you can continue to use Brewfinder
+							You are already logged in, you can continue to use
+							Brewfinder
 						</p>
 						<div className="flex justify-center flex-col items-center space-x-4 space-y-4 mt-6">
 							<Button asChild>

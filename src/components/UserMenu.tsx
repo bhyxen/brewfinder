@@ -2,19 +2,18 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
+import { signOut as nextAuthSignOut } from "next-auth/react";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
-	DropdownMenuGroup,
 	DropdownMenuItem,
 	DropdownMenuLabel,
 	DropdownMenuSeparator,
-	DropdownMenuShortcut,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { LogOut } from "lucide-react";
 import { Session } from "next-auth";
-import { logout } from "@/actions/login";
+import { logout } from "@/actions/auth";
 
 type Props = {
 	session: Session;
@@ -70,7 +69,15 @@ export function UserMenu({ session }: Props) {
 				</DropdownMenuGroup> */}
 				<DropdownMenuSeparator />
 				<DropdownMenuItem>
-					<form action={logout} className="w-full">
+					<form
+						action={async () => {
+							// double sign out to ensure the session is cleared based on fix described on
+							// https://github.com/nextauthjs/next-auth/discussions/11271#discussioncomment-12272576
+							await logout();
+							await nextAuthSignOut({ redirectTo: "/" });
+						}}
+						className="w-full"
+					>
 						<Button
 							variant="outline"
 							type="submit"

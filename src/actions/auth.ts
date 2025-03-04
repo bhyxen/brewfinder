@@ -1,6 +1,6 @@
 "use server";
 
-import { signIn, signOut, providerMap } from "@/lib/auth";
+import { signIn, signOut } from "@/lib/auth";
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 import { EMAIL_PROVIDER_ID } from "@/lib/constants";
@@ -51,5 +51,5 @@ export const loginWithEmail = async (formData: FormData) => {
 
 export const logout = async () => {
 	"use server";
-	await signOut({ redirectTo: "/" });
+	await signOut({ redirect: false });
 };

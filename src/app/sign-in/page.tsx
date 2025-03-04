@@ -9,7 +9,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Separator } from "@/components/ui/separator";
 import { auth, providerMap } from "@/lib/auth";
 import { AuthErrors } from "@/lib/constants";
-import { login, loginWithEmail, logout } from "@/actions/login";
+import { login, loginWithEmail, logout } from "@/actions/auth";
 import Link from "next/link";
 
 const providerIcons = {
@@ -121,8 +121,8 @@ export default async function LoginPage(props: {
 						</form>
 
 						<p className="mt-10 text-center text-sm text-muted-foreground">
-							There&#39;s no need to register, just use your
-							preferred method to sign in
+							There&#39;s no need to register, just sign in with
+							your preferred method
 						</p>
 					</>
 				) : (

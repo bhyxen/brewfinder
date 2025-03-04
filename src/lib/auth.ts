@@ -30,7 +30,7 @@ export const providerMap = combinedProviders
 	})
 	.filter(
 		(provider) =>
-			provider.id !== "credentials" && provider.id !== EMAIL_PROVIDER_ID
+			provider.id !== "credentials" && provider.id !== EMAIL_PROVIDER_ID,
 	);
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
@@ -50,7 +50,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 			return data.token;
 		},
 		session(data) {
-			data.session.user.id = data.token.id as string;
+			data.session.user.id = data?.token?.id?.toString() as string;
 			return data.session;
 		},
 	},

@@ -2,14 +2,7 @@ import GitHub, { GitHubProfile } from "next-auth/providers/github";
 import Google, { GoogleProfile } from "next-auth/providers/google";
 import { NextAuthConfig } from "next-auth";
 
-export const openRoutes = [
-	"/",
-	"/sign-in",
-	"/packages",
-	"/privacy",
-	"/public-lists",
-	"/terms",
-];
+export const privateRoutes = ["/lists/user"];
 
 // Notice this is only an object, not a full Auth.js instance
 // Fixed edge runtime error by following the guide here:

@@ -46,7 +46,6 @@ export default function AddPackageToListForm({
 	});
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
-		console.log({ values });
 		try {
 			// toast(
 			// 	<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">

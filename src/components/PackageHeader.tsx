@@ -1,15 +1,19 @@
+"use client";
 import { Beer, Package, ExternalLink, BookmarkPlus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import {
 	Popover,
+	PopoverAnchor,
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
 import AddPackageToListForm from "@/components/AddPackageToListForm";
-import { auth } from "@/lib/auth";
-import { getByUserId } from "@/controllers/packageListController";
 import { PackageDetails, PackageList } from "@/models/packageLists";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useSession } from "next-auth/react";
+import useSWR from "swr";
+import { useState } from "react";
 
 interface PackageHeaderProps {
 	name: string;
@@ -19,19 +23,38 @@ interface PackageHeaderProps {
 	currentPackageId: PackageDetails;
 }
 
-export async function PackageHeader({
+export function PackageHeader({
 	name,
 	description,
 	homepage,
 	packageType,
 	currentPackageId,
 }: PackageHeaderProps) {
-	const session = await auth();
-
+	const { data: session } = useSession();
+	const router = useRouter();
+	const pathname = usePathname();
+	const searchParams = useSearchParams();
 	const userId = session?.user?.id;
+	const [open, setOpen] = useState(false);
 
-	const listsResponse = await getByUserId(userId as string);
-	const lists: PackageList[] = await listsResponse.json();
+	const fetcher = (...args: [RequestInfo, RequestInit?]) =>
+		fetch(...args).then((res) => res.json());
+	const {
+		data: listData,
+		error: listError,
+		isLoading,
+	} = useSWR<PackageList[]>(
+		`/api/packageLists/getByUserId/${userId as string}`,
+		fetcher,
+	);
+
+	const handleClick = (e) => {
+		if (!session) {
+			return router.push(
+				`/sign-in?callbackUrl=${pathname}${encodeURIComponent("?" + searchParams)}`,
+			);
+		}
+	};
 
 	return (
 		<div className="flex items-start space-x-4">
@@ -55,8 +78,8 @@ export async function PackageHeader({
 					</div>
 				</div>
 				<div className="flex items-center space-x-4">
-					<Popover>
-						<PopoverTrigger asChild>
+					<Popover open={open} onOpenChange={setOpen}>
+						<PopoverTrigger asChild onClick={handleClick}>
 							<Button className="cursor-pointer">
 								<BookmarkPlus />
 								Add to List
@@ -65,7 +88,7 @@ export async function PackageHeader({
 						<PopoverContent>
 							<AddPackageToListForm
 								currentPackageId={currentPackageId}
-								lists={lists}
+								lists={listData ?? []}
 							/>
 						</PopoverContent>
 					</Popover>

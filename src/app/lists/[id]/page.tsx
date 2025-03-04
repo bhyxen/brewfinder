@@ -5,6 +5,7 @@ import { format } from "date-fns";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
 	AlertDialog,
@@ -62,6 +63,9 @@ export default function ListDetailsPage() {
 	const listId = params.id;
 
 	const { data: session } = useSession();
+
+	const router = useRouter();
+	const pathname = usePathname();
 
 	type MultiFetcherParams = {
 		likesUsersIds: ObjectId[] | undefined;
@@ -137,6 +141,12 @@ export default function ListDetailsPage() {
 	}
 
 	const handleLike = async () => {
+		console.log({ session });
+
+		if (!session) {
+			return router.push("/sign-in?callbackUrl=" + pathname);
+		}
+
 		setIsLiked(!isLiked);
 
 		const newLikesArray = !isLiked
@@ -305,98 +315,89 @@ export default function ListDetailsPage() {
 								className="space-y-2"
 							>
 								<ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-									{visiblePackages.map((pkg, index) => (
-										<li
-											key={`${
-												(pkg.token ??
-												Array.isArray(pkg.name))
-													? pkg.name[0]
-													: pkg.name
-											}-${index}`}
-										>
-											<Card>
-												<CardContent className="flex items-center justify-between p-4">
-													<div className="flex items-center">
-														<PackageIcon className="h-5 w-5 mr-2" />
-														<span>
-															{(pkg.token ??
-															Array.isArray(
-																pkg.name,
-															))
-																? pkg.name[0]
-																: pkg.name}
-														</span>
-													</div>
-													<TooltipProvider>
-														<Tooltip>
-															<TooltipTrigger
-																asChild
-															>
-																<Button
+									{visiblePackages.map((pkg, index) => {
+										const pkgId =
+											pkg.token ??
+											(Array.isArray(pkg.name)
+												? pkg.name[0]
+												: pkg.name);
+
+										return (
+											<li key={`pkgId-${index}`}>
+												<Card>
+													<CardContent className="flex items-center justify-between p-4">
+														<div className="flex items-center">
+															<PackageIcon className="h-5 w-5 mr-2" />
+															<span>{pkgId}</span>
+														</div>
+														<TooltipProvider>
+															<Tooltip>
+																<TooltipTrigger
 																	asChild
-																	size="icon"
 																>
-																	<Link
-																		href={`/packages/${
-																			(pkg.token ??
-																			Array.isArray(
-																				pkg.name,
-																			))
-																				? pkg
-																						.name[0]
-																				: pkg.name
-																		}?type=${
-																			pkg.tap.includes(
-																				"cask",
-																			)
-																				? "cask"
-																				: "formula"
-																		}`}
-																		className="font-medium text-center"
+																	<Button
+																		asChild
+																		size="icon"
 																	>
-																		<Info className="h-4 w-4" />
-																	</Link>
-																</Button>
-															</TooltipTrigger>
-															<TooltipContent>
-																<p>
-																	{Array.isArray(
-																		pkg.name,
-																	)
-																		? pkg
-																				.name[0]
-																		: pkg.name}
-																</p>
-																<p>
-																	{pkg.desc}
-																</p>
-																<Badge
-																	variant="secondary"
-																	className="my-2"
-																>
-																	{
-																		listDetails?.packages?.find(
-																			(
-																				pkgList,
-																			) =>
-																				pkgList.id ===
-																				(pkg.token ??
-																					(Array.isArray(
-																						pkg.name,
-																					)
-																						? pkg
-																								.name[0]
-																						: pkg.name)),
-																		)?.type
-																	}
-																</Badge>
-															</TooltipContent>
-														</Tooltip>
-													</TooltipProvider>
-												</CardContent>
-											</Card>
-										</li>
-									))}
+																		<Link
+																			href={`/packages/${
+																				pkgId
+																			}?type=${
+																				pkg.tap.includes(
+																					"cask",
+																				)
+																					? "cask"
+																					: "formula"
+																			}`}
+																			className="font-medium text-center"
+																		>
+																			<Info className="h-4 w-4" />
+																		</Link>
+																	</Button>
+																</TooltipTrigger>
+																<TooltipContent>
+																	<p>
+																		{Array.isArray(
+																			pkg.name,
+																		)
+																			? pkg
+																					.name[0]
+																			: pkg.name}
+																	</p>
+																	<p>
+																		{
+																			pkg.desc
+																		}
+																	</p>
+																	<Badge
+																		variant="secondary"
+																		className="my-2"
+																	>
+																		{
+																			listDetails?.packages?.find(
+																				(
+																					pkgList,
+																				) =>
+																					pkgList.id ===
+																					(pkg.token ??
+																						(Array.isArray(
+																							pkg.name,
+																						)
+																							? pkg
+																									.name[0]
+																							: pkg.name)),
+																			)
+																				?.type
+																		}
+																	</Badge>
+																</TooltipContent>
+															</Tooltip>
+														</TooltipProvider>
+													</CardContent>
+												</Card>
+											</li>
+										);
+									})}
 								</ul>
 								{listDetails.packages.length >
 									MAX_VISIBLE_PACKAGES && (

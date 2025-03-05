@@ -66,6 +66,7 @@ type Props = {
 	currentData?: PackageList;
 	isOpen?: boolean;
 	defaultPackage?: string;
+	triggerClassName?: string;
 };
 
 export default function CreatePackageListForm({
@@ -73,6 +74,7 @@ export default function CreatePackageListForm({
 	currentData,
 	isOpen = false,
 	defaultPackage = "",
+	triggerClassName,
 }: Props) {
 	const { icons } = useIconPickerLucide();
 
@@ -253,7 +255,7 @@ export default function CreatePackageListForm({
 		<Dialog open={isformOpen} onOpenChange={setIsformOpen}>
 			<DialogTrigger asChild>
 				<Button
-					className="cursor-pointer not-dark:text-foreground"
+					className={`cursor-pointer not-dark:text-foreground ${triggerClassName}`}
 					variant={currentData ? "outline" : "default"}
 				>
 					<Edit className="w-6 h-6"></Edit>

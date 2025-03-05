@@ -59,7 +59,7 @@ export function PackageHeader({
 
 	return (
 		<Card className="mb-8">
-			<CardContent className="flex items-start space-x-4 flex-col sm:flex-row sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 p-6 rounded-lg">
+			<CardContent className="flex items-start space-x-4 flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 p-6 rounded-lg">
 				<div className="bg-primary text-primary-foreground not-dark:text-foreground p-3 rounded-lg">
 					{packageType === "formula" ? (
 						<Beer size={32} />
@@ -67,13 +67,13 @@ export function PackageHeader({
 						<Package size={32} />
 					)}
 				</div>
-				<div className="flex flex-grow justify-between items-start">
+				<div className="flex flex-col md:flex-row flex-grow justify-between items-start">
 					<div>
 						<h1 className="text-3xl font-bold">{name}</h1>
 						<p className="text-xl text-muted-foreground mt-2">
 							{description}
 						</p>
-						<div className="mt-2 flex items-center space-x-4">
+						<div className="my-2 flex items-center space-x-4">
 							<span className="text-muted-foreground text-sm">
 								{packageType === "formula" ? "Formula" : "Cask"}
 							</span>

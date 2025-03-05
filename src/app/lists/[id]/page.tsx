@@ -193,13 +193,13 @@ export default function ListDetailsPage() {
 	return (
 		<div className="container mx-auto px-4 py-8">
 			<Card className="mb-8">
-				<CardContent className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 p-6 rounded-lg">
+				<CardContent className="flex flex-col sm:flex-row items-start sm:items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 p-6 rounded-lg">
 					<LucideDynamicIcon
 						icon={listDetails.icon}
 						className="h-24 w-24 sm:h-32 sm:w-32"
 					/>
-					<div className="flex-1 text-center sm:text-left">
-						<div className="flex items-center justify-center sm:justify-start space-x-2 mb-2">
+					<div className="flex-1 text-center text-left">
+						<div className="flex flex-col lg:flex-row items-start lg:items-center sm:justify-start space-x-2 mb-2">
 							<h1 className="text-3xl font-bold">
 								{listDetails.name}
 							</h1>
@@ -296,6 +296,7 @@ export default function ListDetailsPage() {
 								<CreatePackageListForm
 									packages={[]}
 									currentData={listDetails}
+									triggerClassName="w-full sm:w-auto "
 								/>
 							)}
 						</div>
@@ -303,7 +304,7 @@ export default function ListDetailsPage() {
 				</CardContent>
 			</Card>
 
-			<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+			<div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
 				<div className="space-y-8">
 					<Card>
 						<CardHeader>

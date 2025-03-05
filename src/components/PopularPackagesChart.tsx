@@ -12,10 +12,11 @@ import {
 	ChartLegendContent,
 } from "./ui/chart";
 import { DownloadCloud } from "lucide-react";
-import { Card, CardContent } from "./ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 
 interface PopularPackagesChartProps {
 	data: PackageAnalytics["items"];
+	chartHeader: string;
 }
 const chartConfig = {
 	cask: {
@@ -36,7 +37,10 @@ const chartConfig = {
 	},
 } satisfies ChartConfig;
 
-export function PopularPackagesChart({ data }: PopularPackagesChartProps) {
+export function PopularPackagesChart({
+	data,
+	chartHeader,
+}: PopularPackagesChartProps) {
 	const packageType = "cask" in data[0] ? "cask" : "formula";
 
 	const router = useRouter();
@@ -44,7 +48,8 @@ export function PopularPackagesChart({ data }: PopularPackagesChartProps) {
 	const formattedData = data.map((item) => ({
 		name: "cask" in item ? item.cask : item.formula,
 		cask: "cask" in item ? parseFloat(item.count.replace(/,/g, "")) : 0,
-		formula: "formula" in item ? parseFloat(item.count.replace(/,/g, "")) : 0,
+		formula:
+			"formula" in item ? parseFloat(item.count.replace(/,/g, "")) : 0,
 		percentage: item.percent,
 	}));
 
@@ -54,7 +59,10 @@ export function PopularPackagesChart({ data }: PopularPackagesChartProps) {
 
 	return (
 		<Card>
-			<CardContent className="pt-6">
+			<CardHeader>
+				<CardTitle>{chartHeader}</CardTitle>
+			</CardHeader>
+			<CardContent className="p-0">
 				<ChartContainer config={chartConfig}>
 					<BarChart accessibilityLayer data={formattedData}>
 						<CartesianGrid vertical={false} strokeDasharray="3 3" />
@@ -66,7 +74,9 @@ export function PopularPackagesChart({ data }: PopularPackagesChartProps) {
 						/>
 						<YAxis
 							tickFormatter={(value) =>
-								value % 1 === 0 ? value.toLocaleString() : value.toFixed(2)
+								value % 1 === 0
+									? value.toLocaleString()
+									: value.toFixed(2)
 							}
 						/>
 
@@ -85,7 +95,9 @@ export function PopularPackagesChart({ data }: PopularPackagesChartProps) {
 							}}
 						/>
 						<ChartLegend
-							content={<ChartLegendContent accessKey={packageType} />}
+							content={
+								<ChartLegendContent accessKey={packageType} />
+							}
 						/>
 						<Bar
 							dataKey={packageType}

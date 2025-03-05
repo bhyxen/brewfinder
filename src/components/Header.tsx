@@ -6,6 +6,7 @@ import { navItems } from "@/lib/shared";
 import { auth } from "@/lib/auth";
 import { UserMenu } from "./UserMenu";
 import { Separator } from "./ui/separator";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export default async function Header() {
 	const session = await auth();
@@ -44,6 +45,7 @@ export default async function Header() {
 					></Separator>
 					<ModeToggle />
 				</div>
+				<SidebarTrigger className="md:hidden" />
 			</div>
 		</header>
 	);

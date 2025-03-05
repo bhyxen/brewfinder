@@ -63,20 +63,20 @@ export default function Home() {
 					</p>
 					<div className="w-full max-w-2xl">
 						<form
-							className="flex items-center space-x-2"
+							className="flex items-end sm:items-center space-x-2 sm:gap-x-4 flex-col gap-y-4 sm:flex-row"
 							onSubmit={handleOnSubmit}
 						>
 							<Input
 								type="search"
 								placeholder="Search for Homebrew packages..."
-								className="text-lg py-6 bg-card"
+								className="text-lg py-6 bg-primary-foreground w-full m-0"
 							/>
 							<Button
 								type="submit"
 								size="lg"
 								className="cursor-pointer not-dark:text-foreground"
 							>
-								<Search className="mr-2 h-5 w-5" />
+								<Search className="h-5 w-5" />
 								Search
 							</Button>
 						</form>
@@ -133,30 +133,21 @@ export default function Home() {
 				{caskData && formulaData && (
 					<section className="mb-12">
 						<h2 className="text-2xl font-semibold mb-4">
-							Popular Packages (Last 30 Days)
+							Popular Packages
+							<span className="text-muted-foreground text-sm block">
+								(Last 30 Days)
+							</span>
 						</h2>
 
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-							<Card>
-								<CardHeader>
-									<CardTitle>Casks</CardTitle>
-								</CardHeader>
-								<CardContent>
-									<PopularPackagesChart
-										data={caskData.items.slice(0, 5)}
-									/>
-								</CardContent>
-							</Card>
-							<Card>
-								<CardHeader>
-									<CardTitle>Formulas</CardTitle>
-								</CardHeader>
-								<CardContent>
-									<PopularPackagesChart
-										data={formulaData.items.slice(0, 5)}
-									/>
-								</CardContent>
-							</Card>
+							<PopularPackagesChart
+								chartHeader="Casks"
+								data={caskData.items.slice(0, 5)}
+							/>
+							<PopularPackagesChart
+								chartHeader="Formulas"
+								data={formulaData.items.slice(0, 5)}
+							/>
 						</div>
 					</section>
 				)}

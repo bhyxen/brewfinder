@@ -125,7 +125,7 @@ export function DataTable<TData, TValue>({
 					</SelectTrigger>
 					<SelectContent>
 						<SelectItem value="all">All Types</SelectItem>
-						<SelectItem value="core">Formula</SelectItem>
+						<SelectItem value="formula">Formula</SelectItem>
 						<SelectItem value="cask">Cask</SelectItem>
 					</SelectContent>
 				</Select>

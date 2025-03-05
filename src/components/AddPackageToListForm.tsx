@@ -158,7 +158,10 @@ export default function AddPackageToListForm({
 						</FormItem>
 					)}
 				/>
-				<Button className="block ml-auto cursor-pointer" type="submit">
+				<Button
+					className="block ml-auto cursor-pointer text-primary-foreground not-dark:text-foreground"
+					type="submit"
+				>
 					Submit
 				</Button>
 			</form>

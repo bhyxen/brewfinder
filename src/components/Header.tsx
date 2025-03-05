@@ -33,7 +33,10 @@ export default async function Header() {
 				</nav>
 				<div className="items-center space-x-2 hidden md:flex">
 					{!session ? (
-						<Button className="cursor-pointer" type="submit">
+						<Button
+							className="cursor-pointer text-primary-foreground not-dark:text-foreground"
+							type="submit"
+						>
 							<Link href={`/sign-in`}>Sign In</Link>
 						</Button>
 					) : (

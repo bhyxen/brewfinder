@@ -32,26 +32,28 @@ export default function RootLayout({
 	return (
 		<html lang="en">
 			<body
-				className={`${geistSans.variable} ${geistMono.variable} bg-[url(/pattern-randomized.svg)] not-dark:bg-[url(/pattern-randomized.svg)] bg-cover relative overflow-y-auto antialiased min-h-screen flex flex-col `}
+				className={`${geistSans.variable} ${geistMono.variable} relative overflow-y-auto antialiased min-h-screen flex flex-col `}
 			>
-				<SessionWrapper>
-					<ThemeProvider
-						attribute="class"
-						defaultTheme="system"
-						enableSystem
-						disableTransitionOnChange
-					>
-						<SidebarProvider className="flex flex-col">
-							<Header />
-							<AppSidebar className="md:hidden" />
-							<main className="container mx-auto px-4 py-8 grow flex flex-col w-screen">
-								{children}
-								<Toaster />
-							</main>
-							<Footer />
-						</SidebarProvider>
-					</ThemeProvider>
-				</SessionWrapper>
+				<div className="bg-[url(/pattern-randomized.svg)] not-dark:bg-[url(/pattern-randomized.svg)] bg-center">
+					<SessionWrapper>
+						<ThemeProvider
+							attribute="class"
+							defaultTheme="system"
+							enableSystem
+							disableTransitionOnChange
+						>
+							<SidebarProvider className="flex flex-col">
+								<Header />
+								<AppSidebar className="md:hidden" />
+								<main className="container mx-auto px-4 py-8 grow flex flex-col w-screen">
+									{children}
+									<Toaster />
+								</main>
+								<Footer />
+							</SidebarProvider>
+						</ThemeProvider>
+					</SessionWrapper>
+				</div>
 			</body>
 		</html>
 	);

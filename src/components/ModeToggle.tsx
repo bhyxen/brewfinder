@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Check } from "lucide-react";
 import { useTheme } from "next-themes";
 
 import { Button } from "@/components/ui/button";
@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export function ModeToggle() {
-	const { setTheme } = useTheme();
+	const { setTheme, theme } = useTheme();
 
 	return (
 		<DropdownMenu modal={false}>
@@ -29,14 +29,23 @@ export function ModeToggle() {
 				</Button>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end">
-				<DropdownMenuItem onClick={() => setTheme("light")}>
-					Light
+				<DropdownMenuItem
+					className={`cursor-pointer flex justify-between ${theme === "light" && "bg-secondary"}`}
+					onClick={() => setTheme("light")}
+				>
+					Light {theme === "light" && <Check />}
 				</DropdownMenuItem>
-				<DropdownMenuItem onClick={() => setTheme("dark")}>
-					Dark
+				<DropdownMenuItem
+					className={`cursor-pointer flex justify-between ${theme === "dark" && "bg-secondary"}`}
+					onClick={() => setTheme("dark")}
+				>
+					Dark {theme === "dark" && <Check />}
 				</DropdownMenuItem>
-				<DropdownMenuItem onClick={() => setTheme("system")}>
-					System
+				<DropdownMenuItem
+					className={`cursor-pointer flex justify-between ${theme === "system" && "bg-secondary"}`}
+					onClick={() => setTheme("system")}
+				>
+					System {theme === "system" && <Check />}
 				</DropdownMenuItem>
 			</DropdownMenuContent>
 		</DropdownMenu>

@@ -31,7 +31,7 @@ export default async function LoginPage(props: PageProps) {
 				{!session ? (
 					<>
 						<div className="text-center">
-							<Beer className="mx-auto h-12 w-12 text-primary" />
+							<Beer className="mx-auto h-12 w-12" />
 							<h2 className="mt-6 text-3xl font-bold">
 								Welcome back to Brewfinder
 							</h2>
@@ -55,7 +55,7 @@ export default async function LoginPage(props: PageProps) {
 										<div className="mt-6">
 											<Button
 												variant="secondary"
-												className="w-full text-md cursor-pointer"
+												className="w-full text-md cursor-pointer border"
 											>
 												{
 													providerIcons[
@@ -113,7 +113,7 @@ export default async function LoginPage(props: PageProps) {
 
 							<Button
 								type="submit"
-								className="w-full text-md cursor-pointer"
+								className="w-full text-md cursor-pointer text-primary-foreground not-dark:text-foreground"
 							>
 								Sign in
 							</Button>

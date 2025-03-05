@@ -83,9 +83,10 @@ export function DataTable<TData, TValue>({
 
 	return (
 		<div>
-			<div className="flex items-center pb-4 justify-between">
-				<div className="flex max-w-md bg-secondary grow rounded-md">
+			<div className="flex flex-col sm:flex-row items-center pb-4 gap-4 justify-between">
+				<div className="relative flex sm:max-w-md bg-secondary w-full rounded-md">
 					<Input
+						className="pr-9"
 						placeholder="Filter packages..."
 						value={
 							(table
@@ -110,7 +111,7 @@ export function DataTable<TData, TValue>({
 							window.history.replaceState(null, "", `?search=`);
 							table.getColumn("name")?.setFilterValue("");
 						}}
-						className="cursor-pointer"
+						className="cursor-pointer absolute right-0"
 					>
 						<div>
 							<XCircleIcon className="h-4 w-4" />
@@ -119,7 +120,7 @@ export function DataTable<TData, TValue>({
 				</div>
 
 				<Select value={typeFilter} onValueChange={setTypeFilter}>
-					<SelectTrigger className="w-[180px] bg-secondary">
+					<SelectTrigger className="w-full sm:w-[180px] bg-secondary">
 						<SelectValue placeholder="Select type" />
 					</SelectTrigger>
 					<SelectContent>

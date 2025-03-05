@@ -56,7 +56,7 @@ export function AppSidebar({ className }: Props) {
 								<div className="flex items-center space-x-2 mt-2">
 									{!session ? (
 										<Button
-											className="cursor-pointer"
+											className="cursor-pointer text-primary-foreground not-dark:text-foreground"
 											type="submit"
 										>
 											<Link href={`/sign-in`}>

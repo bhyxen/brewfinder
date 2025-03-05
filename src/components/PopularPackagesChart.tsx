@@ -95,6 +95,7 @@ export function PopularPackagesChart({
 							}}
 						/>
 						<ChartLegend
+							className="mb-4"
 							content={
 								<ChartLegendContent accessKey={packageType} />
 							}

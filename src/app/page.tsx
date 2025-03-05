@@ -55,10 +55,10 @@ export default function Home() {
 		<SessionProvider>
 			<div className="space-y-12 grow flex flex-col justify-center">
 				<section className="text-center space-y-6 min-h-80 flex flex-col justify-center items-center">
-					<h1 className="text-4xl font-bold mb-4">
+					<h1 className="text-4xl font-bold mb-4 bg-background">
 						Welcome to Brewfinder
 					</h1>
-					<p className="text-xl text-muted-foreground">
+					<p className="text-xl text-muted-foreground bg-background">
 						Discover, save, and install Homebrew packages with ease
 					</p>
 					<div className="w-full max-w-2xl">
@@ -84,7 +84,7 @@ export default function Home() {
 				</section>
 
 				<section className="mb-12">
-					<h2 className="text-2xl font-semibold mb-4">
+					<h2 className="text-2xl font-semibold mb-4 inline-block bg-background">
 						Homebrew Statistics
 					</h2>
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -132,7 +132,7 @@ export default function Home() {
 
 				{caskData && formulaData && (
 					<section className="mb-12">
-						<h2 className="text-2xl font-semibold mb-4">
+						<h2 className="text-2xl font-semibold mb-4 inline-block bg-background">
 							Popular Packages
 							<span className="text-muted-foreground text-sm block">
 								(Last 30 Days)

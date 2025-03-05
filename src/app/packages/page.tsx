@@ -17,6 +17,7 @@ export default function Packages() {
 		error: packagesError,
 		isLoading,
 	} = useSWR<PackageFilteredData[], Error>("/api/packages/getAll", fetcher);
+
 	if (packagesError) return <div>Failed to load</div>;
 	if (!packagesData || isLoading) return <div>Loading...</div>;
 
@@ -28,7 +29,9 @@ export default function Packages() {
 					<Button
 						variant="ghost"
 						className="p-0!"
-						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+						onClick={() =>
+							column.toggleSorting(column.getIsSorted() === "asc")
+						}
 					>
 						Name
 						{column.getIsSorted() === "asc" ? (
@@ -71,7 +74,9 @@ export default function Packages() {
 					<Button
 						variant="ghost"
 						className="p-0!"
-						onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+						onClick={() =>
+							column.toggleSorting(column.getIsSorted() === "asc")
+						}
 					>
 						Type
 						{column.getIsSorted() === "asc" ? (
@@ -92,7 +97,7 @@ export default function Packages() {
 					<Button asChild>
 						<Link
 							href={`/packages/${pkg.token ?? pkg.name}?type=${pkg.type}`}
-							className="font-medium"
+							className="font-medium not-dark:text-foreground"
 						>
 							Details
 						</Link>
@@ -103,11 +108,11 @@ export default function Packages() {
 	];
 
 	return (
-		<div className="container mx-auto px-4 py-8">
-			<div className="container mx-auto px-4 py-8">
-				<h1 className="text-3xl font-bold mb-8">Homebrew Packages</h1>
-				<DataTable columns={columns} data={packagesData} />
-			</div>
+		<div>
+			<h1 className="text-3xl inline-block font-bold bg-background mb-8">
+				Homebrew Packages
+			</h1>
+			<DataTable columns={columns} data={packagesData} />
 		</div>
 	);
 }

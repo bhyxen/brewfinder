@@ -83,7 +83,7 @@ export function DataTable<TData, TValue>({
 
 	return (
 		<div>
-			<div className="flex items-center py-4 justify-between">
+			<div className="flex items-center pb-4 justify-between">
 				<div className="flex max-w-md bg-secondary grow rounded-md">
 					<Input
 						placeholder="Filter packages..."

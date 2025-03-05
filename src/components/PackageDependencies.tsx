@@ -16,13 +16,15 @@ export function PackageDependencies({
 	usesMacos,
 	packageType,
 }: PackageDependenciesProps) {
+	console.log({ buildDependencies, dependencies, usesMacos, packageType });
+
 	const renderDependencies = (
-		deps: Pick<PackageDependenciesProps, "dependencies">["dependencies"]
+		deps: Pick<PackageDependenciesProps, "dependencies">["dependencies"],
 	) => {
 		if (Array.isArray(deps)) {
 			return (
 				<ul className="list-disc pl-5">
-					{deps.map((dep) => (
+					{deps.map((dep, index) => (
 						<li key={dep}>{dep}</li>
 					))}
 				</ul>
@@ -35,11 +37,13 @@ export function PackageDependencies({
 							<div key={key}>
 								<h4 className="font-medium">{key}</h4>
 								<ul className="list-disc pl-5">
-									{Object.entries(values).map(([key, value]) => (
-										<li key={key + value}>
-											{key} {value}
-										</li>
-									))}
+									{Object.entries(values).map(
+										([key, value]) => (
+											<li key={key + value}>
+												{key} {value}
+											</li>
+										),
+									)}
 								</ul>
 							</div>
 						);
@@ -56,16 +60,19 @@ export function PackageDependencies({
 			</CardHeader>
 			<CardContent>
 				<div className="space-y-4">
-					{packageType === "formula" && buildDependencies.length > 0 && (
-						<div>
-							<h3 className="font-medium mb-2">Build Dependencies</h3>
-							<ul className="list-disc pl-5">
-								{buildDependencies.map((dep) => (
-									<li key={dep}>{dep}</li>
-								))}
-							</ul>
-						</div>
-					)}
+					{packageType === "formula" &&
+						buildDependencies.length > 0 && (
+							<div>
+								<h3 className="font-medium mb-2">
+									Build Dependencies
+								</h3>
+								<ul className="list-disc pl-5">
+									{buildDependencies.map((dep) => (
+										<li key={dep}>{dep}</li>
+									))}
+								</ul>
+							</div>
+						)}
 					<div>
 						<h3 className="font-medium mb-2">
 							{packageType === "formula"
@@ -76,10 +83,28 @@ export function PackageDependencies({
 					</div>
 					{packageType === "formula" && usesMacos.length > 0 && (
 						<div>
-							<h3 className="font-medium mb-2">Uses from macOS</h3>
+							<h3 className="font-medium mb-2">
+								Uses from macOS
+							</h3>
 							<ul className="list-disc pl-5">
 								{usesMacos.map((dep) => (
-									<li key={dep}>{dep}</li>
+									<li
+										key={
+											typeof dep === "string"
+												? dep
+												: JSON.stringify(dep)
+										}
+									>
+										{typeof dep === "string"
+											? dep
+											: Object.entries(dep).map(
+													([key, value]) => (
+														<>
+															{key}: {value}
+														</>
+													),
+												)}
+									</li>
 								))}
 							</ul>
 						</div>

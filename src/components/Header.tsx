@@ -11,7 +11,7 @@ export default async function Header() {
 	const session = await auth();
 
 	return (
-		<header className="border-b bg-accent text-secondary-foreground">
+		<header className="border-b text-secondary-foreground bg-secondary/50 backdrop-blur-xl">
 			<div className="container mx-auto px-4 py-4 flex items-center justify-between">
 				<Link href="/" className="flex items-center space-x-2">
 					<Beer className="h-6 w-6" />

@@ -14,6 +14,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
 import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface PackageHeaderProps {
 	name: string;
@@ -57,54 +58,56 @@ export function PackageHeader({
 	};
 
 	return (
-		<div className="flex items-start space-x-4">
-			<div className="bg-primary text-primary-foreground p-3 rounded-lg">
-				{packageType === "formula" ? (
-					<Beer size={32} />
-				) : (
-					<Package size={32} />
-				)}
-			</div>
-			<div className="flex flex-grow justify-between items-start">
-				<div>
-					<h1 className="text-3xl font-bold">{name}</h1>
-					<p className="text-xl text-muted-foreground mt-2">
-						{description}
-					</p>
-					<div className="mt-2 flex items-center space-x-4">
-						<span className="text-muted-foreground text-sm">
-							{packageType === "formula" ? "Formula" : "Cask"}
-						</span>
+		<Card className="mb-8">
+			<CardContent className="flex items-start space-x-4 flex-col sm:flex-row sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 p-6 rounded-lg">
+				<div className="bg-primary text-primary-foreground not-dark:text-foreground p-3 rounded-lg">
+					{packageType === "formula" ? (
+						<Beer size={32} />
+					) : (
+						<Package size={32} />
+					)}
+				</div>
+				<div className="flex flex-grow justify-between items-start">
+					<div>
+						<h1 className="text-3xl font-bold">{name}</h1>
+						<p className="text-xl text-muted-foreground mt-2">
+							{description}
+						</p>
+						<div className="mt-2 flex items-center space-x-4">
+							<span className="text-muted-foreground text-sm">
+								{packageType === "formula" ? "Formula" : "Cask"}
+							</span>
+						</div>
+					</div>
+					<div className="flex items-center space-x-4">
+						<Popover open={open} onOpenChange={setOpen}>
+							<PopoverTrigger asChild onClick={handleClick}>
+								<Button className="cursor-pointer not-dark:text-foreground">
+									<BookmarkPlus />
+									Add to List
+								</Button>
+							</PopoverTrigger>
+							<PopoverContent>
+								<AddPackageToListForm
+									currentPackageId={currentPackageId}
+									lists={listData ?? []}
+								/>
+							</PopoverContent>
+						</Popover>
+
+						<Button asChild variant={"secondary"}>
+							<Link
+								href={homepage}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<ExternalLink />
+								Visit Homepage
+							</Link>
+						</Button>
 					</div>
 				</div>
-				<div className="flex items-center space-x-4">
-					<Popover open={open} onOpenChange={setOpen}>
-						<PopoverTrigger asChild onClick={handleClick}>
-							<Button className="cursor-pointer">
-								<BookmarkPlus />
-								Add to List
-							</Button>
-						</PopoverTrigger>
-						<PopoverContent>
-							<AddPackageToListForm
-								currentPackageId={currentPackageId}
-								lists={listData ?? []}
-							/>
-						</PopoverContent>
-					</Popover>
-
-					<Button asChild variant={"secondary"}>
-						<Link
-							href={homepage}
-							target="_blank"
-							rel="noopener noreferrer"
-						>
-							<ExternalLink />
-							Visit Homepage
-						</Link>
-					</Button>
-				</div>
-			</div>
-		</div>
+			</CardContent>
+		</Card>
 	);
 }

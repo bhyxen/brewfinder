@@ -21,7 +21,7 @@ type Props = {
 
 export function UserMenu({ session }: Props) {
 	return (
-		<DropdownMenu>
+		<DropdownMenu modal={false}>
 			<DropdownMenuTrigger asChild>
 				<Button
 					variant="ghost"

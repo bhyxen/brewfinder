@@ -192,111 +192,116 @@ export default function ListDetailsPage() {
 
 	return (
 		<div className="container mx-auto px-4 py-8">
-			<div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
-				<LucideDynamicIcon
-					icon={listDetails.icon}
-					className="h-24 w-24 sm:h-32 sm:w-32"
-				/>
-				<div className="flex-1 text-center sm:text-left">
-					<div className="flex items-center justify-center sm:justify-start space-x-2 mb-2">
-						<h1 className="text-3xl font-bold">
-							{listDetails.name}
-						</h1>
-						<Badge>
-							{listDetails.isPublic ? "Public" : "Private"}
-						</Badge>
-					</div>
-					<p className="text-lg text-muted-foreground">
-						{listDetails.description}
-					</p>
-					<p className="text-sm text-muted-foreground mt-2">
-						Created by{" "}
-						{listDetails.owner.name ?? listDetails.owner.email} on{" "}
-						{listDetails.createdAt
-							? format(new Date(listDetails.createdAt), "PPP")
-							: "N/A"}
-					</p>
-					<p className="text-sm text-muted-foreground">
-						Last updated:{" "}
-						{listDetails.updatedAt
-							? format(new Date(listDetails.updatedAt), "PPP")
-							: "N/A"}
-					</p>
-					<div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2 mt-4">
-						{isLiked ? (
-							<AlertDialog open={open} onOpenChange={setOpen}>
-								<AlertDialogTrigger asChild>
-									<Button
-										variant={
-											isLiked ? "default" : "outline"
-										}
-										size="sm"
-										className="w-full sm:w-auto cursor-pointer"
-									>
-										<Heart
-											className={`h-4 w-4 mr-2 ${
-												isLiked ? "fill-current" : ""
-											}`}
-										/>
-										{isLiked ? "Liked" : "Like"} (
-										{likesCount})
-									</Button>
-								</AlertDialogTrigger>
-								<AlertDialogContent>
-									<AlertDialogHeader>
-										<AlertDialogTitle>
-											Are you absolutely sure?
-										</AlertDialogTitle>
-										<AlertDialogDescription>
-											Do you really want to remove this
-											list from your likes?
-										</AlertDialogDescription>
-									</AlertDialogHeader>
-									<AlertDialogFooter>
-										<AlertDialogCancel>
-											Cancel
-										</AlertDialogCancel>
-										<AlertDialogAction
-											className="cursor-pointer"
-											onClick={handleLike}
+			<Card className="mb-8">
+				<CardContent className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 p-6 rounded-lg">
+					<LucideDynamicIcon
+						icon={listDetails.icon}
+						className="h-24 w-24 sm:h-32 sm:w-32"
+					/>
+					<div className="flex-1 text-center sm:text-left">
+						<div className="flex items-center justify-center sm:justify-start space-x-2 mb-2">
+							<h1 className="text-3xl font-bold">
+								{listDetails.name}
+							</h1>
+							<Badge>
+								{listDetails.isPublic ? "Public" : "Private"}
+							</Badge>
+						</div>
+						<p className="text-lg text-muted-foreground">
+							{listDetails.description}
+						</p>
+						<p className="text-sm text-muted-foreground mt-2">
+							Created by{" "}
+							{listDetails.owner.name ?? listDetails.owner.email}{" "}
+							on{" "}
+							{listDetails.createdAt
+								? format(new Date(listDetails.createdAt), "PPP")
+								: "N/A"}
+						</p>
+						<p className="text-sm text-muted-foreground">
+							Last updated:{" "}
+							{listDetails.updatedAt
+								? format(new Date(listDetails.updatedAt), "PPP")
+								: "N/A"}
+						</p>
+						<div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2 mt-4">
+							{isLiked ? (
+								<AlertDialog open={open} onOpenChange={setOpen}>
+									<AlertDialogTrigger asChild>
+										<Button
+											variant={
+												isLiked ? "default" : "outline"
+											}
+											size="sm"
+											className="w-full sm:w-auto cursor-pointer"
 										>
-											Continue
-										</AlertDialogAction>
-									</AlertDialogFooter>
-								</AlertDialogContent>
-							</AlertDialog>
-						) : (
+											<Heart
+												className={`h-4 w-4 mr-2 ${
+													isLiked
+														? "fill-current"
+														: ""
+												}`}
+											/>
+											{isLiked ? "Liked" : "Like"} (
+											{likesCount})
+										</Button>
+									</AlertDialogTrigger>
+									<AlertDialogContent>
+										<AlertDialogHeader>
+											<AlertDialogTitle>
+												Are you absolutely sure?
+											</AlertDialogTitle>
+											<AlertDialogDescription>
+												Do you really want to remove
+												this list from your likes?
+											</AlertDialogDescription>
+										</AlertDialogHeader>
+										<AlertDialogFooter>
+											<AlertDialogCancel>
+												Cancel
+											</AlertDialogCancel>
+											<AlertDialogAction
+												className="cursor-pointer"
+												onClick={handleLike}
+											>
+												Continue
+											</AlertDialogAction>
+										</AlertDialogFooter>
+									</AlertDialogContent>
+								</AlertDialog>
+							) : (
+								<Button
+									variant={isLiked ? "default" : "outline"}
+									size="sm"
+									onClick={handleLike}
+									className="w-full sm:w-auto cursor-pointer"
+								>
+									<Heart
+										className={`h-4 w-4 mr-2 ${isLiked ? "fill-current" : ""}`}
+									/>
+									{isLiked ? "Liked" : "Like"} ({likesCount})
+								</Button>
+							)}
+
 							<Button
-								variant={isLiked ? "default" : "outline"}
+								variant="outline"
 								size="sm"
-								onClick={handleLike}
+								onClick={handleShare}
 								className="w-full sm:w-auto cursor-pointer"
 							>
-								<Heart
-									className={`h-4 w-4 mr-2 ${isLiked ? "fill-current" : ""}`}
-								/>
-								{isLiked ? "Liked" : "Like"} ({likesCount})
+								<Share2 className="h-4 w-4 mr-2" />
+								Share
 							</Button>
-						)}
-
-						<Button
-							variant="outline"
-							size="sm"
-							onClick={handleShare}
-							className="w-full sm:w-auto cursor-pointer"
-						>
-							<Share2 className="h-4 w-4 mr-2" />
-							Share
-						</Button>
-						{session?.user?.id === listDetails.owner.id && (
-							<CreatePackageListForm
-								packages={[]}
-								currentData={listDetails}
-							/>
-						)}
+							{session?.user?.id === listDetails.owner.id && (
+								<CreatePackageListForm
+									packages={[]}
+									currentData={listDetails}
+								/>
+							)}
+						</div>
 					</div>
-				</div>
-			</div>
+				</CardContent>
+			</Card>
 
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 				<div className="space-y-8">

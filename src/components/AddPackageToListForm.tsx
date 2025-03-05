@@ -118,6 +118,7 @@ export default function AddPackageToListForm({
 											className="hover:bg-primary! hover:text-secondary! cursor-pointer"
 										>
 											<LucideDynamicIcon
+												className="hover:text-secondary!"
 												icon={item.icon}
 											/>
 											{item.name}
@@ -144,7 +145,7 @@ export default function AddPackageToListForm({
 										href={`/lists/user?createNewList=true&package=${encodeURI(JSON.stringify(currentPackageId))}`}
 									>
 										<Button
-											className="cursor-pointer w-full my-2"
+											className="cursor-pointer w-full my-2 not-dark:text-foreground"
 											variant="outline"
 										>
 											Create new list

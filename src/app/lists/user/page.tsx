@@ -28,7 +28,9 @@ export default async function MyLists(props: {
 	return (
 		<div className="space-y-8">
 			<div className="flex justify-between items-center">
-				<h1 className="text-3xl font-bold">My Lists</h1>
+				<h1 className="text-3xl font-bold inline-block bg-background">
+					My Lists
+				</h1>
 
 				<CreatePackageListForm
 					isOpen={Boolean(createNewList)}

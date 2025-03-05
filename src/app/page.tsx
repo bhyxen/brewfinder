@@ -21,13 +21,13 @@ export default function Home() {
 		Error
 	>(
 		"https://formulae.brew.sh/api/analytics/install-on-request/30d.json",
-		fetcher
+		fetcher,
 	);
 
-	const { data: caskData, error: caskError } = useSWR<PackageAnalytics, Error>(
-		"https://formulae.brew.sh/api/analytics/cask-install/30d.json",
-		fetcher
-	);
+	const { data: caskData, error: caskError } = useSWR<
+		PackageAnalytics,
+		Error
+	>("https://formulae.brew.sh/api/analytics/cask-install/30d.json", fetcher);
 
 	if (formulaError || caskError) {
 		console.error("There has been an error loading analytics");
@@ -46,7 +46,7 @@ export default function Home() {
 		event.preventDefault();
 		const form = event.target as HTMLFormElement;
 		const input = form.querySelector(
-			'input[type="search"]'
+			'input[type="search"]',
 		) as HTMLInputElement;
 		router.push(`/packages/?search=${input.value}`);
 	};
@@ -54,8 +54,10 @@ export default function Home() {
 	return (
 		<SessionProvider>
 			<div className="space-y-12 grow flex flex-col justify-center">
-				<section className="text-center space-y-6 min-h-96 flex flex-col justify-center items-center">
-					<h1 className="text-4xl font-bold mb-4">Welcome to Brewfinder</h1>
+				<section className="text-center space-y-6 min-h-80 flex flex-col justify-center items-center">
+					<h1 className="text-4xl font-bold mb-4">
+						Welcome to Brewfinder
+					</h1>
 					<p className="text-xl text-muted-foreground">
 						Discover, save, and install Homebrew packages with ease
 					</p>
@@ -69,7 +71,11 @@ export default function Home() {
 								placeholder="Search for Homebrew packages..."
 								className="text-lg py-6 bg-card"
 							/>
-							<Button type="submit" size="lg" className="cursor-pointer">
+							<Button
+								type="submit"
+								size="lg"
+								className="cursor-pointer not-dark:text-foreground"
+							>
 								<Search className="mr-2 h-5 w-5" />
 								Search
 							</Button>
@@ -78,7 +84,9 @@ export default function Home() {
 				</section>
 
 				<section className="mb-12">
-					<h2 className="text-2xl font-semibold mb-4">Homebrew Statistics</h2>
+					<h2 className="text-2xl font-semibold mb-4">
+						Homebrew Statistics
+					</h2>
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
 						<Card>
 							<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -114,7 +122,9 @@ export default function Home() {
 								<Star className="h-4 w-4 text-muted-foreground" />
 							</CardHeader>
 							<CardContent>
-								<div className="text-2xl font-bold">{averageStars}</div>
+								<div className="text-2xl font-bold">
+									{averageStars}
+								</div>
 							</CardContent>
 						</Card>
 					</div>
@@ -132,7 +142,9 @@ export default function Home() {
 									<CardTitle>Casks</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<PopularPackagesChart data={caskData.items.slice(0, 5)} />
+									<PopularPackagesChart
+										data={caskData.items.slice(0, 5)}
+									/>
 								</CardContent>
 							</Card>
 							<Card>
@@ -140,7 +152,9 @@ export default function Home() {
 									<CardTitle>Formulas</CardTitle>
 								</CardHeader>
 								<CardContent>
-									<PopularPackagesChart data={formulaData.items.slice(0, 5)} />
+									<PopularPackagesChart
+										data={formulaData.items.slice(0, 5)}
+									/>
 								</CardContent>
 							</Card>
 						</div>
@@ -148,7 +162,7 @@ export default function Home() {
 				)}
 				<section className="text-center">
 					<div className="flex justify-center space-x-4">
-						<Button asChild>
+						<Button asChild className="not-dark:text-foreground">
 							<Link href="/packages">View All Packages</Link>
 						</Button>
 					</div>

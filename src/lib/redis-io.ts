@@ -1,4 +1,4 @@
-import Redis, { RedisKey } from "ioredis";
+import Redis from "ioredis";
 
 const getRedisURL = () => {
 	if (process.env.REDIS_URL) {

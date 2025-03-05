@@ -10,7 +10,6 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 	SidebarHeader,
-	SidebarInset,
 } from "@/components/ui/sidebar";
 import { useSession } from "next-auth/react";
 import { useSidebar } from "@/components/ui/sidebar";
@@ -20,9 +19,8 @@ import { ModeToggle } from "./ModeToggle";
 import { navItems } from "@/lib/shared";
 import { UserMenu } from "@/components/UserMenu";
 import { Separator } from "@/components/ui/separator";
-import { SidebarClose, PanelRightIcon } from "lucide-react";
+import { SidebarClose } from "lucide-react";
 import * as React from "react";
-import { cn } from "@/lib/utils";
 
 // Menu items.
 

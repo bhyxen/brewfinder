@@ -215,8 +215,8 @@ export default function CreatePackageListForm({
 
 	let timeoutId: NodeJS.Timeout;
 
-	function debounce(cb: (...args: any[]) => void, delay: number) {
-		return (...args: any[]) => {
+	function debounce(cb: (...args: never[]) => void, delay: number) {
+		return (...args: never[]) => {
 			clearTimeout(timeoutId);
 			timeoutId = setTimeout(() => {
 				cb(...args);

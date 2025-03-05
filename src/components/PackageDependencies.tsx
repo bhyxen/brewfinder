@@ -24,7 +24,7 @@ export function PackageDependencies({
 		if (Array.isArray(deps)) {
 			return (
 				<ul className="list-disc pl-5">
-					{deps.map((dep, index) => (
+					{deps.map((dep) => (
 						<li key={dep}>{dep}</li>
 					))}
 				</ul>

@@ -11,9 +11,8 @@ import {
 	CardTitle,
 } from "./ui/card";
 import { useState } from "react";
-import { Check, Copy, NotebookText } from "lucide-react";
+import { Check, Copy } from "lucide-react";
 import { Badge } from "./ui/badge";
-import { DynamicIcon, IconName } from "lucide-react/dynamic";
 import LucideDynamicIcon from "./LucideDynamicIcon";
 
 interface PackageListCardProps {

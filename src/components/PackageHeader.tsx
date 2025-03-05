@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import {
 	Popover,
-	PopoverAnchor,
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
@@ -40,16 +39,12 @@ export function PackageHeader({
 
 	const fetcher = (...args: [RequestInfo, RequestInit?]) =>
 		fetch(...args).then((res) => res.json());
-	const {
-		data: listData,
-		error: listError,
-		isLoading,
-	} = useSWR<PackageList[]>(
+	const { data: listData } = useSWR<PackageList[]>(
 		`/api/packageLists/getByUserId/${userId as string}`,
 		fetcher,
 	);
 
-	const handleClick = (e) => {
+	const handleClick = () => {
 		if (!session) {
 			return router.push(
 				`/sign-in?callbackUrl=${pathname}${encodeURIComponent("?" + searchParams)}`,

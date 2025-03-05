@@ -49,13 +49,14 @@ import { Cask, Formula, Package } from "@/types/homebrew";
 import { useSession } from "next-auth/react";
 import LucideDynamicIcon from "@/components/LucideDynamicIcon";
 import CreatePackageListForm from "@/components/CreatePackageListForm";
+import { User } from "next-auth";
 
 const MAX_VISIBLE_PACKAGES = 6;
 
 export default function ListDetailsPage() {
 	const params = useParams();
 	const [isLiked, setIsLiked] = useState(false);
-	const [likesUsers, setLikesUsers] = useState<any[]>([]);
+	const [likesUsers, setLikesUsers] = useState<User[]>([]);
 	const [isPackagesExpanded, setIsPackagesExpanded] = useState(false);
 	const [likesCount, setLikesCount] = useState<number>(0);
 	const [open, setOpen] = useState(false);
@@ -106,12 +107,12 @@ export default function ListDetailsPage() {
 		}
 	}
 
-	const { data: listDetails, error: _listDetailsError } = useSWR<
-		PackageList,
-		Error
-	>(["/api/packageLists/getById", listId], fetcher);
+	const { data: listDetails } = useSWR<PackageList, Error>(
+		["/api/packageLists/getById", listId],
+		fetcher,
+	);
 
-	const { data: likesUsersDetails, error: _likesUsersDetailsError } = useSWR(
+	const { data: likesUsersDetails } = useSWR(
 		{ likesUsersIds: listDetails?.likes, url: "/api/users/getById" },
 		multiFetcher,
 	);
@@ -128,7 +129,7 @@ export default function ListDetailsPage() {
 		setLikesCount(listDetails?.likes?.length || 0);
 	}, [listDetails, likesUsersDetails, session]);
 
-	const { data: packagesDetails, error: _packagesDetailsError } = useSWR(
+	const { data: packagesDetails } = useSWR(
 		{
 			packageIds: listDetails?.packages,
 			url: "https://formulae.brew.sh/api/",

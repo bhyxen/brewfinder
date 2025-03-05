@@ -6,12 +6,11 @@ import CreatePackageListForm from "@/components/CreatePackageListForm";
 import { PackageFilteredData } from "@/types/homebrew";
 import { getAll as getAllPackages } from "@/controllers/packageController";
 
-export default async function MyLists(props: {
-	searchParams: {
-		createNewList: string | undefined;
-		package: string | undefined;
-	};
-}) {
+type PageProps = {
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+export default async function MyLists(props: PageProps) {
 	const { createNewList, package: defaultPkg } = await props.searchParams;
 
 	const session = await auth();
@@ -35,7 +34,7 @@ export default async function MyLists(props: {
 				<CreatePackageListForm
 					isOpen={Boolean(createNewList)}
 					packages={packagesData}
-					defaultPackage={defaultPkg}
+					defaultPackage={defaultPkg as string}
 				/>
 			</div>
 			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

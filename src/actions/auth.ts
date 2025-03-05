@@ -15,7 +15,7 @@ type Provider = {
 export const login = async (
 	provider: Provider,
 	callbackUrl?: string,
-	...args: any[]
+	// ...args: any[]
 ) => {
 	try {
 		await signIn(provider.id, {

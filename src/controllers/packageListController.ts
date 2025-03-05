@@ -8,6 +8,7 @@ export const getAll = async () => {
 		const PackageListResult = await PackageListModel.find();
 		return NextResponse.json(PackageListResult);
 	} catch (error) {
+		console.error("Error while fetching package lists", error);
 		return NextResponse.error();
 	}
 };
@@ -20,6 +21,7 @@ export const getAllPublic = async () => {
 		});
 		return NextResponse.json(PackageListResult);
 	} catch (error) {
+		console.error("Error while fetching public package lists", error);
 		return NextResponse.error();
 	}
 };
@@ -30,6 +32,8 @@ export const getById = async (listID: string) => {
 		const PackageListResult = await PackageListModel.findById(listID);
 		return NextResponse.json(PackageListResult);
 	} catch (error) {
+		console.error("Error while fetching package list by ID", error);
+
 		return NextResponse.error();
 	}
 };

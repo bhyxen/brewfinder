@@ -56,10 +56,18 @@ export default function Footer() {
 							</li>
 							<li>
 								<Link
-									href="/my-lists"
+									href="/lists/user"
 									className="text-sm hover:underline"
 								>
 									My Lists
+								</Link>
+							</li>
+							<li>
+								<Link
+									href="/lists"
+									className="text-sm hover:underline"
+								>
+									Public Lists
 								</Link>
 							</li>
 						</ul>

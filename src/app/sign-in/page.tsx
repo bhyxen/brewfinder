@@ -12,17 +12,16 @@ import { AuthErrors } from "@/lib/constants";
 import { login, loginWithEmail, logout } from "@/actions/auth";
 import Link from "next/link";
 
+type PageProps = {
+	searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
 const providerIcons = {
 	github: <SiGithub className="mr-2 h-4 w-4" />,
 	google: <SiGoogle className="mr-2 h-4 w-4" />,
 };
 
-export default async function LoginPage(props: {
-	searchParams: {
-		callbackUrl: string | undefined;
-		error: string | undefined;
-	};
-}) {
+export default async function LoginPage(props: PageProps) {
 	const { callbackUrl, error } = await props.searchParams;
 	const session = await auth();
 
@@ -46,7 +45,7 @@ export default async function LoginPage(props: {
 								const loginAction = login.bind(
 									null,
 									provider,
-									callbackUrl,
+									callbackUrl as string,
 								);
 								return (
 									<form

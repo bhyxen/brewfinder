@@ -40,6 +40,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 	pages: {
 		signIn: "/sign-in",
 	},
+	trustHost: true,
 	debug: process.env.NODE_ENV === "development",
 	callbacks: {
 		jwt(data) {

@@ -15,11 +15,13 @@ export default function SupportPage() {
 	return (
 		<div>
 			<div className="max-w-3xl mx-auto">
-				<div className="text-center mb-8">
+				<div className="text-center flex items-center justify-center flex-col mb-8">
 					<div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-rose-100 dark:bg-rose-900 mb-4">
 						<Heart className="h-6 w-6 text-rose-500" />
 					</div>
-					<h1 className="text-3xl font-bold">Support Brewfinder</h1>
+					<h1 className="text-3xl font-bold inline-block bg-background">
+						Support Brewfinder
+					</h1>
 					<p className="text-muted-foreground mt-2 max-w-xl mx-auto">
 						Brewfinder is an open-source project developed by a
 						single developer open to receive support from
@@ -165,8 +167,10 @@ export default function SupportPage() {
 					</CardContent>
 				</Card>
 
-				<div className="text-center">
-					<h2 className="text-xl font-semibold mb-4">Our Sponsors</h2>
+				<div className="flex flex-col justify-center items-center">
+					<h2 className="text-xl font-semibold mb-4 inline-block bg-background">
+						Our Sponsors
+					</h2>
 					{/*<p className="text-muted-foreground mb-6">
 						We&#39;re grateful to the following sponsors for their
 						support:
@@ -188,7 +192,7 @@ export default function SupportPage() {
 							</span>
 						</div>
 					</div>*/}
-					<p className="text-sm text-muted-foreground mb-8">
+					<p className="text-sm text-muted-foreground mb-8 inline-block bg-background">
 						Become a sponsor to have your logo displayed here.
 					</p>
 				</div>

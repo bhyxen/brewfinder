@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Heart, Coffee, Gift, CreditCard, ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import { SiGithub } from "@icons-pack/react-simple-icons";
-import { DONATIONS_URL, GITHUB_SPONSOR_URL } from "@/lib/constants";
+import { DONATIONS_URL, GITHUB_SPONSOR_URL, GITHUB_URL } from "@/lib/constants";
 
 export default function SupportPage() {
 	return (
@@ -117,7 +117,7 @@ export default function SupportPage() {
 										improving documentation.
 									</p>
 									<Link
-										href="https://github.com/brewfinder/brewfinder"
+										href={GITHUB_URL}
 										target="_blank"
 										rel="noopener noreferrer"
 										className="text-sm inline-flex items-center underline decoration-primary not-dark:decoration-foreground decoration-2 decoration-dashed hover:decoration-solid text-primary hover:underline-solid not-dark:text-secondary-foreground"
@@ -151,7 +151,7 @@ export default function SupportPage() {
 										suggesting new features.
 									</p>
 									<Link
-										href="https://github.com/bhyxen/brewfinder/issues/new/choose"
+										href={`${GITHUB_URL}/issues/new/choose`}
 										target="_blank"
 										rel="noopener noreferrer"
 										className="text-sm inline-flex items-center underline decoration-primary not-dark:decoration-foreground decoration-2 decoration-dashed hover:decoration-solid text-primary hover:underline-solid not-dark:text-secondary-foreground"

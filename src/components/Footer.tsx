@@ -139,7 +139,7 @@ export default function Footer() {
 							</li>
 							<li>
 								<Link
-									href="https://github.com/bhyxen/brewfinder/issues/new?template=bug_report.md"
+									href={`${GITHUB_URL}/issues/new?template=bug_report.md`}
 									rel="noopener noreferrer"
 									target="_blank"
 									className="text-sm hover:underline"

@@ -1,28 +1,58 @@
 "use client";
 
+import * as React from "react";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+	Home,
+	Package,
+	List,
+	Globe,
+	BarChart2,
+	Lightbulb,
+	HeartHandshake,
+	SidebarClose,
+} from "lucide-react";
 import {
 	Sidebar,
 	SidebarContent,
 	SidebarGroup,
 	SidebarGroupContent,
 	SidebarGroupLabel,
+	SidebarHeader,
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
-	SidebarHeader,
+	useSidebar,
 } from "@/components/ui/sidebar";
 import { useSession } from "next-auth/react";
-import { useSidebar } from "@/components/ui/sidebar";
-import Link from "next/link";
-import { Button } from "./ui/button";
-import { ModeToggle } from "./ModeToggle";
-import { navItems } from "@/lib/shared";
 import { UserMenu } from "@/components/UserMenu";
 import { Separator } from "@/components/ui/separator";
-import { SidebarClose } from "lucide-react";
-import * as React from "react";
+import { ModeToggle } from "@/components/ModeToggle";
+import { GITHUB_URL } from "@/lib/constants";
 
-// Menu items.
+export const navItems = [
+	{
+		title: "Home",
+		url: "/",
+		icon: Home,
+	},
+	{
+		title: "All Packages",
+		url: "/packages",
+		icon: Package,
+	},
+	{
+		title: "My Lists",
+		url: "/lists/user",
+		icon: List,
+	},
+	{
+		title: "Public Lists",
+		url: "/lists",
+		icon: Globe,
+	},
+];
 
 type Props = {
 	className?: string;
@@ -31,9 +61,12 @@ type Props = {
 export function AppSidebar({ className }: Props) {
 	const { toggleSidebar } = useSidebar();
 	const { data: session } = useSession();
-
 	return (
-		<Sidebar side="right" variant="floating" className={className}>
+		<Sidebar
+			side="right"
+			variant="floating"
+			className={`${className} w-64 p-4`}
+		>
 			<SidebarHeader>
 				<SidebarGroup>
 					<SidebarGroupLabel className="flex items-center">
@@ -79,22 +112,54 @@ export function AppSidebar({ className }: Props) {
 			</SidebarHeader>
 			<SidebarContent>
 				<SidebarGroup>
-					<SidebarGroupLabel>Application</SidebarGroupLabel>
+					<SidebarGroupLabel>Main Navigation</SidebarGroupLabel>
 					<SidebarGroupContent>
 						<SidebarMenu>
 							{navItems.map((item) => (
 								<SidebarMenuItem key={item.title}>
-									<SidebarMenuButton
-										asChild
-										onClick={() => toggleSidebar()}
-									>
+									<SidebarMenuButton asChild>
 										<Link href={item.url}>
-											<item.icon />
+											<item.icon className="mr-2 h-5 w-5" />
 											<span>{item.title}</span>
 										</Link>
 									</SidebarMenuButton>
 								</SidebarMenuItem>
 							))}
+						</SidebarMenu>
+					</SidebarGroupContent>
+				</SidebarGroup>
+				<SidebarGroup>
+					<SidebarGroupLabel>Community</SidebarGroupLabel>
+					<SidebarGroupContent>
+						<SidebarMenu>
+							<SidebarMenuItem>
+								<SidebarMenuButton asChild>
+									<Link href="/roadmap">
+										<BarChart2 className="mr-2 h-5 w-5" />
+										<span>Roadmap</span>
+									</Link>
+								</SidebarMenuButton>
+							</SidebarMenuItem>
+							<SidebarMenuItem>
+								<SidebarMenuButton asChild>
+									<Link
+										href={`${GITHUB_URL}/issues/new/choose`}
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										<Lightbulb className="mr-2 h-5 w-5" />
+										<span>Feature Requests</span>
+									</Link>
+								</SidebarMenuButton>
+							</SidebarMenuItem>
+							<SidebarMenuItem>
+								<SidebarMenuButton asChild>
+									<Link href="/support">
+										<HeartHandshake className="mr-2 h-5 w-5" />
+										<span>Support Project</span>
+									</Link>
+								</SidebarMenuButton>
+							</SidebarMenuItem>
 						</SidebarMenu>
 					</SidebarGroupContent>
 				</SidebarGroup>

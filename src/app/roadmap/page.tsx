@@ -17,6 +17,7 @@ import {
 	Construction,
 } from "lucide-react";
 import Link from "next/link";
+import { GITHUB_URL } from "@/lib/constants";
 
 interface RoadmapItem {
 	title: string;
@@ -286,7 +287,7 @@ export default function RoadmapPage() {
 						love to hear from you!
 					</p>
 					<Link
-						href="https://github.com/bhyxen/brewfinder/issues/new?template=feature_request.md"
+						href={`${GITHUB_URL}/issues/new?template=feature_request.md`}
 						rel="noopener noreferrer"
 						target="_blank"
 						className="inline-flex items-center underline decoration-primary not-dark:decoration-foreground decoration-2 decoration-dashed hover:decoration-solid text-primary hover:underline-solid not-dark:text-secondary-foreground"

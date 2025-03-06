@@ -29,6 +29,12 @@ export default function Home() {
 		Error
 	>("https://formulae.brew.sh/api/analytics/cask-install/30d.json", fetcher);
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const { data: homebrewLatestGHRelease } = useSWR<Record<any, any>, Error>(
+		"https://api.github.com/repos/Homebrew/brew/releases/latest",
+		fetcher,
+	);
+
 	if (formulaError || caskError) {
 		console.error("There has been an error loading analytics");
 	}
@@ -38,7 +44,6 @@ export default function Home() {
 		(caskData?.total_items || 0) + (formulaData?.total_items || 0);
 	const totalDownloads =
 		(caskData?.total_count || 0) + (formulaData?.total_count || 0);
-	const averageStars = 45;
 
 	const router = useRouter();
 
@@ -59,7 +64,16 @@ export default function Home() {
 						Welcome to Brewfinder
 					</h1>
 					<p className="text-xl text-muted-foreground bg-background">
-						Discover, save, and install Homebrew packages with ease
+						Discover, save, and install{" "}
+						<Link
+							href="https://brew.sh/"
+							target={"_blank"}
+							rel="noopener noreferrer"
+							className="underline decoration-primary decoration-dashed hover:decoration-solid decoration-2"
+						>
+							Homebrew
+						</Link>{" "}
+						packages with ease
 					</p>
 					<div className="w-full max-w-2xl">
 						<form
@@ -91,6 +105,30 @@ export default function Home() {
 						<Card>
 							<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 								<CardTitle className="text-sm font-medium">
+									Current Homebrew Version
+								</CardTitle>
+								<Star className="h-4 w-4 text-muted-foreground" />
+							</CardHeader>
+							<CardContent>
+								<div className="text-2xl font-bold">
+									<Link
+										href={
+											(homebrewLatestGHRelease?.html_url as string) ??
+											""
+										}
+										target={"_blank"}
+										rel="noopener noreferrer"
+										className="underline decoration-primary decoration-dashed hover:decoration-solid decoration-2"
+									>
+										{(homebrewLatestGHRelease?.tag_name as string) ??
+											"---"}
+									</Link>
+								</div>
+							</CardContent>
+						</Card>
+						<Card>
+							<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+								<CardTitle className="text-sm font-medium">
 									Unique Package Installations (30 days)
 								</CardTitle>
 								<Package className="h-4 w-4 text-muted-foreground" />
@@ -111,19 +149,6 @@ export default function Home() {
 							<CardContent>
 								<div className="text-2xl font-bold">
 									{totalDownloads.toLocaleString()}
-								</div>
-							</CardContent>
-						</Card>
-						<Card>
-							<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-								<CardTitle className="text-sm font-medium">
-									Average Stars
-								</CardTitle>
-								<Star className="h-4 w-4 text-muted-foreground" />
-							</CardHeader>
-							<CardContent>
-								<div className="text-2xl font-bold">
-									{averageStars}
 								</div>
 							</CardContent>
 						</Card>

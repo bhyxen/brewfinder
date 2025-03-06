@@ -1,11 +1,10 @@
 "use client";
 import { useEffect, useState } from "react";
-import { useParams } from "next/navigation";
 import { format } from "date-fns";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { useRouter, usePathname } from "next/navigation";
+import { useParams, useRouter, usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
 	AlertDialog,
@@ -50,6 +49,7 @@ import { useSession } from "next-auth/react";
 import LucideDynamicIcon from "@/components/LucideDynamicIcon";
 import CreatePackageListForm from "@/components/CreatePackageListForm";
 import { User } from "next-auth";
+import { SonnerSuccessIcon } from "@/lib/icons";
 
 const MAX_VISIBLE_PACKAGES = 6;
 
@@ -183,8 +183,15 @@ export default function ListDetailsPage() {
 	};
 
 	const handleShare = () => {
-		// In a real application, you would implement sharing functionality here
-		toast.success("Sharing link copied to clipboard");
+		navigator.clipboard.writeText(
+			window.location.protocol + window.location.host + pathname,
+		);
+
+		toast("Sharing link copied to clipboard", {
+			description:
+				"Please note that if the list is private, it won't be accessible to others.",
+			icon: SonnerSuccessIcon,
+		});
 	};
 
 	const visiblePackages: Package[] = (

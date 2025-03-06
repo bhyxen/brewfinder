@@ -4,13 +4,20 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SessionProvider } from "next-auth/react";
 import useSWR from "swr";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+	Card,
+	CardContent,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Search, Package, Download, Star } from "lucide-react";
 import { PopularPackagesChart } from "@/components/PopularPackagesChart";
 import { PackageAnalytics } from "@/types/homebrew";
 import { useRouter } from "next/navigation";
-import { FormEvent } from "react";
+import React, { FormEvent } from "react";
+import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
 	const fetcher = (...args: [RequestInfo, RequestInit?]) =>
@@ -176,12 +183,69 @@ export default function Home() {
 						</div>
 					</section>
 				)}
-				<section className="text-center">
-					<div className="flex justify-center space-x-4">
-						<Button asChild className="not-dark:text-foreground">
-							<Link href="/packages">View All Packages</Link>
-						</Button>
-					</div>
+				{/*<section className="text-center">*/}
+				{/*	<div className="flex justify-center space-x-4">*/}
+				{/*		<Button asChild className="not-dark:text-foreground">*/}
+				{/*			<Link href="/packages">View All Packages</Link>*/}
+				{/*		</Button>*/}
+				{/*	</div>*/}
+				{/*</section>*/}
+				<section>
+					<Card className="max-w-3xl mx-auto px-4 bg-transparent outline-none border-none shadow-none">
+						<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+							<CardTitle className="w-full flex justify-center">
+								<h2 className="text-2xl font-semibold mb-2 inline-block bg-background">
+									New to Homebrew?
+								</h2>
+							</CardTitle>
+						</CardHeader>
+						<CardContent>
+							<p className="text-center text-muted-foreground mb-6 inline-block bg-background">
+								Homebrew is the most popular and powerful
+								package manager for <strong>macOS</strong>,
+								available also for <strong>Linux</strong> and{" "}
+								<strong>Windows</strong> (via WSL)
+							</p>
+							<div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-4">
+								<Button
+									asChild
+									variant="default"
+									className="flex-1 not-dark:text-foreground"
+								>
+									<Link
+										href="https://brew.sh"
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										Installation Instructions
+									</Link>
+								</Button>
+								<span className="px-2 bg-background text-muted-foreground">
+									Or
+								</span>
+								<Button
+									asChild
+									variant="outline"
+									className="flex-1"
+								>
+									<Link
+										href="https://github.com/Homebrew/brew/releases/latest"
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										Download .pkg for macos
+									</Link>
+								</Button>
+							</div>
+						</CardContent>
+						<CardFooter className="flex items-center justify-center">
+							<p className="text-center text-sm text-muted-foreground inline-block bg-background">
+								Follow the official installation instructions to
+								get started with <strong>Homebrew</strong> and{" "}
+								<strong>Brewfinder</strong>
+							</p>
+						</CardFooter>
+					</Card>
 				</section>
 			</div>
 		</SessionProvider>

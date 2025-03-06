@@ -12,12 +12,11 @@ import {
 	CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Search, Package, Download, Star } from "lucide-react";
+import { Search, Package, Download, Star, ArrowUpRight } from "lucide-react";
 import { PopularPackagesChart } from "@/components/PopularPackagesChart";
 import { PackageAnalytics } from "@/types/homebrew";
 import { useRouter } from "next/navigation";
 import React, { FormEvent } from "react";
-import { Separator } from "@/components/ui/separator";
 
 export default function Home() {
 	const fetcher = (...args: [RequestInfo, RequestInit?]) =>
@@ -125,10 +124,11 @@ export default function Home() {
 										}
 										target={"_blank"}
 										rel="noopener noreferrer"
-										className="underline decoration-primary decoration-dashed hover:decoration-solid decoration-2"
+										className="inline-flex items-center underline decoration-primary not-dark:decoration-foreground decoration-2 decoration-dashed hover:decoration-solid  hover:underline-solid text-secondary-foreground"
 									>
 										{(homebrewLatestGHRelease?.tag_name as string) ??
 											"---"}
+										<ArrowUpRight className="ml-1 h-4 w-4" />
 									</Link>
 								</div>
 							</CardContent>

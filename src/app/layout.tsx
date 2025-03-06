@@ -34,7 +34,7 @@ export default function RootLayout({
 			<body
 				className={`${geistSans.variable} ${geistMono.variable} relative overflow-y-auto antialiased min-h-screen flex flex-col `}
 			>
-				<div className="bg-[url(/pattern-randomized.svg)] not-dark:bg-[url(/pattern-randomized.svg)] bg-center">
+				<div className="bg-[url(/pattern-randomized.svg)] not-dark:bg-[url(/pattern-randomized.svg)] ">
 					<SessionWrapper>
 						<ThemeProvider
 							attribute="class"

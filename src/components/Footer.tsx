@@ -1,8 +1,8 @@
 import Link from "next/link";
-import { Beer, HeartHandshake } from "lucide-react";
+import { Beer, HeartHandshake, Mail } from "lucide-react";
 import { SiGithub, SiX } from "@icons-pack/react-simple-icons";
 import { Separator } from "./ui/separator";
-import { GITHUB_URL, PAYPAL_URL, X_URL } from "@/lib/constants";
+import { CONTACT_EMAIL, GITHUB_URL, X_URL } from "@/lib/constants";
 
 export default function Footer() {
 	return (
@@ -11,7 +11,7 @@ export default function Footer() {
 			{/*	<div className="bg-secondary w-full h-full top-0 left-0 absolute -z-50"></div>*/}
 			{/*</div>*/}
 			<div className="container mx-auto px-4 py-8">
-				<div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
 					<div className="space-y-4">
 						<Link href="/" className="flex items-center space-x-2">
 							<Beer className="h-6 w-6" />
@@ -24,14 +24,29 @@ export default function Footer() {
 							ease.
 						</p>
 						<div className="flex space-x-4">
-							<Link href={GITHUB_URL} target="_blank">
-								<SiGithub />
-							</Link>
-							<Link href={PAYPAL_URL} target="_blank">
+							<Link href="/support">
 								<HeartHandshake />
 							</Link>
-							<Link href={X_URL} target="_blank">
+							<Link
+								href={GITHUB_URL}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<SiGithub />
+							</Link>
+							<Link
+								href={X_URL}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
 								<SiX />
+							</Link>
+							<Link
+								href={CONTACT_EMAIL}
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								<Mail />
 							</Link>
 						</div>
 					</div>
@@ -73,16 +88,8 @@ export default function Footer() {
 						</ul>
 					</div>
 					<div>
-						<h3 className="font-semibold mb-4">Resources</h3>
+						<h3 className="font-semibold mb-4">Socials</h3>
 						<ul className="space-y-2">
-							<li>
-								<Link
-									href={PAYPAL_URL}
-									className="text-sm hover:underline"
-								>
-									Support Brewfinder
-								</Link>
-							</li>
 							<li>
 								<Link
 									href={GITHUB_URL}
@@ -97,6 +104,57 @@ export default function Footer() {
 									className="text-sm hover:underline"
 								>
 									X
+								</Link>
+							</li>
+						</ul>
+					</div>
+					<div>
+						<h3 className="font-semibold mb-4">Resources</h3>
+						<ul className="space-y-2">
+							<li>
+								<Link
+									href="/support"
+									className="text-sm hover:underline"
+								>
+									Support Brewfinder
+								</Link>
+							</li>
+							<li>
+								<Link
+									href="/roadmap"
+									className="text-sm hover:underline"
+								>
+									Feature Roadmap
+								</Link>
+							</li>
+							<li>
+								<Link
+									href={CONTACT_EMAIL}
+									className="text-sm hover:underline"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
+									Contact
+								</Link>
+							</li>
+							<li>
+								<Link
+									href="https://github.com/bhyxen/brewfinder/issues/new?template=bug_report.md"
+									rel="noopener noreferrer"
+									target="_blank"
+									className="text-sm hover:underline"
+								>
+									Report a Bug
+								</Link>
+							</li>
+							<li>
+								<Link
+									href="/roadmap"
+									className="text-sm hover:underline"
+									rel="noopener noreferrer"
+									target="_blank"
+								>
+									Homebrew Official Site
 								</Link>
 							</li>
 						</ul>

@@ -262,7 +262,7 @@ export default function CreatePackageListForm({
 					{currentData ? "Edit List" : "Create New List"}
 				</Button>
 			</DialogTrigger>
-			<DialogContent className="sm:max-w-3xl">
+			<DialogContent className="sm:max-w-3xl max-h-5/6 overflow-y-auto flex flex-col">
 				<DialogHeader>
 					<DialogTitle>Create new package list</DialogTitle>
 					<DialogDescription>

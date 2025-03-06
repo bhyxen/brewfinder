@@ -68,7 +68,7 @@ export function UserMenu({ session }: Props) {
 					</DropdownMenuItem>
 				</DropdownMenuGroup> */}
 				<DropdownMenuSeparator />
-				<DropdownMenuItem>
+				<DropdownMenuItem className="hover:bg-transparent!">
 					<form
 						action={async () => {
 							// double sign out to ensure the session is cleared based on fix described on

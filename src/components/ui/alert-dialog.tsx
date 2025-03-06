@@ -133,11 +133,7 @@ function AlertDialogAction({
 }: React.ComponentProps<typeof AlertDialogPrimitive.Action>) {
 	return (
 		<AlertDialogPrimitive.Action
-			className={cn(
-				buttonVariants(),
-				"not-dark:text-foreground",
-				className,
-			)}
+			className={cn(buttonVariants(), className)}
 			{...props}
 		/>
 	);

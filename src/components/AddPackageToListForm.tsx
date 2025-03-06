@@ -115,10 +115,10 @@ export default function AddPackageToListForm({
 											value={
 												item?._id?.toString() as string
 											}
-											className="hover:bg-primary! hover:text-secondary! cursor-pointer"
+											className="hover:bg-primary! cursor-pointer"
 										>
 											<LucideDynamicIcon
-												className="hover:text-secondary!"
+												className=""
 												icon={item.icon}
 											/>
 											{item.name}
@@ -145,7 +145,7 @@ export default function AddPackageToListForm({
 										href={`/lists/user?createNewList=true&package=${encodeURI(JSON.stringify(currentPackageId))}`}
 									>
 										<Button
-											className="cursor-pointer w-full my-2 not-dark:text-foreground"
+											className="cursor-pointer w-full my-2"
 											variant="outline"
 										>
 											Create new list
@@ -158,10 +158,7 @@ export default function AddPackageToListForm({
 						</FormItem>
 					)}
 				/>
-				<Button
-					className="block ml-auto cursor-pointer text-primary-foreground not-dark:text-foreground"
-					type="submit"
-				>
+				<Button className="block ml-auto cursor-pointer" type="submit">
 					Submit
 				</Button>
 			</form>

@@ -55,7 +55,7 @@ export function PackageHeader({
 	return (
 		<Card className="mb-8">
 			<CardContent className="flex items-start space-x-4 flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 p-6 rounded-lg">
-				<div className="bg-primary text-primary-foreground not-dark:text-foreground p-3 rounded-lg">
+				<div className="bg-primary text-primary-foreground p-3 rounded-lg">
 					{packageType === "formula" ? (
 						<Beer size={32} />
 					) : (
@@ -77,7 +77,7 @@ export function PackageHeader({
 					<div className="flex items-center space-x-4">
 						<Popover open={open} onOpenChange={setOpen}>
 							<PopoverTrigger asChild onClick={handleClick}>
-								<Button className="cursor-pointer not-dark:text-foreground">
+								<Button className="cursor-pointer">
 									<BookmarkPlus />
 									Add to List
 								</Button>

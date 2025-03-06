@@ -255,7 +255,7 @@ export default function CreatePackageListForm({
 		<Dialog open={isformOpen} onOpenChange={setIsformOpen}>
 			<DialogTrigger asChild>
 				<Button
-					className={`cursor-pointer not-dark:text-foreground ${triggerClassName}`}
+					className={`cursor-pointer ${triggerClassName}`}
 					variant={currentData ? "outline" : "default"}
 				>
 					<Edit className="w-6 h-6"></Edit>

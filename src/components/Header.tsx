@@ -25,7 +25,7 @@ export default async function Header() {
 				<div className="items-center space-x-2 hidden md:flex">
 					{!session ? (
 						<Button
-							className="cursor-pointer text-primary-foreground not-dark:text-foreground"
+							className="cursor-pointer text-primary-foreground"
 							type="submit"
 						>
 							<Link href={`/sign-in`}>Sign In</Link>

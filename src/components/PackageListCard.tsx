@@ -43,7 +43,7 @@ function PackageListCard({
 	};
 
 	return (
-		<Card className="bg-primary-foreground/50 backdrop-blur-xl">
+		<Card className="bg-secondary backdrop-blur-xl">
 			<CardHeader>
 				<div className="flex items-center space-x-2">
 					<LucideDynamicIcon icon={icon} />
@@ -62,7 +62,7 @@ function PackageListCard({
 				</Button>
 				<Button
 					onClick={handleCopyCommandClick}
-					className="cursor-pointer not-dark:text-foreground"
+					className="cursor-pointer"
 				>
 					{copied ? (
 						<Check className="h-4 w-4" />

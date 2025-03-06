@@ -113,7 +113,7 @@ export default async function LoginPage(props: PageProps) {
 
 							<Button
 								type="submit"
-								className="w-full text-md cursor-pointer text-primary-foreground not-dark:text-foreground"
+								className="w-full text-md cursor-pointer text-primary-foreground"
 							>
 								Sign in
 							</Button>

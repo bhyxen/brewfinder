@@ -48,10 +48,7 @@ export default function SupportPage() {
 								Your support motivates to keep improving
 								Brewfinder.
 							</p>
-							<Button
-								asChild
-								className="w-full not-dark:text-foreground"
-							>
+							<Button asChild className="w-full">
 								<Link
 									href={DONATIONS_URL}
 									target="_blank"
@@ -81,10 +78,7 @@ export default function SupportPage() {
 								and dedicate more time to Brewfinder&#39;s
 								development.
 							</p>
-							<Button
-								asChild
-								className="w-full not-dark:text-foreground"
-							>
+							<Button asChild className="w-full ">
 								<Link
 									href={GITHUB_SPONSOR_URL}
 									target="_blank"

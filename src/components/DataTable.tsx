@@ -155,7 +155,7 @@ export function DataTable<TData, TValue>({
 						{table.getRowModel().rows?.length ? (
 							table.getRowModel().rows.map((row) => (
 								<TableRow
-									className="bg-primary-foreground hover:bg-accent"
+									className="bg-secondary/50 backdrop-blur-md hover:bg-accent"
 									key={row.id}
 									data-state={
 										row.getIsSelected() && "selected"
@@ -172,7 +172,7 @@ export function DataTable<TData, TValue>({
 								</TableRow>
 							))
 						) : (
-							<TableRow className="bg-primary-foreground">
+							<TableRow className="bg-secondary/50 backdrop-blur-md">
 								<TableCell
 									colSpan={columns.length}
 									className="h-24 text-center"
@@ -184,7 +184,7 @@ export function DataTable<TData, TValue>({
 					</TableBody>
 				</Table>
 			</div>
-			<div className="flex items-center justify-between space-x-2 py-4 bg-primary-foreground px-2">
+			<div className="flex items-center justify-between space-x-2 py-4 bg-secondary/50 backdrop-blur-md px-2">
 				<div className="text-sm text-muted-foreground ">
 					Showing{" "}
 					{table.getState().pagination.pageIndex *

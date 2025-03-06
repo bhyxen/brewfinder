@@ -97,7 +97,7 @@ export default function Packages() {
 					<Button asChild>
 						<Link
 							href={`/packages/${pkg.token ?? pkg.name}?type=${pkg.type}`}
-							className="font-medium not-dark:text-foreground"
+							className="font-medium"
 						>
 							Details
 						</Link>

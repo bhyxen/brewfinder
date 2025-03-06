@@ -89,12 +89,12 @@ export default function Home() {
 							<Input
 								type="search"
 								placeholder="Search for Homebrew packages..."
-								className="text-lg py-6 bg-primary-foreground w-full m-0"
+								className="text-lg py-6 bg-secondary w-full m-0"
 							/>
 							<Button
 								type="submit"
 								size="lg"
-								className="cursor-pointer not-dark:text-foreground"
+								className="cursor-pointer"
 							>
 								<Search className="h-5 w-5" />
 								Search
@@ -185,7 +185,7 @@ export default function Home() {
 				)}
 				{/*<section className="text-center">*/}
 				{/*	<div className="flex justify-center space-x-4">*/}
-				{/*		<Button asChild className="not-dark:text-foreground">*/}
+				{/*		<Button asChild>*/}
 				{/*			<Link href="/packages">View All Packages</Link>*/}
 				{/*		</Button>*/}
 				{/*	</div>*/}
@@ -210,7 +210,7 @@ export default function Home() {
 								<Button
 									asChild
 									variant="default"
-									className="flex-1 not-dark:text-foreground"
+									className="flex-1"
 								>
 									<Link
 										href="https://brew.sh"

@@ -52,9 +52,8 @@ function Button({
 				buttonVariants({
 					variant,
 					size,
+					className,
 				}),
-				"not-dark:text-foreground",
-				className,
 			)}
 			{...props}
 		/>

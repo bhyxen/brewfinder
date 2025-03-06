@@ -117,7 +117,12 @@ export function AppSidebar({ className }: Props) {
 						<SidebarMenu>
 							{navItems.map((item) => (
 								<SidebarMenuItem key={item.title}>
-									<SidebarMenuButton asChild>
+									<SidebarMenuButton
+										asChild
+										onClick={() => {
+											toggleSidebar();
+										}}
+									>
 										<Link href={item.url}>
 											<item.icon className="mr-2 h-5 w-5" />
 											<span>{item.title}</span>
@@ -133,7 +138,12 @@ export function AppSidebar({ className }: Props) {
 					<SidebarGroupContent>
 						<SidebarMenu>
 							<SidebarMenuItem>
-								<SidebarMenuButton asChild>
+								<SidebarMenuButton
+									asChild
+									onClick={() => {
+										toggleSidebar();
+									}}
+								>
 									<Link href="/roadmap">
 										<BarChart2 className="mr-2 h-5 w-5" />
 										<span>Roadmap</span>
@@ -141,7 +151,12 @@ export function AppSidebar({ className }: Props) {
 								</SidebarMenuButton>
 							</SidebarMenuItem>
 							<SidebarMenuItem>
-								<SidebarMenuButton asChild>
+								<SidebarMenuButton
+									asChild
+									onClick={() => {
+										toggleSidebar();
+									}}
+								>
 									<Link
 										href={`${GITHUB_URL}/issues/new/choose`}
 										target="_blank"
@@ -153,7 +168,12 @@ export function AppSidebar({ className }: Props) {
 								</SidebarMenuButton>
 							</SidebarMenuItem>
 							<SidebarMenuItem>
-								<SidebarMenuButton asChild>
+								<SidebarMenuButton
+									asChild
+									onClick={() => {
+										toggleSidebar();
+									}}
+								>
 									<Link href="/support">
 										<HeartHandshake className="mr-2 h-5 w-5" />
 										<span>Support Project</span>

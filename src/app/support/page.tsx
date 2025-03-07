@@ -23,10 +23,10 @@ export default function SupportPage() {
 						Support Brewfinder
 					</h1>
 					<p className="text-muted-foreground mt-2 max-w-xl mx-auto">
-						Brewfinder is an open-source project developed by a
-						single developer open to receive support from
-						volunteers. Your support helps the project continue the
-						development and cover hosting and operations costs.
+						Brewfinder is an open-source project created by a single
+						developer open to receive support from volunteers. Your
+						support helps the project continue the development and
+						cover hosting and operations costs.
 					</p>
 				</div>
 

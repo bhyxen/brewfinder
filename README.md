@@ -1,17 +1,3 @@
-<p align="center">
-  <a href="https://brewfinder.app/">
-    <img src="https://github.com/user-attachments/assets/5a55107b-02ee-4cd1-886a-c8d4720d2742" alt="Brewfinder Logo" width="200">
-  </a>
-</p>
-
-<p align="center">
-  <img alt="Website" src="https://img.shields.io/website?url=https%3A%2F%2Fwww.brewfinder.app&style=for-the-badge">
-  <img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues/bhyxen/brewfinder?style=for-the-badge">
-  <img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues-pr/bhyxen/brewfinder?style=for-the-badge">
-</p>
-
-## 📎 Content
-
 <!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
 
 - [📋 Overview](#-overview)
@@ -24,12 +10,14 @@
 
 <!-- TOC end -->
 
+<!-- TOC --><a name="-overview"></a>
 ## 📋 Overview
 
 [Brewfinder](https://www.brewfinder.app) is a modern web application designed to simplify the discovery and management of Homebrew packages. It provides a user-friendly interface for searching, organizing, and installing packages from the Homebrew package manager, which is widely used specially on macOS but also available for Linux, and Windows (via WSL).
 
 Whether you're a developer setting up a new environment, a data scientist managing dependencies, or a system administrator maintaining multiple machines, Brewfinder helps you create, share, and reuse package collections for consistent installations across your systems.
 
+<!-- TOC --><a name="-features"></a>
 ## ✨ Features
 
 ### Package Discovery
@@ -58,6 +46,7 @@ Whether you're a developer setting up a new environment, a data scientist managi
 - **Feature Requests**: Submit and vote on new feature ideas for Brewfinder
 - **Roadmap**: View upcoming features and development plans
 
+<!-- TOC --><a name="-installation"></a>
 ## 🚀 Installation
 
 ### Prerequisites
@@ -106,6 +95,7 @@ yarn dev
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+<!-- TOC --><a name="-tech-stack"></a>
 ## 🛠️ Tech Stack
 
 - **Frontend**: Next.js, React, TypeScript, Tailwind CSS
@@ -115,10 +105,12 @@ yarn dev
 - **API**: Next.js API Routes
 - **Database**: MongoDB and Redis
 
+<!-- TOC --><a name="-roadmap"></a>
 ## 🗺️ Roadmap
 
 Our development roadmap is available on the [Roadmap page](https://www.brewfinder.app/roadmap) of the application.
 
+<!-- TOC --><a name="-contributing"></a>
 ## 👥 Contributing
 
 We welcome contributions from the community! Here's how you can help:
@@ -136,6 +128,7 @@ We welcome contributions from the community! Here's how you can help:
 4. Push to the branch in your forked repository: `git push origin feature/amazing-feature`
 5. Open a Pull Request
 
+<!-- TOC --><a name="-acknowledgments"></a>
 ## 🙏 Acknowledgments
 
 - [Homebrew](https://brew.sh/) for their amazing package manager

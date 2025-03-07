@@ -63,6 +63,31 @@ export const getByUserId = async (userID: string) => {
 	}
 };
 
+export const getLikedByUserId = async (userID: string) => {
+	try {
+		await connectDB();
+		const PackageListResult = await PackageListModel.find({
+			likes: userID,
+		});
+
+		if (!PackageListResult) {
+			return new NextResponse("User liked lists not found", {
+				status: 404,
+			});
+		}
+
+		return NextResponse.json(PackageListResult);
+	} catch (error) {
+		console.error(error);
+		return new NextResponse(
+			(error as Error)?.message || "Internal server error",
+			{
+				status: 500,
+			},
+		);
+	}
+};
+
 export const create = async ({
 	name,
 	description,

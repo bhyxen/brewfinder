@@ -43,7 +43,7 @@ function PackageListCard({
 	};
 
 	return (
-		<Card className="bg-secondary backdrop-blur-xl">
+		<Card className="bg-secondary/50 backdrop-blur-md">
 			<CardHeader>
 				<div className="flex items-center space-x-2">
 					<LucideDynamicIcon icon={icon} />

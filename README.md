@@ -1,3 +1,17 @@
+<p align="center">
+  <a href="https://brewfinder.app/">
+    <img src="https://github.com/user-attachments/assets/5a55107b-02ee-4cd1-886a-c8d4720d2742" alt="Brewfinder Logo" width="200">
+  </a>
+</p>
+
+<p align="center">
+  <img alt="Website" src="https://img.shields.io/website?url=https%3A%2F%2Fwww.brewfinder.app&style=for-the-badge">
+  <img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues/bhyxen/brewfinder?style=for-the-badge">
+  <img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues-pr/bhyxen/brewfinder?style=for-the-badge">
+</p>
+
+## 📎 Content
+
 <!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
 
 - [📋 Overview](#-overview)

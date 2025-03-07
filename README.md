@@ -12,16 +12,17 @@
 
 ## 📎 Content
 
-- [📋 Overview](#---overview)
-- [✨ Features](#--features)
-- [🚀 Installation](#---installation)
-- [🛠️ Tech Stack](#----tech-stack)
-- [🗺️ Roadmap](#----roadmap)
-- [👥 Contributing](#---contributing)
-- [🙏 Acknowledgments](#---acknowledgments)
+<!-- TOC start (generated with https://github.com/derlin/bitdowntoc) -->
 
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+- [📋 Overview](#-overview)
+- [✨ Features](#-features)
+- [🚀 Installation](#-installation)
+- [🛠️ Tech Stack](#-tech-stack)
+- [🗺️ Roadmap](#-roadmap)
+- [👥 Contributing](#-contributing)
+- [🙏 Acknowledgments](#-acknowledgments)
 
+<!-- TOC end -->
 
 ## 📋 Overview
 

@@ -1,36 +1,142 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<p align="center">
+  <a href="https://brewfinder.app/">
+    <img src="https://github.com/user-attachments/assets/5a55107b-02ee-4cd1-886a-c8d4720d2742" alt="Brewfinder Logo" width="200">
+  </a>
+</p>
 
-## Getting Started
+<p align="center">
+  <img alt="Website" src="https://img.shields.io/website?url=https%3A%2F%2Fwww.brewfinder.app&style=for-the-badge">
+  <img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues/bhyxen/brewfinder?style=for-the-badge">
+  <img alt="GitHub Issues or Pull Requests" src="https://img.shields.io/github/issues-pr/bhyxen/brewfinder?style=for-the-badge">
+</p>
 
-First, run the development server:
+## 📎 Content
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- [📋 Overview](#---overview)
+- [✨ Features](#--features)
+- [🚀 Installation](#---installation)
+- [🛠️ Tech Stack](#----tech-stack)
+- [🗺️ Roadmap](#----roadmap)
+- [👥 Contributing](#---contributing)
+- [🙏 Acknowledgments](#---acknowledgments)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+
+## 📋 Overview
+
+[Brewfinder](https://www.brewfinder.app) is a modern web application designed to simplify the discovery and management of Homebrew packages. It provides a user-friendly interface for searching, organizing, and installing packages from the Homebrew package manager, which is widely used specially on macOS but also available for Linux, and Windows (via WSL).
+
+Whether you're a developer setting up a new environment, a data scientist managing dependencies, or a system administrator maintaining multiple machines, Brewfinder helps you create, share, and reuse package collections for consistent installations across your systems.
+
+## ✨ Features
+
+### Package Discovery
+
+- **Search & Browse**: Find packages by name, description, or category
+- **Detailed Information**: View comprehensive package details, dependencies, and installation statistics
+- **Analytics**: Explore trending and popular packages with visual charts
+
+
+### List Management
+
+- **Create Custom Lists**: Group packages for different development environments or projects
+- **Save & Share**: Save lists to your profile and share them with the community
+- **Like & Discover**: Find and like useful lists created by other users
+
+
+### Installation Helpers
+
+- **Installation Scripts**: Generate ready-to-use installation scripts for your package lists
+- **Copy Commands**: Easily copy installation commands for individual packages
+
+
+### Community Features
+
+- **Public Lists**: Discover curated package collections from the community
+- **Feature Requests**: Submit and vote on new feature ideas for Brewfinder
+- **Roadmap**: View upcoming features and development plans
+
+## 🚀 Installation
+
+### Prerequisites
+
+- Node.js
+- npm, pnpm, yarn or any other Node.js package manager
+- Git
+
+
+### Setup
+
+1. Clone the repository:
+
+
+```shellscript
+git clone https://github.com/bhyxen/brewfinder.git
+cd brewfinder
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```shellscript
+pnpm install
+# or
+yarn install
+```
 
-## Learn More
+3. Set up environment variables:
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```shellscript
+cp .env.example .env.local
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Edit `.env.local` with your configuration values.
 
-## Deploy on Vercel
+4. Start the development server:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```shellscript
+pnpm run dev
+# or
+yarn dev
+```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Next.js, React, TypeScript, Tailwind CSS
+- **UI Components**: shadcn/ui, Lucide React icons, react-simple-icons
+- **Data Visualization**: Recharts
+- **Authentication**: Auth.js
+- **API**: Next.js API Routes
+- **Database**: MongoDB and Redis
+
+## 🗺️ Roadmap
+
+Our development roadmap is available on the [Roadmap page](https://www.brewfinder.app/roadmap) of the application.
+
+## 👥 Contributing
+
+We welcome contributions from the community! Here's how you can help:
+
+1. **Report Bugs**: Submit issues for any bugs you encounter
+2. **Suggest Features**: Have an idea? Submit a feature request
+3. **Submit PRs**: Want to fix a bug or add a feature? Submit a pull request
+
+
+### Development Workflow
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit your changes using [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/): `git commit -m 'feat: add amazing feature'`
+4. Push to the branch in your forked repository: `git push origin feature/amazing-feature`
+5. Open a Pull Request
+
+## 🙏 Acknowledgments
+
+- [Homebrew](https://brew.sh/) for their amazing package manager
+- [Homebrew Formulae API](https://formulae.brew.sh/api/) for providing package data
+- [shadcn/ui](https://ui.shadcn.com/) for the beautiful UI components

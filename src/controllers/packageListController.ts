@@ -150,3 +150,16 @@ export const update = async ({
 		return NextResponse.error();
 	}
 };
+
+export const deleteList = async (_id: string) => {
+	try {
+		await connectDB();
+
+		const newPackageList = await PackageListModel.findByIdAndDelete(_id);
+
+		return NextResponse.json(newPackageList);
+	} catch (error) {
+		console.error({ error });
+		return NextResponse.error();
+	}
+};

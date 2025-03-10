@@ -49,7 +49,7 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
-import { ChevronsUpDown } from "lucide-react";
+import { ChevronsUpDown, Trash2 } from "lucide-react";
 import { PackageFilteredData } from "@/types/homebrew";
 import { formSchema } from "@/schemas/zod";
 import { Badge } from "./ui/badge";
@@ -60,6 +60,17 @@ import {
 import { useSession } from "next-auth/react";
 import { PackageDetails, PackageList } from "@/models/packageLists";
 import { Separator } from "./ui/separator";
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 type Props = {
 	packages: PackageFilteredData[];
@@ -81,6 +92,8 @@ export default function CreatePackageListForm({
 	const { data: session } = useSession();
 
 	const [isformOpen, setIsformOpen] = useState(isOpen);
+
+	const [open, setOpen] = useState(false);
 
 	// console.log({ packages });
 
@@ -146,7 +159,6 @@ export default function CreatePackageListForm({
 	};
 
 	async function onSubmit(values: z.infer<typeof formSchema>) {
-		console.log({ values });
 		try {
 			// toast(
 			// 	<pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
@@ -175,8 +187,6 @@ export default function CreatePackageListForm({
 
 			// if there is already data, then we are updating the list
 			if (currentData) {
-				console.log({ currentData: currentData });
-				console.log({ updatedList: newListBody });
 				newList = await fetch(
 					`/api/packageLists/update/${currentData._id}`,
 					{
@@ -210,6 +220,24 @@ export default function CreatePackageListForm({
 		} catch (error) {
 			console.error("Form submission error: ", error);
 			toast.error("Failed to submit the form. Please try again.");
+		}
+	}
+
+	async function handleDelete() {
+		try {
+			const listDeleted = await fetch(
+				`/api/packageLists/delete/${currentData?._id}`,
+				{ method: "DELETE" },
+			);
+
+			if (listDeleted.ok) {
+				toast.success("List deleted successfully");
+			} else {
+				toast.error("Failed to delete list. Please try again.");
+			}
+		} catch (error) {
+			console.error("List delete error: ", error);
+			toast.error("Failed to delete list. Please try again.");
 		}
 	}
 
@@ -264,7 +292,11 @@ export default function CreatePackageListForm({
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-3xl max-h-5/6 overflow-y-auto flex flex-col">
 				<DialogHeader>
-					<DialogTitle>Create new package list</DialogTitle>
+					<DialogTitle>
+						{currentData
+							? "Edit package list"
+							: "Create new package list"}
+					</DialogTitle>
 					<DialogDescription>
 						Enter the details of the list
 					</DialogDescription>
@@ -523,11 +555,47 @@ export default function CreatePackageListForm({
 						/>
 					</form>
 				</Form>
-				<DialogFooter>
+				<DialogFooter className="flex justify-between items-center">
+					<AlertDialog open={open} onOpenChange={setOpen}>
+						<AlertDialogTrigger asChild>
+							<Button
+								variant="destructive"
+								className="w-full sm:w-auto cursor-pointer"
+							>
+								<Trash2 />
+								Delete
+							</Button>
+						</AlertDialogTrigger>
+						<AlertDialogContent>
+							<AlertDialogHeader>
+								<AlertDialogTitle>
+									Are you absolutely sure?
+								</AlertDialogTitle>
+								<AlertDialogDescription>
+									Do you really want to delete this list? This
+									action cannot be undone.
+								</AlertDialogDescription>
+							</AlertDialogHeader>
+							<AlertDialogFooter>
+								<AlertDialogCancel>Cancel</AlertDialogCancel>
+								<AlertDialogAction
+									className="cursor-pointer"
+									onClick={handleDelete}
+									variant="destructive"
+								>
+									Delete
+								</AlertDialogAction>
+							</AlertDialogFooter>
+						</AlertDialogContent>
+					</AlertDialog>
+					<Separator
+						orientation="vertical"
+						className="bg-muted-foreground h-5! mx-4"
+					/>
 					<Button
 						type="submit"
 						form="create-package-list-form"
-						className="block ml-auto cursor-pointer"
+						className="block cursor-pointer"
 					>
 						Submit
 					</Button>

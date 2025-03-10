@@ -216,3 +216,21 @@ body {
 	--color-sidebar-border: var(--sidebar-border);
 	--color-sidebar-ring: var(--sidebar-ring);
 }
+
+/* Animations for SVG elements */
+@keyframes float {
+	0% { transform: translateY(0px); }
+	50% { transform: translateY(-10px); }
+	100% { transform: translateY(0px); }
+}
+
+@keyframes rotate {
+	0% { transform: rotate(0deg); }
+	100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+	0% { opacity: 0.4; }
+	50% { opacity: 0.6; }
+	100% { opacity: 0.4; }
+}

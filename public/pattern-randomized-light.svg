@@ -1,25 +1,59 @@
-﻿<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'>
+﻿<svg class="background" xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'>
     <rect fill='#00000000' width='1600' height='900'/>
     <defs>
         <linearGradient id='a' x1='0' x2='0' y1='1' y2='0' gradientTransform='rotate(29,0.5,0.5)'>
-            <stop offset='0' stop-color='#FFB715'/>
-            <stop offset='1' stop-color='#FFFFFF'/>
+            <stop offset='0' stop-color='#FF6B00'>
+                <animate attributeName="stop-color" values="#FF6B00;#FF4500;#FF6B00" dur="10s" repeatCount="indefinite" />
+            </stop>
+            <stop offset='1' stop-color='#FF8C00'>
+                <animate attributeName="stop-color" values="#FF8C00;#FF7000;#FF8C00" dur="10s" repeatCount="indefinite" />
+            </stop>
         </linearGradient>
         <linearGradient id='b' x1='0' x2='0' y1='0' y2='1' gradientTransform='rotate(121,0.5,0.5)'>
-            <stop offset='0' stop-color='#F00'/>
-            <stop offset='1' stop-color='#FC0'/>
+            <stop offset='0' stop-color='#CC0000'>
+                <animate attributeName="stop-color" values="#CC0000;#990000;#CC0000" dur="8s" repeatCount="indefinite" />
+            </stop>
+            <stop offset='1' stop-color='#E65C00'>
+                <animate attributeName="stop-color" values="#E65C00;#CC4400;#E65C00" dur="8s" repeatCount="indefinite" />
+            </stop>
         </linearGradient>
     </defs>
     <g fill='none' stroke-miterlimit='10'>
-        <g stroke='url(#a)' stroke-width='4.619999999999999' opacity='0.5'>
-            <path transform='translate(-28 6.4) rotate(4 1409 581) scale(1.016)' d='M1409 581 1450.35 511 1490 581z'/>
-            <circle stroke-width='1.54' transform='translate(-16 16) rotate(4.8 800 450) scale(1.008)' cx='500' cy='50' r='40'/>
-            <path transform='translate(14.4 -48) rotate(48 401 736) scale(1.008)' d='M400.86 735.5h-83.73c0-23.12 18.74-41.87 41.87-41.87S400.86 712.38 400.86 735.5z'/>
+        <g stroke='url(#a)' stroke-width='4.619999999999999' opacity='0.85'>
+            <path transform='translate(-28 6.4) rotate(4 1409 581) scale(1.016)' d='M1409 581 1450.35 511 1490 581z'>
+                <animateTransform attributeName="transform" type="translate" values="-28,6.4; -20,10.4; -28,6.4" dur="7s" repeatCount="indefinite" additive="sum" />
+                <animateTransform attributeName="transform" type="rotate" values="4 1409 581; 8 1409 581; 4 1409 581" dur="10s" repeatCount="indefinite" additive="sum" />
+                <animateTransform attributeName="transform" type="scale" values="1.016;1.026;1.016" dur="9s" repeatCount="indefinite" additive="sum" />
+            </path>
+            <circle stroke-width='1.54' transform='translate(-16 16) rotate(4.8 800 450) scale(1.008)' cx='500' cy='50' r='40'>
+                <animateTransform attributeName="transform" type="translate" values="-16,16; -8,22; -16,16" dur="9s" repeatCount="indefinite" additive="sum" />
+                <animate attributeName="r" values="40;45;40" dur="5s" repeatCount="indefinite" />
+                <animateTransform attributeName="transform" type="rotate" values="4.8 800 450; 7.8 800 450; 4.8 800 450" dur="12s" repeatCount="indefinite" additive="sum" />
+            </circle>
+            <path transform='translate(14.4 -48) rotate(48 401 736) scale(1.008)' d='M400.86 735.5h-83.73c0-23.12 18.74-41.87 41.87-41.87S400.86 712.38 400.86 735.5z'>
+                <animateTransform attributeName="transform" type="translate" values="14.4,-48; 20.4,-42; 14.4,-48" dur="8s" repeatCount="indefinite" additive="sum" />
+                <animateTransform attributeName="transform" type="rotate" values="48 401 736; 53 401 736; 48 401 736" dur="12s" repeatCount="indefinite" additive="sum" />
+                <animateTransform attributeName="transform" type="scale" values="1.008;1.018;1.008" dur="10s" repeatCount="indefinite" additive="sum" />
+            </path>
         </g>
-        <g stroke='url(#b)' stroke-width='1.4' opacity='0.5'>
-            <path transform='translate(96 -6.4) rotate(1.6 150 345) scale(0.984)' d='M149.8 345.2 118.4 389.8 149.8 434.4 181.2 389.8z'/>
-            <rect stroke-width='3.08' transform='translate(-64 -40) rotate(57.6 1089 759)' x='1039' y='709' width='100' height='100'/>
-            <path transform='translate(-96 32) rotate(9.6 1400 132)' d='M1426.8 132.4 1405.7 168.8 1363.7 168.8 1342.7 132.4 1363.7 96 1405.7 96z'/>
+        <g stroke='url(#b)' stroke-width='1.4' opacity='0.85'>
+            <path transform='translate(96 -6.4) rotate(1.6 150 345) scale(0.984)' d='M149.8 345.2 118.4 389.8 149.8 434.4 181.2 389.8z'>
+                <animateTransform attributeName="transform" type="translate" values="96,-6.4; 102,-1.4; 96,-6.4" dur="10s" repeatCount="indefinite" additive="sum" />
+                <animateTransform attributeName="transform" type="scale" values="0.984;1.004;0.984" dur="7s" repeatCount="indefinite" additive="sum" />
+                <animateTransform attributeName="transform" type="rotate" values="1.6 150 345; 4.6 150 345; 1.6 150 345" dur="11s" repeatCount="indefinite" additive="sum" />
+            </path>
+            <rect stroke-width='3.08' transform='translate(-64 -40) rotate(57.6 1089 759)' x='1039' y='709' width='100' height='100'>
+                <animateTransform attributeName="transform" type="translate" values="-64,-40; -60,-36; -64,-40" dur="12s" repeatCount="indefinite" additive="sum" />
+                <animateTransform attributeName="transform" type="rotate" values="57.6 1089 759; 64.6 1089 759; 57.6 1089 759" dur="15s" repeatCount="indefinite" additive="sum" />
+                <animate attributeName="stroke-width" values="3.08;3.48;3.08" dur="8s" repeatCount="indefinite" />
+            </rect>
+            <path transform='translate(-96 32) rotate(9.6 1400 132)' d='M1426.8 132.4 1405.7 168.8 1363.7 168.8 1342.7 132.4 1363.7 96 1405.7 96z'>
+                <animateTransform attributeName="transform" type="translate" values="-96,32; -90,38; -96,32" dur="11s" repeatCount="indefinite" additive="sum" />
+                <animateTransform attributeName="transform" type="rotate" values="9.6 1400 132; 13.6 1400 132; 9.6 1400 132" dur="14s" repeatCount="indefinite" additive="sum" />
+                <animateTransform attributeName="transform" type="scale" values="1;1.02;1" dur="13s" repeatCount="indefinite" additive="sum" />
+            </path>
         </g>
     </g>
+    <!-- Global animations for the entire SVG -->
+    <animate attributeName="opacity" values="0.95;1;0.95" dur="20s" repeatCount="indefinite" />
 </svg>

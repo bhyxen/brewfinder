@@ -22,6 +22,12 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
 	title: "Brewfinder - Homebrew Package Explorer",
 	description: "Discover, save, and install Homebrew packages with ease",
+	openGraph: {
+		title: "Brewfinder - Homebrew Package Explorer",
+		description: "Discover, save, and install Homebrew packages with ease",
+		url: "https://www.brewfinder.app",
+		siteName: "Brewfinder - Homebrew Package Explorer",
+	},
 };
 
 export default function RootLayout({

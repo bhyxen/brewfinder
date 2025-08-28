@@ -54,7 +54,6 @@ import {
 import { toast } from "sonner";
 import { PackageDetails, PackageList } from "@/models/packageLists";
 import { ObjectId } from "mongoose";
-import { Cask, Formula, Package } from "@/types/homebrew";
 import { useSession } from "next-auth/react";
 import LucideDynamicIcon from "@/components/LucideDynamicIcon";
 import CreatePackageListForm from "@/components/CreatePackageListForm";

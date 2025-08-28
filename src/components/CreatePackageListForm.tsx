@@ -127,7 +127,7 @@ export default function CreatePackageListForm({
 			form.setValue("icon", currentData.icon);
 		} else if (defaultPackage) {
 			const defaultPkg = decodeURI(defaultPackage);
-			console.log({ defaultPkg });
+			// console.log({ defaultPkg });
 			form.setValue("packages", [defaultPkg]);
 		}
 	}, [form, currentData, defaultPackage]);
@@ -257,10 +257,6 @@ export default function CreatePackageListForm({
 	): void {
 		const inputValue = (event.target as HTMLInputElement).value;
 
-		console.log("input value is: ", inputValue);
-
-		console.log("packages are: ", packages);
-
 		if (inputValue.length < 1) {
 			setFilteredPackages([]);
 			return;
@@ -280,8 +276,6 @@ export default function CreatePackageListForm({
 			});
 		}, 500)();
 	}
-
-	console.log({ filteredPackages });
 
 	return (
 		<Dialog open={isformOpen} onOpenChange={setIsformOpen}>

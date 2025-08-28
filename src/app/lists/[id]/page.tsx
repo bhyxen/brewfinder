@@ -157,7 +157,7 @@ export default function ListDetailsPage() {
 	}
 
 	const handleLike = async () => {
-		console.log({ session });
+		// console.log({ session });
 
 		if (!session) {
 			return router.push("/sign-in?callbackUrl=" + pathname);

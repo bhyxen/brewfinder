@@ -53,7 +53,7 @@ export default async function Page({
 			<div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
 				<div className="md:col-span-2 space-y-8">
 					<PackageInstallation
-						name={Array.isArray(pkg.name) ? pkg.name[0] : pkg.name}
+						name={currentPackageId.id}
 						packageType={searchParamsResult.type}
 					/>
 					<PackageInfo

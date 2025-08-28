@@ -35,7 +35,7 @@ export const headSchema = z.object({
 });
 
 export const buildErrorSchema = z.object({
-	the30d: z.record(z.number()),
+	the30d: z.record(z.string(), z.number()),
 });
 
 export const runtimeDependencySchema = z.object({
@@ -81,7 +81,7 @@ export const conflictsWithSchema = z.object({
 	formula: z.array(z.string()),
 });
 
-export const macOSSchema = z.record(z.array(z.string()));
+export const macOSSchema = z.record(z.string(), z.array(z.string()));
 
 export const uninstallSchema = z.object({
 	launchctl: z.array(z.string()).optional(),
@@ -109,7 +109,7 @@ export const packageAnalyticsSchema = z.object({
 	items: z.union([z.array(itemCaskSchema), z.array(itemForumlaSchema)]),
 });
 
-export const filesSchema = z.record(bottleFileSchema);
+export const filesSchema = z.record(z.string(), bottleFileSchema);
 
 export const headDependenciesSchema = z.object({
 	build_dependencies: z.array(z.string()),
@@ -138,8 +138,8 @@ export const uRLsSchema = z.object({
 });
 
 export const analyticsSchema = z.object({
-	install: z.record(z.record(z.number())),
-	install_on_request: z.record(z.record(z.number())),
+	install: z.record(z.string(), z.record(z.string(), z.number())),
+	install_on_request: z.record(z.string(), z.record(z.string(), z.number())),
 	build_error: buildErrorSchema,
 });
 
@@ -156,7 +156,7 @@ export const installerSchema = z.object({
 	script: installerScriptSchema,
 });
 
-export const dependsOnSchema = z.record(macOSSchema);
+export const dependsOnSchema = z.record(z.string(), macOSSchema);
 
 export const bottleStableSchema = z.object({
 	rebuild: z.number(),

@@ -25,7 +25,7 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { PackageFilteredData } from "@/types/homebrew";
+import { Package, PackageFilteredData } from "@/types/homebrew";
 import useSWR from "swr";
 import {
 	Tooltip,

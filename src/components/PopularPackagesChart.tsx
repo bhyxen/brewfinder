@@ -53,8 +53,11 @@ export function PopularPackagesChart({
 		percentage: item.percent,
 	}));
 
-	const handleClick = (data: (typeof formattedData)[0]) => {
-		router.push(`/packages/${data.name}?type=${packageType}`);
+	const handleClick = (data: { payload?: { name?: string } }) => {
+		const payload = data && data.payload;
+		if (payload && payload.name) {
+			router.push(`/packages/${payload.name}?type=${packageType}`);
+		}
 	};
 
 	return (
@@ -96,9 +99,12 @@ export function PopularPackagesChart({
 						/>
 						<ChartLegend
 							className="mb-4"
-							content={
-								<ChartLegendContent accessKey={packageType} />
-							}
+							content={(props) => (
+								<ChartLegendContent
+									accessKey={packageType}
+									payload={props.payload}
+								/>
+							)}
 						/>
 						<Bar
 							dataKey={packageType}

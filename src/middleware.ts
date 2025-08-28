@@ -15,7 +15,7 @@ export const config = {
 export const { auth } = NextAuth(authConfig);
 
 export default auth((req) => {
-	console.log({ pathname: req.nextUrl.pathname });
+	// console.log({ pathname: req.nextUrl.pathname });
 
 	const isLoggedIn = !!req.auth;
 
@@ -23,6 +23,6 @@ export default auth((req) => {
 		const newUrl = new URL("/sign-in", req.nextUrl.origin);
 		return Response.redirect(newUrl);
 	} else {
-		console.log("User is authenticated");
+		// console.log("User is authenticated");
 	}
 });

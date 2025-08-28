@@ -1,7 +1,15 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { format } from "date-fns";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+	Card,
+	CardContent,
+	CardFooter,
+	CardHeader,
+	CardTitle,
+	CardAction,
+	CardDescription,
+} from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { useParams, useRouter, usePathname } from "next/navigation";
@@ -17,7 +25,7 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-
+import { PackageFilteredData } from "@/types/homebrew";
 import useSWR from "swr";
 import {
 	Tooltip,
@@ -34,6 +42,8 @@ import {
 	ChevronDown,
 	ChevronUp,
 	Info,
+	ExternalLink,
+	Download,
 } from "lucide-react";
 import Link from "next/link";
 import {
@@ -106,6 +116,11 @@ export default function ListDetailsPage() {
 			);
 		}
 	}
+
+	const { data: packagesData } = useSWR<PackageFilteredData[], Error>(
+		["/api/packages/getAll"],
+		fetcher,
+	);
 
 	const { data: listDetails } = useSWR<PackageList, Error>(
 		["/api/packageLists/getById", listId],
@@ -198,15 +213,19 @@ export default function ListDetailsPage() {
 		packagesDetails ? packagesDetails : []
 	).slice(0, MAX_VISIBLE_PACKAGES);
 
+	const hiddenPackages: Package[] = packagesDetails
+		? packagesDetails.slice(MAX_VISIBLE_PACKAGES)
+		: [];
+
 	return (
 		<div className="container mx-auto px-4 py-8">
 			<Card className="mb-8">
-				<CardContent className="flex flex-col sm:flex-row items-start sm:items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 p-6 rounded-lg">
+				<CardContent className="flex flex-col sm:flex-row items-start sm:items-start space-y-4 sm:space-y-0 sm:space-x-4 p-6 rounded-lg">
 					<LucideDynamicIcon
 						icon={listDetails.icon}
 						className="h-24 w-24 sm:h-32 sm:w-32"
 					/>
-					<div className="flex-1 text-center text-left">
+					<div className="flex-1 text-left">
 						<div className="flex flex-col lg:flex-row items-start lg:items-center sm:justify-start space-x-2 mb-2">
 							<h1 className="text-3xl font-bold">
 								{listDetails.name}
@@ -302,7 +321,7 @@ export default function ListDetailsPage() {
 							</Button>
 							{session?.user?.id === listDetails.owner.id && (
 								<CreatePackageListForm
-									packages={[]}
+									packages={packagesData ?? []}
 									currentData={listDetails}
 									triggerClassName="w-full sm:w-auto "
 								/>
@@ -329,7 +348,7 @@ export default function ListDetailsPage() {
 								className="space-y-2"
 							>
 								<ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-									{visiblePackages.map((pkg, index) => {
+									{visiblePackages.map((pkg) => {
 										const pkgId =
 											pkg.token ??
 											(Array.isArray(pkg.name)
@@ -337,77 +356,112 @@ export default function ListDetailsPage() {
 												: pkg.name);
 
 										return (
-											<li key={`pkgId-${index}`}>
+											<li key={`${pkgId}`}>
 												<Card>
-													<CardContent className="flex items-center justify-between p-4">
-														<div className="flex items-center">
-															<PackageIcon className="h-5 w-5 mr-2" />
-															<span>{pkgId}</span>
-														</div>
-														<TooltipProvider>
-															<Tooltip>
-																<TooltipTrigger
-																	asChild
-																>
-																	<Button
-																		asChild
-																		size="icon"
-																	>
-																		<Link
-																			href={`/packages/${
-																				pkgId
-																			}?type=${
-																				pkg.tap.includes(
-																					"cask",
-																				)
-																					? "cask"
-																					: "formula"
-																			}`}
-																			className="font-medium text-center"
+													<CardHeader>
+														<div className="flex justify-between">
+															<div className="flex">
+																<PackageIcon className="h-5 w-5 mr-2" />
+																<span>
+																	{pkgId}
+																</span>
+															</div>
+															<CardDescription className="flex space-x-2">
+																<TooltipProvider>
+																	<Tooltip>
+																		<TooltipTrigger
+																			asChild
 																		>
-																			<Info className="h-4 w-4" />
-																		</Link>
-																	</Button>
-																</TooltipTrigger>
-																<TooltipContent>
-																	<p>
-																		{Array.isArray(
-																			pkg.name,
-																		)
-																			? pkg
-																					.name[0]
-																			: pkg.name}
-																	</p>
-																	<p>
-																		{
-																			pkg.desc
-																		}
-																	</p>
-																	<Badge
-																		variant="secondary"
-																		className="my-2"
-																	>
-																		{
-																			listDetails?.packages?.find(
-																				(
-																					pkgList,
-																				) =>
-																					pkgList.id ===
-																					(pkg.token ??
-																						(Array.isArray(
-																							pkg.name,
-																						)
-																							? pkg
-																									.name[0]
-																							: pkg.name)),
-																			)
-																				?.type
-																		}
-																	</Badge>
-																</TooltipContent>
-															</Tooltip>
-														</TooltipProvider>
+																			<div className="flex items-center space-x-2 cursor-help">
+																				<Download className="h-4 w-4" />
+																				<span>
+																					{pkg
+																						.analytics
+																						?.install[
+																						"30d"
+																					][
+																						pkgId
+																					] ??
+																						"N/A"}
+																				</span>
+																			</div>
+																		</TooltipTrigger>
+																		<TooltipContent>
+																			Downloads
+																			in
+																			the
+																			past
+																			30
+																			days
+																		</TooltipContent>
+																	</Tooltip>
+																</TooltipProvider>
+															</CardDescription>
+														</div>
+														<CardDescription>
+															<Badge variant="secondary">
+																{
+																	listDetails?.packages?.find(
+																		(
+																			pkgList,
+																		) =>
+																			pkgList.id ===
+																			(pkg.token ??
+																				(Array.isArray(
+																					pkg.name,
+																				)
+																					? pkg
+																							.name[0]
+																					: pkg.name)),
+																	)?.type
+																}
+															</Badge>
+														</CardDescription>
+													</CardHeader>
+													<CardContent className="flex items-left flex-col justify-between">
+														{pkg.desc}
 													</CardContent>
+													<CardFooter className="flex space-x-8">
+														<CardAction>
+															<Button
+																asChild
+																variant="link"
+															>
+																<Link
+																	href={`/packages/${
+																		pkgId
+																	}?type=${
+																		pkg.tap.includes(
+																			"cask",
+																		)
+																			? "cask"
+																			: "formula"
+																	}`}
+																	className="p-0! text-primary not-dark:text-secondary-foreground"
+																>
+																	<Info />
+																	Details
+																</Link>
+															</Button>
+														</CardAction>
+														<CardAction>
+															<Button
+																asChild
+																variant="link"
+															>
+																<Link
+																	href={
+																		pkg.homepage
+																	}
+																	target="_blank"
+																	className="p-0! text-primary not-dark:text-secondary-foreground"
+																>
+																	<ExternalLink />
+																	Homepage
+																</Link>
+															</Button>
+														</CardAction>
+													</CardFooter>
 												</Card>
 											</li>
 										);
@@ -418,96 +472,126 @@ export default function ListDetailsPage() {
 									<>
 										<CollapsibleContent className="space-y-2">
 											<ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-												{(packagesDetails
-													? (packagesDetails as
-															| Cask[]
-															| Formula[])
-													: []
-												)
-													.slice(MAX_VISIBLE_PACKAGES)
-													.map((pkg, index) => (
-														<li
-															key={`${
-																"token" in pkg
-																	? pkg.token
-																	: Array.isArray(
-																				pkg.name,
-																		  )
-																		? pkg
-																				.name[0]
-																		: pkg.name
-															}-${index + MAX_VISIBLE_PACKAGES}`}
-														>
+												{hiddenPackages.map((pkg) => {
+													const pkgId =
+														pkg.token ??
+														(Array.isArray(pkg.name)
+															? pkg.name[0]
+															: pkg.name);
+													return (
+														<li key={`${pkgId}`}>
 															<Card>
-																<CardContent className="flex items-center justify-between p-4">
-																	<div className="flex items-center">
-																		<PackageIcon className="h-5 w-5 mr-2" />
-																		<span>
-																			{"token" in
-																			pkg
-																				? pkg.token
-																				: Array.isArray(
-																							pkg.name,
-																					  )
-																					? pkg
-																							.name[0]
-																					: pkg.name}
-																		</span>
-																	</div>
-																	<TooltipProvider>
-																		<Tooltip>
-																			<TooltipTrigger
-																				asChild
-																			>
-																				<Button
-																					asChild
-																					size="icon"
-																				>
-																					<Link
-																						href={`/packages/${
-																							"token" in
-																							pkg
-																								? pkg.token
-																								: Array.isArray(
-																											pkg.name,
-																									  )
-																									? pkg
-																											.name[0]
-																									: pkg.name
-																						}?type=${
-																							pkg.tap.includes(
-																								"cask",
-																							)
-																								? "cask"
-																								: "formula"
-																						}`}
-																						className="font-medium text-center"
+																<CardHeader>
+																	<div className="flex justify-between">
+																		<div className="flex">
+																			<PackageIcon className="h-5 w-5 mr-2" />
+																			<span>
+																				{
+																					pkgId
+																				}
+																			</span>
+																		</div>
+																		<CardDescription className="flex space-x-2">
+																			<TooltipProvider>
+																				<Tooltip>
+																					<TooltipTrigger
+																						asChild
 																					>
-																						<Info className="h-4 w-4" />
-																					</Link>
-																				</Button>
-																			</TooltipTrigger>
-																			<TooltipContent>
-																				<p>
-																					{Array.isArray(
-																						pkg.name,
-																					)
-																						? pkg
-																								.name[0]
-																						: pkg.name}
-																				</p>
-																				<p>
-																					{
-																						pkg.desc
-																					}
-																				</p>
-																			</TooltipContent>
-																		</Tooltip>
-																	</TooltipProvider>
+																						<div className="flex items-center space-x-2 cursor-help">
+																							<Download className="h-4 w-4" />
+																							<span>
+																								{pkg
+																									.analytics
+																									?.install[
+																									"30d"
+																								][
+																									pkgId
+																								] ??
+																									"N/A"}
+																							</span>
+																						</div>
+																					</TooltipTrigger>
+																					<TooltipContent>
+																						Downloads
+																						in
+																						the
+																						past
+																						30
+																						days
+																					</TooltipContent>
+																				</Tooltip>
+																			</TooltipProvider>
+																		</CardDescription>
+																	</div>
+																	<CardDescription>
+																		<Badge variant="secondary">
+																			{
+																				listDetails?.packages?.find(
+																					(
+																						pkgList,
+																					) =>
+																						pkgList.id ===
+																						(pkg.token ??
+																							(Array.isArray(
+																								pkg.name,
+																							)
+																								? pkg
+																										.name[0]
+																								: pkg.name)),
+																				)
+																					?.type
+																			}
+																		</Badge>
+																	</CardDescription>
+																</CardHeader>
+																<CardContent className="flex items-left flex-col justify-between">
+																	{pkg.desc}
 																</CardContent>
+																<CardFooter className="flex space-x-8">
+																	<CardAction>
+																		<Button
+																			asChild
+																			variant="link"
+																		>
+																			<Link
+																				href={`/packages/${
+																					pkgId
+																				}?type=${
+																					pkg.tap.includes(
+																						"cask",
+																					)
+																						? "cask"
+																						: "formula"
+																				}`}
+																				className="p-0! text-primary not-dark:text-secondary-foreground"
+																			>
+																				<Info />
+																				Details
+																			</Link>
+																		</Button>
+																	</CardAction>
+																	<CardAction>
+																		<Button
+																			asChild
+																			variant="link"
+																		>
+																			<Link
+																				href={
+																					pkg.homepage
+																				}
+																				target="_blank"
+																				className="p-0! text-primary not-dark:text-secondary-foreground"
+																			>
+																				<ExternalLink />
+																				Homepage
+																			</Link>
+																		</Button>
+																	</CardAction>
+																</CardFooter>
 															</Card>
 														</li>
-													))}
+													);
+												})}
 											</ul>
 										</CollapsibleContent>
 
@@ -539,11 +623,6 @@ export default function ListDetailsPage() {
 							</Collapsible>
 						</CardContent>
 					</Card>
-
-					<PackageInstallation
-						name={listDetails.installationCommand}
-						packageType="formula"
-					/>
 				</div>
 
 				<div className="space-y-8">
@@ -589,7 +668,7 @@ export default function ListDetailsPage() {
 							</CardTitle>
 						</CardHeader>
 						<CardContent>
-							<div className="flex flex-wrap gap-2">
+							<div className="flex gap-2 overflow-y-scroll">
 								{!!likesUsers &&
 									likesUsers.map((likeUser) => {
 										return (
@@ -632,6 +711,11 @@ export default function ListDetailsPage() {
 							</div>
 						</CardContent>
 					</Card>
+
+					<PackageInstallation
+						name={listDetails.installationCommand}
+						packageType="formula"
+					/>
 				</div>
 			</div>
 		</div>

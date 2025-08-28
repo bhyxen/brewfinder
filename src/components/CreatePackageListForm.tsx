@@ -257,6 +257,10 @@ export default function CreatePackageListForm({
 	): void {
 		const inputValue = (event.target as HTMLInputElement).value;
 
+		console.log("input value is: ", inputValue);
+
+		console.log("packages are: ", packages);
+
 		if (inputValue.length < 1) {
 			setFilteredPackages([]);
 			return;
@@ -277,7 +281,7 @@ export default function CreatePackageListForm({
 		}, 500)();
 	}
 
-	// console.log({ filteredPackages });
+	console.log({ filteredPackages });
 
 	return (
 		<Dialog open={isformOpen} onOpenChange={setIsformOpen}>

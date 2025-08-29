@@ -52,7 +52,7 @@ export function PackageInfo({
 					</div>
 					<div className="sm:col-span-2">
 						<dt className="font-medium text-muted-foreground">
-							URL
+							Installer URL
 						</dt>
 						<dd className="break-all">
 							<a

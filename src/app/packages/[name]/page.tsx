@@ -7,6 +7,7 @@ import { Package } from "@/types/homebrew";
 import { PackageCaveats } from "@/components/PackageCaveats";
 // import { PackageArtifacts } from "@/components/PackageArtifacts";
 import { PackageInstallation } from "@/components/PackageInstallation";
+import { PackageDeprecated } from "@/components/PackageDeprecated";
 
 type SearchParamsResult = {
 	type: "cask" | "formula";
@@ -106,6 +107,20 @@ export default async function Page({
 				<div className="md:col-span-1 space-y-8">
 					{pkg.analytics && (
 						<PackageAnalytics analytics={pkg.analytics} />
+					)}
+					{pkg.deprecated && (
+						<PackageDeprecated
+							deprecated={pkg.deprecated}
+							deprecation_date={pkg.deprecation_date}
+							deprecation_reason={pkg.deprecation_reason}
+							deprecation_replacement_cask={
+								pkg.deprecation_replacement_cask
+							}
+							deprecation_replacement_formula={
+								pkg.deprecation_replacement_formula
+							}
+							originalPackageTap={pkg.tap}
+						/>
 					)}
 					{pkg.caveats && <PackageCaveats caveats={pkg.caveats} />}
 				</div>

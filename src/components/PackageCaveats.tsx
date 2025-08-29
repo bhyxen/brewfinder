@@ -6,11 +6,11 @@ interface PackageCaveatsProps {
 
 export function PackageCaveats({ caveats }: PackageCaveatsProps) {
 	return (
-		<Card>
-			<CardHeader>
+		<Card className="border-amber-500/30 overflow-clip">
+			<CardHeader className="bg-primary/20 not-dark:bg-primary/30">
 				<CardTitle>Caveats</CardTitle>
 			</CardHeader>
-			<CardContent>
+			<CardContent className="bg-primary/20 not-dark:bg-primary/30">
 				<pre className="whitespace-pre-wrap text-sm">{caveats}</pre>
 			</CardContent>
 		</Card>

@@ -36,7 +36,8 @@ export interface Formula {
 	deprecated: boolean;
 	deprecation_date: string | null;
 	deprecation_reason: string | null;
-	deprecation_replacement: string | null;
+	deprecation_replacement_cask: string | null;
+	deprecation_replacement_formula: string | null;
 	disabled: boolean;
 	disable_date: string | null;
 	disable_reason: string | null;
@@ -78,7 +79,8 @@ export interface Cask {
 	deprecated: boolean;
 	deprecation_date: string | null;
 	deprecation_reason: string | null;
-	deprecation_replacement: string | null;
+	deprecation_replacement_cask: string | null;
+	deprecation_replacement_formula: string | null;
 	disabled: boolean;
 	disable_date: string | null;
 	disable_reason: string | null;

@@ -99,16 +99,16 @@ export default async function Page({
 						/>
 					)}
 
-					{"artifacts" in pkg && pkg.artifacts.length > 0 && (
+					{/* {"artifacts" in pkg && pkg.artifacts.length > 0 && (
 						<PackageArtifacts artifacts={pkg.artifacts} />
+					)} */}
+				</div>
+				<div className="md:col-span-1 space-y-8">
+					{pkg.analytics && (
+						<PackageAnalytics analytics={pkg.analytics} />
 					)}
 					{pkg.caveats && <PackageCaveats caveats={pkg.caveats} />}
 				</div>
-				{pkg.analytics && (
-					<div>
-						<PackageAnalytics analytics={pkg.analytics} />
-					</div>
-				)}
 			</div>
 		</div>
 	);

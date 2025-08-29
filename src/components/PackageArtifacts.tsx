@@ -43,11 +43,12 @@ export function PackageArtifacts({ artifacts }: PackageArtifactsProps) {
 									<h3 className="font-medium mb-2">
 										Applications
 									</h3>
-									<ul className="list-disc pl-5">
-										{artifact.app.map((app) => (
-											<li key={app}>{app}</li>
-										))}
-									</ul>
+									{artifact.app.map((app, idx) => (
+										<RenderNestedList
+											key={idx}
+											data={app}
+										/>
+									))}
 								</div>
 							)}
 							{artifact.pkg && (
@@ -55,36 +56,12 @@ export function PackageArtifacts({ artifacts }: PackageArtifactsProps) {
 									<h3 className="font-medium mb-2">
 										Packages
 									</h3>
-									<ul className="list-disc pl-5">
-										{artifact.pkg.map((pkg) => {
-											if (
-												typeof pkg === "object" &&
-												pkg !== null &&
-												!Array.isArray(pkg) &&
-												"choices" in pkg
-											) {
-												return (
-													<li
-														key={
-															pkg.choices[0]
-																.choiceIdentifier
-														}
-													>
-														{
-															pkg.choices[0]
-																.choiceIdentifier
-														}
-													</li>
-												);
-											} else {
-												return (
-													<li key={pkg as string}>
-														{pkg}
-													</li>
-												);
-											}
-										})}
-									</ul>
+									{artifact.pkg.map((pkg, idx) => (
+										<RenderNestedList
+											key={idx}
+											data={pkg}
+										/>
+									))}
 								</div>
 							)}
 							{artifact.binary && (
@@ -92,24 +69,12 @@ export function PackageArtifacts({ artifacts }: PackageArtifactsProps) {
 									<h3 className="font-medium mb-2">
 										Binaries
 									</h3>
-									<ul className="list-disc pl-5">
-										{artifact.binary.map((bin, index) => (
-											<li key={index}>
-												{typeof bin === "object" &&
-												!Array.isArray(bin) &&
-												bin !== null
-													? Object.entries(bin).map(
-															([key, value]) => (
-																<span key={key}>
-																	{key}:{" "}
-																	{value}
-																</span>
-															),
-														)
-													: bin}
-											</li>
-										))}
-									</ul>
+									{artifact.binary.map((bin, idx) => (
+										<RenderNestedList
+											key={idx}
+											data={bin}
+										/>
+									))}
 								</div>
 							)}
 							{artifact.uninstall && (
@@ -128,11 +93,23 @@ export function PackageArtifacts({ artifacts }: PackageArtifactsProps) {
 							{artifact.font && (
 								<div>
 									<h3 className="font-medium mb-2">Font</h3>
-									<ul className="list-disc pl-5">
-										{artifact.font.map((font) => (
-											<li key={font}>{font}</li>
-										))}
-									</ul>
+									{artifact.font.map((font, idx) => (
+										<RenderNestedList
+											key={idx}
+											data={font}
+										/>
+									))}
+								</div>
+							)}
+							{artifact.zap && (
+								<div>
+									<h3 className="font-medium mb-2">Zap</h3>
+									{artifact.zap.map((zap, idx) => (
+										<RenderNestedList
+											key={idx}
+											data={zap}
+										/>
+									))}
 								</div>
 							)}
 						</div>

@@ -16,8 +16,6 @@ export function PackageDependencies({
 	usesMacos,
 	packageType,
 }: PackageDependenciesProps) {
-	console.log({ buildDependencies, dependencies, usesMacos, packageType });
-
 	const renderDependencies = (
 		deps: Pick<PackageDependenciesProps, "dependencies">["dependencies"],
 	) => {

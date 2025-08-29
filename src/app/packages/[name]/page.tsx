@@ -5,7 +5,7 @@ import { PackageVersions } from "@/components/PackageVersion";
 import { PackageAnalytics } from "@/components/PackageAnalytics";
 import { Package } from "@/types/homebrew";
 import { PackageCaveats } from "@/components/PackageCaveats";
-import { PackageArtifacts } from "@/components/PackageArtifacts";
+// import { PackageArtifacts } from "@/components/PackageArtifacts";
 import { PackageInstallation } from "@/components/PackageInstallation";
 
 type SearchParamsResult = {

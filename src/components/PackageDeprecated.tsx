@@ -21,7 +21,7 @@ export function PackageDeprecated({
 }: PackageDeprecatedProps) {
 	return (
 		<Card className="border-amber-500/30 overflow-clip">
-			<CardHeader className="flex flex-row items-center space-x-2 pb-2 bg-red-500/20 not-dark:bg-red-500/10">
+			<CardHeader className="flex flex-row items-center space-x-2 bg-red-500/20 not-dark:bg-red-500/10">
 				<AlertTriangle className="text-amber-500 not-dark:text-amber-700" />
 				<CardTitle>Deprecated</CardTitle>
 			</CardHeader>

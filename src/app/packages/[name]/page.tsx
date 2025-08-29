@@ -3,11 +3,12 @@ import { PackageInfo } from "@/components/PackageInfo";
 import { PackageDependencies } from "@/components/PackageDependencies";
 import { PackageVersions } from "@/components/PackageVersion";
 import { PackageAnalytics } from "@/components/PackageAnalytics";
-import { Package } from "@/types/homebrew";
+import { ConflictsWith, Package } from "@/types/homebrew";
 import { PackageCaveats } from "@/components/PackageCaveats";
 // import { PackageArtifacts } from "@/components/PackageArtifacts";
 import { PackageInstallation } from "@/components/PackageInstallation";
 import { PackageDeprecated } from "@/components/PackageDeprecated";
+import { PackageConflictsWith } from "@/components/PackageConflictsWith";
 
 type SearchParamsResult = {
 	type: "cask" | "formula";
@@ -122,6 +123,40 @@ export default async function Page({
 							originalPackageTap={pkg.tap}
 						/>
 					)}
+					{searchParamsResult.type === "formula" &&
+						"conflicts_with" in pkg &&
+						Array.isArray(pkg.conflicts_with) &&
+						pkg.conflicts_with.length > 0 && (
+							<PackageConflictsWith
+								packageType="formula"
+								conflictsWithFormula={pkg.conflicts_with}
+								reasons={
+									"conflicts_with_reasons" in pkg &&
+									Array.isArray(pkg.conflicts_with_reasons)
+										? pkg.conflicts_with_reasons
+										: []
+								}
+							/>
+						)}
+					{searchParamsResult.type === "cask" &&
+						"conflicts_with" in pkg &&
+						!Array.isArray(pkg.conflicts_with) &&
+						(((pkg.conflicts_with as ConflictsWith)?.cask?.length ??
+							0) > 0 ||
+							((pkg.conflicts_with as ConflictsWith)?.formula
+								?.length ?? 0) > 0) && (
+							<PackageConflictsWith
+								packageType="cask"
+								conflictsWithCasks={
+									(pkg.conflicts_with as ConflictsWith)
+										?.cask ?? []
+								}
+								conflictsWithFormula={
+									(pkg.conflicts_with as ConflictsWith)
+										?.formula ?? []
+								}
+							/>
+						)}
 					{pkg.caveats && <PackageCaveats caveats={pkg.caveats} />}
 				</div>
 			</div>

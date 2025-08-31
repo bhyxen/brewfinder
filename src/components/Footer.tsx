@@ -147,16 +147,6 @@ export default function Footer() {
 									Report a Bug
 								</Link>
 							</li>
-							<li>
-								<Link
-									href="/roadmap"
-									className="text-sm hover:underline"
-									rel="noopener noreferrer"
-									target="_blank"
-								>
-									Homebrew Official Site
-								</Link>
-							</li>
 						</ul>
 					</div>
 					<div>

@@ -290,7 +290,7 @@ export default function RoadmapPage() {
 						href={`${GITHUB_URL}/issues/new?template=feature_request.md`}
 						rel="noopener noreferrer"
 						target="_blank"
-						className="inline-flex items-center underline decoration-primary not-dark:decoration-foreground decoration-2 decoration-dashed hover:decoration-solid text-primary hover:underline-solid not-dark:text-secondary-foreground"
+						className="inline-flex items-center underline decoration-primary not-dark:decoration-foreground decoration-2 decoration-solid text-primary hover:underline-solid not-dark:text-secondary-foreground"
 					>
 						Submit a feature request
 						<ArrowUpRight className="ml-1 h-4 w-4" />

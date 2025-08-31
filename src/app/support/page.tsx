@@ -116,7 +116,7 @@ export default function SupportPage() {
 										href={GITHUB_URL}
 										target="_blank"
 										rel="noopener noreferrer"
-										className="text-sm inline-flex items-center underline decoration-primary not-dark:decoration-foreground decoration-2 decoration-dashed hover:decoration-solid text-primary hover:underline-solid not-dark:text-secondary-foreground"
+										className="text-sm inline-flex items-center underline decoration-primary not-dark:decoration-foreground decoration-2 decoration-solid text-primary hover:underline-solid not-dark:text-secondary-foreground"
 									>
 										View the GitHub repository
 										<ArrowUpRight className="ml-1 h-4 w-4" />
@@ -150,7 +150,7 @@ export default function SupportPage() {
 										href={`${GITHUB_URL}/issues/new/choose`}
 										target="_blank"
 										rel="noopener noreferrer"
-										className="text-sm inline-flex items-center underline decoration-primary not-dark:decoration-foreground decoration-2 decoration-dashed hover:decoration-solid text-primary hover:underline-solid not-dark:text-secondary-foreground"
+										className="text-sm inline-flex items-center underline decoration-primary not-dark:decoration-foreground decoration-2 decoration-solid text-primary hover:underline-solid not-dark:text-secondary-foreground"
 									>
 										Submit feedback
 										<ArrowUpRight className="ml-1 h-4 w-4" />

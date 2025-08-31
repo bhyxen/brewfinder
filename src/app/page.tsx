@@ -69,7 +69,7 @@ export default function Home() {
 							href="https://brew.sh/"
 							target={"_blank"}
 							rel="noopener noreferrer"
-							className="underline decoration-primary decoration-dashed hover:decoration-solid decoration-2"
+							className="underline decoration-primary decoration-solid decoration-2"
 						>
 							Homebrew
 						</Link>{" "}
@@ -118,7 +118,7 @@ export default function Home() {
 										}
 										target={"_blank"}
 										rel="noopener noreferrer"
-										className="inline-flex items-center underline decoration-primary not-dark:decoration-foreground decoration-2 decoration-dashed hover:decoration-solid  hover:underline-solid text-secondary-foreground"
+										className="inline-flex items-center underline decoration-primary not-dark:decoration-foreground decoration-2 decoration-solid  hover:underline-solid text-secondary-foreground"
 									>
 										{(homebrewLatestGHRelease?.tag_name as string) ??
 											"---"}

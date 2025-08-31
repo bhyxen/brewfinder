@@ -83,7 +83,7 @@ export default function TermsOfService() {
 				connected with Homebrew (
 				<Link
 					href="https://brew.sh/"
-					className="text-primary decoration-dashed underline hover:decoration-solid decoration-2"
+					className="text-primary underline decoration-solid decoration-2"
 				>
 					https://brew.sh/
 				</Link>

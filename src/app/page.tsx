@@ -164,14 +164,13 @@ export default function Home() {
 								(Last 30 Days)
 							</span>
 						</h2>
-
 						<div className="grid grid-cols-1 md:grid-cols-2 gap-8">
 							<PopularPackagesChart
 								chartHeader="Casks"
 								data={caskData.items.slice(0, 5)}
 							/>
 							<PopularPackagesChart
-								chartHeader="Formulas"
+								chartHeader="Formulae"
 								data={formulaData.items.slice(0, 5)}
 							/>
 						</div>
@@ -187,12 +186,12 @@ export default function Home() {
 
 				<section className="mb-12">
 					<h2 className="text-2xl font-semibold mb-4 inline-block bg-background">
-						Formula vs Cask
+						Formulae vs Casks
 					</h2>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 						<Card>
 							<CardHeader>
-								<CardTitle>Formula</CardTitle>
+								<CardTitle>Formulae</CardTitle>
 							</CardHeader>
 							<CardContent className="space-y-2 text-muted-foreground">
 								<p>
@@ -206,12 +205,16 @@ export default function Home() {
 									<li>
 										No .app bundle; versioned like libraries
 									</li>
+									<li>
+										British English plural of
+										&quot;formula&quot;
+									</li>
 								</ul>
 							</CardContent>
 						</Card>
 						<Card>
 							<CardHeader>
-								<CardTitle>Cask</CardTitle>
+								<CardTitle>Casks</CardTitle>
 							</CardHeader>
 							<CardContent className="space-y-2 text-muted-foreground">
 								<p>
@@ -222,8 +225,13 @@ export default function Home() {
 								<ul className="list-disc pl-5 space-y-1 text-sm">
 									<li>GUI applications</li>
 									<li>
-										Often include auto-updates and require
-										macOS
+										Provides an easy &quot;brew
+										upgrade&quot; command to update all
+										Casks (and Formulae) at once.
+									</li>
+									<li>
+										It&apos;s possible to choose specific
+										version installation
 									</li>
 								</ul>
 							</CardContent>
@@ -236,12 +244,12 @@ export default function Home() {
 									Unsure which to use? If it&apos;s a GUI app
 									like Chrome or VS Code, it&apos;s a Cask.
 									Terminal tools like git, node, ffmpeg are
-									Formulas.
+									Formulae.
 								</div>
 								<div className="flex gap-2">
 									<Button variant="outline" asChild>
 										<Link href="/packages?type=formula">
-											Browse Formulas
+											Browse Formulae
 										</Link>
 									</Button>
 									<Button variant="outline" asChild>

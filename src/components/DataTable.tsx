@@ -50,9 +50,7 @@ export function DataTable<TData, TValue>({
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
-	const [typeFilter, setTypeFilter] = useState<"cask" | "formula" | "all">(
-		"all",
-	);
+	const [typeFilter, setTypeFilter] = useState<string>("all");
 
 	// set filter for packages type based on query string
 	useEffect(() => {

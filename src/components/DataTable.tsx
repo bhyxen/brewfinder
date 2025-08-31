@@ -39,16 +39,27 @@ import {
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
+	packagesType?: "cask" | "formula" | null;
 }
 
 export function DataTable<TData, TValue>({
 	columns,
 	data,
+	packagesType,
 }: DataTableProps<TData, TValue>) {
 	const [sorting, setSorting] = useState<SortingState>([]);
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
-	const [typeFilter, setTypeFilter] = useState<string>("all");
+	const [typeFilter, setTypeFilter] = useState<"cask" | "formula" | "all">(
+		"all",
+	);
+
+	// set filter for packages type based on query string
+	useEffect(() => {
+		if (packagesType) {
+			setTypeFilter(packagesType);
+		}
+	}, [packagesType]);
 
 	const table = useReactTable({
 		data,

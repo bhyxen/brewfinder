@@ -4,13 +4,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { SessionProvider } from "next-auth/react";
 import useSWR from "swr";
-import {
-	Card,
-	CardContent,
-	CardFooter,
-	CardHeader,
-	CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Search, Package, Download, Star, ArrowUpRight } from "lucide-react";
 import { PopularPackagesChart } from "@/components/PopularPackagesChart";
@@ -190,62 +184,114 @@ export default function Home() {
 				{/*		</Button>*/}
 				{/*	</div>*/}
 				{/*</section>*/}
-				<section>
-					<Card className="max-w-3xl mx-auto px-4 bg-transparent outline-none border-none shadow-none">
-						<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-							<CardTitle className="w-full flex justify-center">
-								<h2 className="text-2xl font-semibold mb-2 inline-block bg-background">
-									New to Homebrew?
-								</h2>
-							</CardTitle>
-						</CardHeader>
-						<CardContent>
-							<p className="text-center text-muted-foreground mb-6 inline-block bg-background">
-								Homebrew is the most popular and powerful
-								package manager for <strong>macOS</strong>,
-								available also for <strong>Linux</strong> and{" "}
-								<strong>Windows</strong> (via WSL)
-							</p>
-							<div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-4">
-								<Button
-									asChild
-									variant="default"
-									className="flex-1"
-								>
-									<Link
-										href="https://brew.sh"
-										target="_blank"
-										rel="noopener noreferrer"
-									>
-										Installation Instructions
-									</Link>
-								</Button>
-								<span className="px-2 bg-background text-muted-foreground">
-									Or
-								</span>
-								<Button
-									asChild
-									variant="outline"
-									className="flex-1"
-								>
-									<Link
-										href="https://github.com/Homebrew/brew/releases/latest"
-										target="_blank"
-										rel="noopener noreferrer"
-									>
-										Download .pkg for macos
-									</Link>
-								</Button>
+
+				<section className="mb-12">
+					<h2 className="text-2xl font-semibold mb-4 inline-block bg-background">
+						Formula vs Cask
+					</h2>
+					<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<Card>
+							<CardHeader>
+								<CardTitle>Formula</CardTitle>
+							</CardHeader>
+							<CardContent className="space-y-2 text-muted-foreground">
+								<p>
+									Command-line tools and libraries installed
+									into
+									<strong> /usr/local</strong> or
+									<strong> /opt/homebrew</strong>.
+								</p>
+								<ul className="list-disc pl-5 space-y-1 text-sm">
+									<li>Typically run in the terminal</li>
+									<li>
+										No .app bundle; versioned like libraries
+									</li>
+								</ul>
+							</CardContent>
+						</Card>
+						<Card>
+							<CardHeader>
+								<CardTitle>Cask</CardTitle>
+							</CardHeader>
+							<CardContent className="space-y-2 text-muted-foreground">
+								<p>
+									Graphical macOS apps distributed as .app,
+									.dmg, or .pkg, typically installed into
+									<strong> /Applications</strong>.
+								</p>
+								<ul className="list-disc pl-5 space-y-1 text-sm">
+									<li>GUI applications</li>
+									<li>
+										Often include auto-updates and require
+										macOS
+									</li>
+								</ul>
+							</CardContent>
+						</Card>
+					</div>
+					<Card className="mt-4">
+						<CardContent className="py-4">
+							<div className="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+								<div className="text-sm text-muted-foreground">
+									Unsure which to use? If it&apos;s a GUI app
+									like Chrome or VS Code, it&apos;s a Cask.
+									Terminal tools like git, node, ffmpeg are
+									Formulas.
+								</div>
+								<div className="flex gap-2">
+									<Button variant="outline" asChild>
+										<Link href="/packages?type=formula">
+											Browse Formulas
+										</Link>
+									</Button>
+									<Button variant="outline" asChild>
+										<Link href="/packages?type=cask">
+											Browse Casks
+										</Link>
+									</Button>
+								</div>
 							</div>
 						</CardContent>
-						<CardFooter className="flex items-center justify-center">
-							<p className="text-center text-sm text-muted-foreground inline-block bg-background">
-								Follow the official installation instructions to
-								get started with <strong>Homebrew</strong> and{" "}
-								<strong>Brewfinder</strong>
-							</p>
-						</CardFooter>
 					</Card>
+				</section>
+				<section>
+					<h2 className="text-2xl font-semibold mb-4 inline-block bg-background">
+						New to Homebrew?
+					</h2>
+					<p className="mb-4">
+						Homebrew is the most popular and powerful package
+						manager for <strong>macOS</strong>, available also for{" "}
+						<strong>Linux</strong> and <strong>Windows</strong> (via
+						WSL)
+					</p>
+					<div className="flex flex-col sm:flex-row items-center gap-4 mb-4">
+						<Button asChild variant="default">
+							<Link
+								href="https://brew.sh"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								Installation Instructions
+							</Link>
+						</Button>
+						<span className="px-2 bg-background text-muted-foreground">
+							Or
+						</span>
+						<Button asChild variant="outline">
+							<Link
+								href="https://github.com/Homebrew/brew/releases/latest"
+								target="_blank"
+								rel="noopener noreferrer"
+							>
+								Download .pkg for macos
+							</Link>
+						</Button>
+					</div>
+					<p className="text-center text-sm text-muted-foreground inline-block bg-background">
+						Follow the official installation instructions to get
+						started with <strong>Homebrew</strong> and{" "}
+						<strong>Brewfinder</strong>
+					</p>
 				</section>
 			</div>
 		</SessionProvider>

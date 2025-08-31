@@ -3,13 +3,15 @@
 import useSWR from "swr";
 import { Button } from "@/components/ui/button";
 import { PackageFilteredData } from "@/types/homebrew";
-
+import { useSearchParams } from "next/navigation";
 import { SortAsc, SortDesc } from "lucide-react";
 import Link from "next/link";
 import { DataTable } from "@/components/DataTable";
 import { ColumnDef } from "@tanstack/react-table";
 
 export default function Packages() {
+	const searchParams = useSearchParams();
+	const packagesType = searchParams.get("type");
 	const fetcher = (...args: [RequestInfo, RequestInit?]) =>
 		fetch(...args).then((res) => res.json());
 	const {
@@ -112,7 +114,15 @@ export default function Packages() {
 			<h1 className="text-3xl inline-block font-bold bg-background mb-8">
 				Homebrew Packages
 			</h1>
-			<DataTable columns={columns} data={packagesData} />
+			<DataTable
+				packagesType={
+					packagesType === "cask" || packagesType === "formula"
+						? packagesType
+						: null
+				}
+				columns={columns}
+				data={packagesData}
+			/>
 		</div>
 	);
 }

@@ -1,3 +1,4 @@
+import { CONTACT_EMAIL } from "@/lib/constants";
 import Link from "next/link";
 
 export default function TermsOfService() {
@@ -100,7 +101,16 @@ export default function TermsOfService() {
 			<h2 className="text-2xl font-semibold mb-3">9. Contact Us</h2>
 			<p>
 				If you have any questions about these Terms, please contact us
-				at <strong>[Insert Contact Email]</strong>.
+				at{" "}
+				<strong>
+					<Link
+						className="text-primary underline decoration-solid decoration-2"
+						href={`mailto:${CONTACT_EMAIL}`}
+					>
+						{CONTACT_EMAIL}
+					</Link>
+				</strong>
+				.
 			</p>
 		</div>
 	);

@@ -42,7 +42,7 @@ export default function Footer() {
 								<SiX />
 							</Link>
 							<Link
-								href={CONTACT_EMAIL}
+								href={`mailto:${CONTACT_EMAIL}`}
 								target="_blank"
 								rel="noopener noreferrer"
 							>
@@ -129,7 +129,7 @@ export default function Footer() {
 							</li>
 							<li>
 								<Link
-									href={CONTACT_EMAIL}
+									href={`mailto:${CONTACT_EMAIL}`}
 									className="text-sm hover:underline"
 									target="_blank"
 									rel="noopener noreferrer"
